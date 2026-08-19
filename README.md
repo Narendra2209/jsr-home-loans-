@@ -1,101 +1,169 @@
-# JSR Home Loan Services — front-end clone
+# JSR Home Loan Services — website
 
-A static, front-end-only duplicate of <https://jsrhomeloanservices.com/>.
-The original is WordPress + Elementor + Royal Elementor Addons; this rebuild
-reproduces the same pages, content, layout, palette, typography and
-interactions as hand-written HTML/CSS/JS with no framework or build step.
+Static site for JSR Home Loan Services (JSR Financial Associates, LB Nagar,
+Hyderabad). Plain HTML, CSS and JavaScript — no framework, no npm, no runtime
+dependencies. The only build step is a ~120-line Python script that stitches
+shared partials into the pages.
 
 ## Run it
-
-Open `index.html` directly, or serve the folder (needed if you want the
-Google Map iframe and relative paths to behave exactly like production):
 
 ```bash
 python -m http.server 8080
 # http://localhost:8080
 ```
 
-## Pages
+Opening `index.html` directly works too, but serve the folder if you want the
+Google Map iframe and relative paths to behave exactly as in production.
 
-| File | Mirrors |
-| --- | --- |
-| `index.html` | `/` |
-| `about.html` | `/about/` |
-| `services.html` | `/homeloanservices/` |
-| `contact.html` | `/contact/` |
+## Build
 
-## Structure
-
-```
-index.html  about.html  services.html  contact.html
-assets/
-  css/style.css     all styling (design tokens at the top)
-  js/main.js        slider, counters, progress bars, mobile nav, back-to-top, form
-  img/              25 images pulled from the original media library
-_reference/         the scraped originals, kept for comparison
-  *.html            original page source
-  css/post-*.css    original Elementor per-page stylesheets
-  build.py          regenerates the 3 inner pages from index.html's header/footer
-  frag_*.html       per-page body fragments used by build.py
-```
-
-`about.html`, `services.html` and `contact.html` share `index.html`'s header
-and footer verbatim. Edit the header/footer in `index.html`, or a page body in
-`_reference/frag_<page>.html`, then run:
+Pages are assembled from fragments so the header, footer and disclaimer live in
+one place rather than being copy-pasted 19 times.
 
 ```bash
-python _reference/build.py
+python build.py          # rebuild all pages + sitemap.xml + robots.txt
+python _src/build_css.py # only if you edited _src/css-*.css
 ```
 
-## Design tokens (extracted from the live build)
+**Edit the files in `_src/`, never the generated `.html` in the root** — they
+are overwritten on every build.
+
+`style.css` is part hand-written, part generated. Two regions are owned by
+`build_css.py` and replaced wholesale on every run:
+
+```
+/* >>> jsr-hero ... <<< */        …from _src/css-hero.css
+/* >>> jsr-generated ... <<< */   …from _src/css-components.css + css-responsive.css
+```
+
+The generated block is appended at the **end** of the file, after the original
+hand-written responsive block, so that where specificity ties the newer rules
+win. Everything outside those two regions is hand-maintained — edit it directly.
+
+```
+build.py                  assembles pages, writes sitemap.xml + robots.txt
+_src/
+  partials/
+    head.html             <head> + opening <body>
+    header.html           top bar, nav with dropdowns, "Check Eligibility" CTA
+    footer.html           footer, RBI disclaimer, float buttons, mobile bar, JSON-LD
+  pages/*.html            one body fragment per page, with front matter
+  css-hero.css            hero block (spliced into style.css between markers)
+  css-components.css      everything added since the original build
+  css-responsive.css      breakpoints for the new components
+  build_css.py            splices the three files above into assets/css/style.css
+assets/
+  css/style.css           the only stylesheet (generated in part — see above)
+  js/main.js              nav, accordion, tabs, reveals, counters, video embeds
+  js/tools.js             calculators, comparison table, lead forms
+  img/                    images
+```
+
+### Page front matter
+
+Each fragment starts with an optional block that drives the build:
+
+```html
+<!--meta
+title: Home Loan EMI Calculator | JSR Home Loan Services
+description: Shown in search results and social previews.
+nav: tools emi          # which nav items to mark active (space separated)
+slug: emi-calculator    # output filename, minus .html
+scripts: tools          # extra JS bundles from assets/js/
+-->
+```
+
+A fragment may also contain one `<!--head--> … <!--/head-->` block, whose
+contents are moved into `<head>`. That is where per-page JSON-LD lives.
+
+To add a page: drop a fragment in `_src/pages/`, add a link in
+`_src/partials/header.html` and/or `footer.html`, add it to `sitemap.html`, give
+it a priority in `PRIORITY` in `build.py`, and rebuild.
+
+## Pages
+
+| Page | What it does |
+| --- | --- |
+| `index.html` | Rate headline, EMI calculator above the fold, trust strip, lender strip, product grid, 6-step process, counters, testimonials, FAQ (with schema), callback form |
+| `about.html` | Founder story, mission/vision/values, team, loan mix, company registration details |
+| `services.html` | All nine loan products, with anchors (`#construction`, `#renovation`, …) |
+| `home-loan.html` | Eligibility by applicant type, full document checklist, features, embedded EMI calculator, FAQ |
+| `balance-transfer.html` | Savings calculator with break-even, worked examples, switching costs, process, FAQ |
+| `loan-against-property.html` | Which properties qualify, LTV table, EMI calculator, documents, FAQ |
+| `emi-calculator.html` | Full calculator, donut chart, rate-sensitivity table, year-by-year amortisation, lead capture |
+| `eligibility.html` | FOIR-based eligibility, criteria tabs for salaried / self-employed / NRI, how to improve it |
+| `bank-comparison.html` | Sortable, filterable rate table with a live EMI column |
+| `testimonials.html` | Rating summary, video testimonials, written reviews, Google reviews |
+| `blog.html` + 4 articles | Interest rates, CIBIL score, tax benefits, balance transfer |
+| `contact.html` | Call/WhatsApp/email/visit cards, callback form, map, what to bring |
+| `privacy-policy.html`, `terms.html`, `sitemap.html` | Legal and navigation |
+
+## Calculators
+
+All three run entirely in the browser; nothing is sent anywhere unless the
+visitor presses a WhatsApp or email button.
+
+- **EMI** — standard reducing-balance formula, `P·r·(1+r)ⁿ / ((1+r)ⁿ−1)`, plus a
+  month-by-month amortisation walk aggregated into years.
+- **Eligibility** — FOIR bands by income (45%→65%), retirement-age tenure cap
+  (60 salaried / 65 self-employed / 60 NRI), then solves the EMI back into a
+  principal. Property value is derived from RBI's LTV slabs (90 / 80 / 75%).
+- **Balance transfer** — compares total interest on the old and new rate over the
+  remaining tenure, nets off switching costs, and computes the break-even month.
+  The "keep my EMI" option solves for the shorter term instead.
+
+The figures quoted in the page copy were checked against these formulas; see
+`_src/` history if you need to change one, and update the prose alongside it.
+
+## Lead capture
+
+There is no backend. The callback forms validate in the browser and then open
+WhatsApp (or the visitor's mail client) with the enquiry pre-filled — the
+visitor still presses send. To route them to a form service instead, replace
+`initLeadForms()` in `assets/js/tools.js`.
+
+## Design tokens
 
 | Token | Value | Used for |
 | --- | --- | --- |
-| `--navy` | `#0B133C` | top bar, counters strip, footer, service cards |
-| `--gold` | `#F8B743` | accent, buttons, eyebrows, flip-box backs, contact cards |
-| `--slate` | `#3F466A` | service-card hover border animation |
+| `--navy` | `#0B133C` | top bar, counters, footer, calculator result panels |
+| `--gold` | `#F8B743` | accent, buttons, eyebrows, sliders, donut chart |
 | `--ink` | `#222222` | headings |
 | `--muted` | `#666666` | body copy |
 | `--light` | `#E1E7F3` | CTA bands |
-| `--pink` | `#F84365` | floating call / back-to-top buttons, mobile menu hover |
 
-Type: **Poppins** for headings and UI, **Montserrat** for body copy, **Roboto**
-for the icon-box titles on the contact page — loaded from Google Fonts, with
-system fallbacks. Container width 1140px, breakpoints at 1024px and 767px, the
-same as the Elementor kit.
+Poppins for headings and UI, Montserrat for body copy, loaded from Google Fonts
+with system fallbacks. Container 1140px; breakpoints at 1180, 1024, 767 and 420px.
 
-## Behaviour reproduced
+## Accessibility, resilience & SEO
 
-- **Hero slider** — 2 slides, 50vh, fade transition, prev/next arrows, dots,
-  6s autoplay, `rgba(59,63,82,.47)` overlay.
-- **Flip boxes** — 5 cards, 3D `rotateY` flip on hover/focus, 179px tall,
-  white front / gold back.
-- **Counters** — 0.6k / 2k+ / 6 / 100%, animated over 2s when scrolled into view.
-- **Progress bars** — 80 / 75 / 82 / 92%, fill + number animate on view.
-- **Mobile nav** — hamburger toggle below 767px, full-width dropdown.
-- **Back-to-top** appears past 350px; floating call button always visible.
-- Sections fade/rise in on scroll via `IntersectionObserver`.
+Skip link, visible focus rings, ARIA on tabs / accordions / sortable headers,
+`prefers-reduced-motion` honoured, and tables that reflow into stacked cards on
+mobile rather than scrolling off-screen. Every page carries a canonical URL,
+Open Graph tags and a `FinancialService` JSON-LD block; the home page, balance
+transfer page and articles add `FAQPage` / `Article` schema.
 
-## Front-end only — what is not wired up
+**Progressive enhancement.** An inline script in `<head>` adds a `js` class to
+`<html>`, and the scroll-reveal animation and the FAQ collapse are both scoped
+under `.js`. Content is therefore visible by default: if the script is blocked
+or `main.js` fails to load, the page degrades to plain readable HTML instead of
+rendering blank. Do not move that hidden state out from under `.js`.
 
-- **Contact form** validates in the browser and shows a confirmation note; it
-  posts nowhere. Point it at your own endpoint to make it live.
-- **Social icons** in the header link to `#` — the original has no URLs on them
-  either.
-- No WordPress, no REST API, no comments/feeds, no analytics.
-- The Google Map is the same public embed URL as the original.
+The reveal observer uses `threshold: 0` deliberately. A percentage threshold can
+never be satisfied by an element taller than the viewport — the amortisation
+table is ~5000px on a phone — which would leave it hidden permanently.
 
-## Content notes
+## Before you publish
 
-Copy is transcribed verbatim from the live site, including two quirks worth
-knowing about before you ship this:
+Read **[TODO-CONTENT.md](TODO-CONTENT.md)**. Testimonials, the Google rating,
+team profiles, company registration numbers, social URLs and the interest-rate
+table are all placeholders that must be filled in or removed. Placeholders are
+highlighted in yellow on the page so they are hard to miss.
 
-- The first hero slide reads "Get Get Home, Mortgage, and Personal Loans…"
-  (duplicated word, as on the original).
-- The first flip box ("Construction Loan") still carries Royal Elementor
-  placeholder text: *"Hover mouse here to see backend content. Lorem ipsum
-  dolor sit."* / *"This is backend content. Lorem ipsum dolor sit amet."*
+The footer carries an RBI disclaimer making clear that JSR is a loan
+facilitator / DSA and not a lender. Do not remove it.
 
-Images are the originals from the site's media library. They belong to JSR
-Home Loan Services (and, in several cases, to third-party stock sources used
-on that site) — replace them before using this for anything public.
+## Images
+
+Images came from the original site's media library and several are third-party
+stock. Replace anything you do not hold a licence for.

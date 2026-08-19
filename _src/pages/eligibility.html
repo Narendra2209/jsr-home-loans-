@@ -1,0 +1,315 @@
+<!--meta
+title: Home Loan Eligibility Checker | How much can I borrow? | JSR Home Loan Services
+description: Check your home loan eligibility in 30 seconds. Enter your income, age, existing EMIs and employment type to see the loan amount and property value you can realistically target.
+nav: tools eligibility
+slug: eligibility
+scripts: tools
+-->
+
+<section class="page-banner">
+  <div class="page-banner-inner">
+    <h1>Eligibility Checker</h1>
+    <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">Home</a> <span>&rsaquo;</span> Eligibility Checker</nav>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">30 seconds, no documents</p>
+      <h2>How much home loan can I get?</h2>
+      <p class="lead">Lenders work backwards from what you can afford to repay each month. Enter your figures below and
+        we will apply the same rules they do &mdash; income multiples, FOIR caps, retirement age and loan-to-value limits.</p>
+    </div>
+
+    <div class="calc-layout" data-calc="eligibility">
+      <!-- ---------- Inputs ---------- -->
+      <div class="calc-card calc-inputs">
+        <div class="calc-row">
+          <span class="calc-row-head"><span class="calc-label">I am</span></span>
+          <div class="segmented" role="group" aria-label="Employment type">
+            <button type="button" data-employment="salaried" class="is-selected">Salaried</button>
+            <button type="button" data-employment="self">Self-employed</button>
+            <button type="button" data-employment="nri">NRI</button>
+          </div>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-row-head">
+            <label for="el-income">Net monthly income</label>
+            <span class="calc-value"><span class="pfx">&#8377;</span><input type="text" id="el-income" data-field="income" inputmode="numeric" autocomplete="off" value="80,000"></span>
+          </div>
+          <input type="range" data-range="income" min="15000" max="1000000" step="1000" value="80000" aria-label="Net monthly income">
+          <div class="calc-scale"><span>&#8377;15,000</span><span>&#8377;10 lakh</span></div>
+          <p class="field-hint" data-hint="income">Take-home pay after tax and PF. For self-employed, use average monthly
+            profit from your last 2 years of ITRs.</p>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-row-head">
+            <label for="el-emi">Existing monthly EMIs</label>
+            <span class="calc-value"><span class="pfx">&#8377;</span><input type="text" id="el-emi" data-field="obligations" inputmode="numeric" autocomplete="off" value="0"></span>
+          </div>
+          <input type="range" data-range="obligations" min="0" max="300000" step="500" value="0" aria-label="Existing monthly EMIs">
+          <div class="calc-scale"><span>&#8377;0</span><span>&#8377;3 lakh</span></div>
+          <p class="field-hint">Car loan, personal loan, existing home loan, and 5% of your credit card outstanding.</p>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-row-head">
+            <label for="el-age">Your age</label>
+            <span class="calc-value"><input type="text" id="el-age" data-field="age" inputmode="numeric" autocomplete="off" value="32"><span class="sfx">years</span></span>
+          </div>
+          <input type="range" data-range="age" min="21" max="65" step="1" value="32" aria-label="Your age">
+          <div class="calc-scale"><span>21</span><span>65</span></div>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-row-head">
+            <label for="el-tenure">Preferred tenure</label>
+            <span class="calc-value"><input type="text" id="el-tenure" data-field="tenure" inputmode="numeric" autocomplete="off" value="20"><span class="sfx">years</span></span>
+          </div>
+          <input type="range" data-range="tenure" min="1" max="30" step="1" value="20" aria-label="Preferred tenure">
+          <div class="calc-scale"><span>1 year</span><span>30 years</span></div>
+          <p class="field-hint" data-hint="tenure"></p>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-row-head">
+            <label for="el-rate">Expected interest rate</label>
+            <span class="calc-value"><input type="text" id="el-rate" data-field="rate" inputmode="decimal" autocomplete="off" value="8.5"><span class="sfx">% p.a.</span></span>
+          </div>
+          <input type="range" data-range="rate" min="6" max="16" step="0.05" value="8.5" aria-label="Expected interest rate">
+          <div class="calc-scale"><span>6%</span><span>16%</span></div>
+        </div>
+      </div>
+
+      <!-- ---------- Results ---------- -->
+      <div class="calc-card calc-results">
+        <div class="calc-headline">
+          <span class="calc-out-label">Indicative loan eligibility</span>
+          <strong class="calc-hero-value" data-out="loan">&#8377;50,70,157</strong>
+          <span class="calc-out-sub">at <span data-out="rateEcho">8.5%</span> for <span data-out="tenureUsed">20</span> years</span>
+        </div>
+
+        <div class="eligibility-meter">
+          <div class="meter-line"><div class="meter-fill" data-meter></div></div>
+          <div class="meter-labels">
+            <span>Income available for a new EMI</span>
+            <strong data-out="maxEmi">&#8377;44,000</strong>
+          </div>
+        </div>
+
+        <dl class="calc-summary">
+          <div><dt>Maximum EMI a lender will allow</dt><dd data-out="maxEmi2">&#8377;44,000</dd></div>
+          <div><dt>FOIR applied to your income band</dt><dd data-out="foir">55%</dd></div>
+          <div><dt>Longest tenure for your age</dt><dd data-out="maxTenure">28 years</dd></div>
+          <div><dt>Property value you can target</dt><dd data-out="property">&#8377;63,37,696</dd></div>
+          <div><dt>Own contribution needed (approx.)</dt><dd data-out="downpayment">&#8377;12,67,539</dd></div>
+          <div><dt>Plus stamp duty &amp; registration (~6%)</dt><dd data-out="stamp">&#8377;3,80,262</dd></div>
+        </dl>
+
+        <p class="calc-verdict" data-out="verdict"></p>
+
+        <div class="calc-actions">
+          <a class="btn btn-whatsapp" data-share-whatsapp href="https://wa.me/919000781967" target="_blank" rel="noopener">
+            <svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+            Check this with a lender
+          </a>
+          <a class="btn btn-outline-navy" href="emi-calculator.html">See the EMI breakdown</a>
+        </div>
+
+        <p class="micro-note">Indicative only. Actual eligibility depends on your credit score, employer category,
+          income stability, the property and each lender&rsquo;s own policy. A co-applicant&rsquo;s income can be clubbed with
+          yours, which often raises this figure substantially.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW LENDERS DECIDE ================= -->
+<section class="section-pad shaded">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Behind the number</p>
+      <h2>The five things a lender checks</h2>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <span class="feature-num">01</span>
+        <h3>Repayment capacity (FOIR)</h3>
+        <p>Your total EMIs, including the new one, are capped at a share of net income &mdash; roughly 45% at lower incomes
+          rising to about 65% at higher ones. This is usually the binding constraint.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-num">02</span>
+        <h3>Credit score and history</h3>
+        <p>750+ gets the best pricing. Lenders also look at how many enquiries you have made recently, any 30-day-plus
+          delays, and settled or written-off accounts &mdash; a settlement hurts more than a late payment.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-num">03</span>
+        <h3>Age and remaining working life</h3>
+        <p>The loan must normally end by age 60 for salaried applicants and 65&ndash;70 for self-employed. A 50-year-old
+          salaried applicant is capped near 10 years of tenure, which cuts eligibility hard.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-num">04</span>
+        <h3>Property and loan-to-value</h3>
+        <p>Funding is capped at 90% of value up to &#8377;30 lakh, 80% from &#8377;30&ndash;75 lakh and 75% above that. Approved
+          plans, clear title and a valuation that supports the price all matter.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-num">05</span>
+        <h3>Income stability</h3>
+        <p>Salaried applicants need continuous employment, usually 2+ years total with 6+ months in the current job.
+          Self-employed applicants need 3 years of business vintage and consistent ITRs.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-num">06</span>
+        <h3>Co-applicants</h3>
+        <p>Adding an earning spouse, parent or child clubs the incomes and can lift eligibility by 50&ndash;80%. Women
+          co-owners also get a small rate concession from several lenders.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CRITERIA TABS ================= -->
+<section class="section-pad">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Eligibility criteria</p>
+      <h2>What each lender expects to see</h2>
+    </div>
+
+    <div class="tabs reveal" data-tabs>
+      <div class="tab-list" role="tablist" aria-label="Applicant type">
+        <button role="tab" id="tab-sal" aria-controls="panel-sal" aria-selected="true">Salaried</button>
+        <button role="tab" id="tab-self" aria-controls="panel-self" aria-selected="false">Self-employed</button>
+        <button role="tab" id="tab-nri" aria-controls="panel-nri" aria-selected="false">NRI</button>
+      </div>
+
+      <div class="tab-panel" id="panel-sal" role="tabpanel" aria-labelledby="tab-sal">
+        <div class="criteria-grid">
+          <div>
+            <h3>Who qualifies</h3>
+            <ul class="bullets">
+              <li><strong>Age:</strong> 21 to 60 years at loan maturity (some lenders allow 65 with a co-applicant).</li>
+              <li><strong>Income:</strong> typically &#8377;25,000 net per month and above; the floor is higher in metros.</li>
+              <li><strong>Work history:</strong> 2+ years of total employment, 6+ months in the current organisation.</li>
+              <li><strong>Employer:</strong> listed, government, PSU and large private employers get better pricing.</li>
+              <li><strong>Credit score:</strong> 700 minimum in practice, 750+ for the best rate.</li>
+              <li><strong>Nationality:</strong> resident Indian.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Documents to keep ready</h3>
+            <ul class="bullets">
+              <li>PAN card and Aadhaar</li>
+              <li>Latest 3 months&rsquo; salary slips</li>
+              <li>Form 16 and ITR for the last 2 years</li>
+              <li>6 months&rsquo; bank statements of the salary account</li>
+              <li>Employment / appointment letter, or an ID card</li>
+              <li>Passport-size photographs of all applicants</li>
+              <li>Property agreement, approved plan and prior title chain</li>
+              <li>Own-contribution proof, and receipts for any payment already made</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="panel-self" role="tabpanel" aria-labelledby="tab-self">
+        <div class="criteria-grid">
+          <div>
+            <h3>Who qualifies</h3>
+            <ul class="bullets">
+              <li><strong>Age:</strong> 23 to 65 years at loan maturity (70 with some housing finance companies).</li>
+              <li><strong>Business vintage:</strong> at least 3 years in the same line of business.</li>
+              <li><strong>Income:</strong> assessed on the last 2&ndash;3 years of ITRs; declining profits are the most common
+                reason a good file is declined.</li>
+              <li><strong>Banking:</strong> clean current account conduct, no cheque returns, turnover consistent with the
+                declared income.</li>
+              <li><strong>Credit score:</strong> 700 minimum, 750+ preferred.</li>
+              <li><strong>Note:</strong> several lenders offer a banking-surrogate or GST-based programme when ITR income
+                understates the real cash flow &mdash; ask us about it.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Documents to keep ready</h3>
+            <ul class="bullets">
+              <li>PAN card and Aadhaar</li>
+              <li>ITR with computation of income for the last 3 years</li>
+              <li>Audited balance sheet and P&amp;L for 3 years, with schedules</li>
+              <li>12 months&rsquo; bank statements &mdash; current and savings</li>
+              <li>GST returns for the last 12 months, where registered</li>
+              <li>Business proof: Udyam, shop &amp; establishment, trade licence or partnership deed</li>
+              <li>Professional qualification certificate, for doctors, CAs, architects</li>
+              <li>Property agreement, approved plan and prior title chain</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="panel-nri" role="tabpanel" aria-labelledby="tab-nri">
+        <div class="criteria-grid">
+          <div>
+            <h3>Who qualifies</h3>
+            <ul class="bullets">
+              <li><strong>Status:</strong> NRI or Person of Indian Origin holding a valid passport and visa or work permit.</li>
+              <li><strong>Age:</strong> 21 to 60 years at loan maturity; tenure is usually capped shorter than for
+                residents, often 15&ndash;20 years.</li>
+              <li><strong>Employment:</strong> at least 6 months to 1 year in the current overseas job, and often 2 years
+                of overall overseas experience.</li>
+              <li><strong>Funding:</strong> generally up to 75&ndash;80% of property value; repayment must come through NRE
+                or NRO accounts by normal banking channels.</li>
+              <li><strong>Power of Attorney:</strong> most lenders need a POA holder in India, which we can help you set up.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Documents to keep ready</h3>
+            <ul class="bullets">
+              <li>Passport with valid visa or work permit, and PAN</li>
+              <li>Overseas employment contract, translated into English if needed</li>
+              <li>Latest 3&ndash;6 months&rsquo; overseas salary slips</li>
+              <li>6&ndash;12 months&rsquo; overseas bank statements plus NRE/NRO account statements</li>
+              <li>Overseas credit report, where the lender asks for it</li>
+              <li>Overseas tax return or equivalent income proof</li>
+              <li>Notarised / apostilled Power of Attorney in favour of your representative in India</li>
+              <li>Property agreement, approved plan and prior title chain</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="micro-note" style="margin-top:20px;">Lists are typical across lenders and are not exhaustive. The exact
+      document set depends on the lender and the property &mdash; we give you one consolidated checklist once we know which
+      lender fits your case.</p>
+  </div>
+</section>
+
+<!-- ================= IMPROVE ELIGIBILITY ================= -->
+<section class="section-pad shaded">
+  <div class="container container-narrow">
+    <div class="section-head reveal">
+      <p class="eyebrow">If the number is short</p>
+      <h2>Six ways to raise your eligibility</h2>
+    </div>
+    <ol class="numbered-list reveal">
+      <li><strong>Add a co-applicant.</strong> An earning spouse, parent or adult child lets the lender club incomes.
+        This is the single biggest lever available to most applicants.</li>
+      <li><strong>Close a small loan.</strong> Clearing a &#8377;12,000-a-month car loan can add roughly &#8377;13.8 lakh of
+        home loan eligibility at 8.5% over 20 years. Closing the smallest EMI first usually beats part-paying the largest.</li>
+      <li><strong>Stretch the tenure.</strong> Going from 15 to 25 years increases eligibility by around 22% &mdash; but
+        remember it also increases total interest, so treat it as a way to qualify, not a target.</li>
+      <li><strong>Declare all income.</strong> Rental income, an annual bonus with a two-year track record, and variable
+        pay are counted by many lenders if you can evidence them.</li>
+      <li><strong>Fix your credit report first.</strong> Disputing a wrongly reported default or clearing a settled
+        account can move you a rate band &mdash; see our <a href="blog-improve-cibil-score.html">CIBIL guide</a>.</li>
+      <li><strong>Choose the right lender.</strong> FOIR caps, income multiples and treatment of variable pay differ
+        meaningfully between banks. The same file can be worth &#8377;10 lakh more at one lender than another.</li>
+    </ol>
+    <p class="center-cta"><a class="btn btn-gold btn-lg" href="contact.html">Get a proper assessment</a></p>
+  </div>
+</section>

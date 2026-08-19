@@ -1,0 +1,301 @@
+<!--meta
+title: Home Loan Balance Transfer in Hyderabad | Savings Calculator | JSR Home Loan Services
+description: See exactly what you save by moving your home loan to a lower rate. Free balance transfer savings calculator, break-even analysis, switching costs and lender comparison.
+nav: loans balance-transfer
+slug: balance-transfer
+scripts: tools
+-->
+
+<!--head-->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Is there a penalty for transferring my home loan?","acceptedAnswer":{"@type":"Answer","text":"On floating-rate home loans taken by individual borrowers, RBI does not permit lenders to levy a foreclosure or prepayment penalty. Fixed-rate loans can attract a charge, typically 2 to 4 percent of the outstanding amount. Your existing lender may still charge small administrative or document-retrieval fees."}},
+    {"@type":"Question","name":"When is a balance transfer worth doing?","acceptedAnswer":{"@type":"Answer","text":"As a rule of thumb it is worth it when the rate gap is at least 0.4 to 0.5 percent, you still have more than about 7 years of tenure left, and your outstanding balance is large enough that the saving comfortably exceeds the switching costs. Our calculator shows the exact break-even point for your numbers."}},
+    {"@type":"Question","name":"How long does a balance transfer take?","acceptedAnswer":{"@type":"Answer","text":"Typically 15 to 30 days. The new lender sanctions the loan, issues a cheque to your existing lender to close the account, collects the original property documents once released, and registers a fresh mortgage."}},
+    {"@type":"Question","name":"Can I take extra money during a balance transfer?","acceptedAnswer":{"@type":"Answer","text":"Yes. A top-up loan on top of the transferred balance is common and is usually priced close to the home loan rate, which makes it far cheaper than a personal loan. The combined amount still has to stay within the lender's loan-to-value limit for the property."}}
+  ]
+}
+</script>
+<!--/head-->
+
+<section class="page-banner">
+  <div class="page-banner-inner">
+    <h1>Home Loan Balance Transfer</h1>
+    <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">Home</a> <span>&rsaquo;</span> Balance Transfer</nav>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Stop overpaying</p>
+      <h2>What would you save by switching lenders?</h2>
+      <p class="lead">If you took your home loan more than two or three years ago, there is a fair chance you are paying
+        above the rate a new borrower with your profile is being offered today. Put your actual numbers in and find out.</p>
+    </div>
+
+    <div class="calc-layout" data-calc="bt">
+      <!-- ---------- Inputs ---------- -->
+      <div class="calc-card calc-inputs">
+        <h3 class="calc-group-title">Your current loan</h3>
+
+        <div class="calc-row">
+          <div class="calc-row-head">
+            <label for="bt-out">Outstanding balance</label>
+            <span class="calc-value"><span class="pfx">&#8377;</span><input type="text" id="bt-out" data-field="outstanding" inputmode="numeric" autocomplete="off" value="40,00,000"></span>
+          </div>
+          <input type="range" data-range="outstanding" min="500000" max="30000000" step="50000" value="4000000" aria-label="Outstanding balance">
+          <div class="calc-scale"><span>&#8377;5 lakh</span><span>&#8377;3 crore</span></div>
+          <p class="field-hint">The principal still owed, not the original sanction. Your lender&rsquo;s app or a statement
+            will show it.</p>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-row-head">
+            <label for="bt-old-rate">Current interest rate</label>
+            <span class="calc-value"><input type="text" id="bt-old-rate" data-field="oldRate" inputmode="decimal" autocomplete="off" value="9.4"><span class="sfx">% p.a.</span></span>
+          </div>
+          <input type="range" data-range="oldRate" min="6" max="18" step="0.05" value="9.4" aria-label="Current interest rate">
+          <div class="calc-scale"><span>6%</span><span>18%</span></div>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-row-head">
+            <label for="bt-tenure">Remaining tenure</label>
+            <span class="calc-value"><input type="text" id="bt-tenure" data-field="tenure" inputmode="numeric" autocomplete="off" value="15"><span class="sfx">years</span></span>
+          </div>
+          <input type="range" data-range="tenure" min="1" max="30" step="1" value="15" aria-label="Remaining tenure">
+          <div class="calc-scale"><span>1 year</span><span>30 years</span></div>
+        </div>
+
+        <h3 class="calc-group-title">The offer you are considering</h3>
+
+        <div class="calc-row">
+          <div class="calc-row-head">
+            <label for="bt-new-rate">New interest rate</label>
+            <span class="calc-value"><input type="text" id="bt-new-rate" data-field="newRate" inputmode="decimal" autocomplete="off" value="8.5"><span class="sfx">% p.a.</span></span>
+          </div>
+          <input type="range" data-range="newRate" min="6" max="18" step="0.05" value="8.5" aria-label="New interest rate">
+          <div class="calc-scale"><span>6%</span><span>18%</span></div>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-row-head">
+            <label for="bt-fee">Switching cost</label>
+            <span class="calc-value"><span class="pfx">&#8377;</span><input type="text" id="bt-fee" data-field="cost" inputmode="numeric" autocomplete="off" value="25,000"></span>
+          </div>
+          <input type="range" data-range="cost" min="0" max="200000" step="1000" value="25000" aria-label="Switching cost">
+          <div class="calc-scale"><span>&#8377;0</span><span>&#8377;2 lakh</span></div>
+          <p class="field-hint">Processing fee, legal and technical valuation, stamp duty on the fresh mortgage (MODT) and
+            document handling &mdash; typically &#8377;15,000&ndash;&#8377;50,000 in Telangana.</p>
+        </div>
+
+        <label class="calc-check">
+          <input type="checkbox" data-field="keepEmi">
+          <span>Keep my EMI the same and shorten the tenure instead</span>
+        </label>
+      </div>
+
+      <!-- ---------- Results ---------- -->
+      <div class="calc-card calc-results">
+        <div class="calc-headline">
+          <span class="calc-out-label">Net saving after switching costs</span>
+          <strong class="calc-hero-value" data-out="netSaving">&#8377;3,59,908</strong>
+          <span class="calc-out-sub" data-out="headlineSub">over the remaining 15 years</span>
+        </div>
+
+        <div class="compare-bars">
+          <div class="compare-bar">
+            <div class="compare-bar-head"><span>Stay put &mdash; <span data-out="oldRateEcho">9.40%</span></span><strong data-out="oldEmi">&#8377;41,528</strong></div>
+            <div class="bar-track"><div class="bar-fill bar-old" data-bar="old"></div></div>
+            <span class="bar-note">Total interest <span data-out="oldInterest">&#8377;34,75,033</span></span>
+          </div>
+          <div class="compare-bar">
+            <div class="compare-bar-head"><span>Transfer &mdash; <span data-out="newRateEcho">8.50%</span></span><strong data-out="newEmi">&#8377;39,390</strong></div>
+            <div class="bar-track"><div class="bar-fill bar-new" data-bar="new"></div></div>
+            <span class="bar-note">Total interest <span data-out="newInterest">&#8377;30,90,125</span></span>
+          </div>
+        </div>
+
+        <dl class="calc-summary">
+          <div><dt>Monthly EMI saving</dt><dd data-out="emiSaving">&#8377;2,138</dd></div>
+          <div><dt>Interest saved before costs</dt><dd data-out="grossSaving">&#8377;3,84,908</dd></div>
+          <div><dt>Switching cost</dt><dd data-out="cost">&#8377;25,000</dd></div>
+          <div><dt>Break-even point</dt><dd data-out="breakeven">12 months</dd></div>
+          <div data-row="newTenure" hidden><dt>New tenure at the same EMI</dt><dd data-out="newTenure">13 yr 6 mo</dd></div>
+        </dl>
+
+        <p class="calc-verdict" data-out="verdict"></p>
+
+        <div class="calc-actions">
+          <a class="btn btn-whatsapp" data-share-whatsapp href="https://wa.me/919000781967" target="_blank" rel="noopener">
+            <svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+            Get me this rate
+          </a>
+          <a class="btn btn-outline-navy" href="bank-comparison.html">See who is offering what</a>
+        </div>
+        <p class="micro-note">Assumes both loans run on a monthly reducing balance at a constant rate. Floating rates
+          change, so treat this as a comparison of today&rsquo;s offers rather than a guaranteed saving.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WORKED EXAMPLES ================= -->
+<section class="section-pad shaded">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Worked examples</p>
+      <h2>What a 0.9% cut looks like in rupees</h2>
+      <p class="lead">Moving from 9.4% to 8.5%, with the tenure kept the same. Switching costs are not deducted here.</p>
+    </div>
+    <div class="table-wrap reveal">
+      <table class="data-table">
+        <caption class="visually-hidden">EMI and interest saving at different outstanding balances and tenures</caption>
+        <thead>
+          <tr>
+            <th scope="col">Outstanding</th>
+            <th scope="col">Remaining tenure</th>
+            <th scope="col">EMI at 9.40%</th>
+            <th scope="col">EMI at 8.50%</th>
+            <th scope="col">Monthly saving</th>
+            <th scope="col">Interest saved</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td data-label="Outstanding">&#8377;25,00,000</td><td data-label="Tenure">10 years</td><td data-label="EMI at 9.40%">&#8377;32,213</td><td data-label="EMI at 8.50%">&#8377;30,996</td><td data-label="Monthly saving" class="pos">&#8377;1,217</td><td data-label="Interest saved" class="pos">&#8377;1,45,950</td></tr>
+          <tr><td data-label="Outstanding">&#8377;40,00,000</td><td data-label="Tenure">15 years</td><td data-label="EMI at 9.40%">&#8377;41,528</td><td data-label="EMI at 8.50%">&#8377;39,390</td><td data-label="Monthly saving" class="pos">&#8377;2,138</td><td data-label="Interest saved" class="pos">&#8377;3,84,908</td></tr>
+          <tr><td data-label="Outstanding">&#8377;50,00,000</td><td data-label="Tenure">20 years</td><td data-label="EMI at 9.40%">&#8377;46,281</td><td data-label="EMI at 8.50%">&#8377;43,391</td><td data-label="Monthly saving" class="pos">&#8377;2,890</td><td data-label="Interest saved" class="pos">&#8377;6,93,450</td></tr>
+          <tr><td data-label="Outstanding">&#8377;75,00,000</td><td data-label="Tenure">20 years</td><td data-label="EMI at 9.40%">&#8377;69,421</td><td data-label="EMI at 8.50%">&#8377;65,087</td><td data-label="Monthly saving" class="pos">&#8377;4,334</td><td data-label="Interest saved" class="pos">&#8377;10,40,176</td></tr>
+          <tr><td data-label="Outstanding">&#8377;1,00,00,000</td><td data-label="Tenure">20 years</td><td data-label="EMI at 9.40%">&#8377;92,561</td><td data-label="EMI at 8.50%">&#8377;86,782</td><td data-label="Monthly saving" class="pos">&#8377;5,779</td><td data-label="Interest saved" class="pos">&#8377;13,86,901</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="micro-note">Rounded to the nearest rupee. Deduct your switching cost &mdash; usually &#8377;15,000&ndash;&#8377;50,000
+      &mdash; to get the net saving.</p>
+  </div>
+</section>
+
+<!-- ================= COSTS ================= -->
+<section class="section-pad">
+  <div class="container">
+    <div class="split">
+      <div class="reveal">
+        <p class="eyebrow">Read the fine print</p>
+        <h2 class="title-lg">What a transfer actually costs</h2>
+        <p class="lead" style="margin-bottom:18px;">A lower rate is only half the equation. These are the charges that
+          decide whether the switch is worth it &mdash; ask for every one of them in writing before you sign.</p>
+        <dl class="cost-list">
+          <div><dt>Processing fee (new lender)</dt><dd>0.25%&ndash;1% of the loan, often capped, and frequently waived during
+            campaigns. Always ask.</dd></div>
+          <div><dt>Legal &amp; technical valuation</dt><dd>&#8377;3,000&ndash;&#8377;10,000. The new lender re-verifies the title and
+            re-values the property.</dd></div>
+          <div><dt>Stamp duty on fresh mortgage (MODT)</dt><dd>Charged by the state on the new mortgage deed. Budget for
+            this &mdash; it is often the largest single line.</dd></div>
+          <div><dt>Foreclosure charge (old lender)</dt><dd><strong>Nil on floating-rate home loans to individuals.</strong>
+            Fixed-rate loans may attract 2%&ndash;4% of the outstanding.</dd></div>
+          <div><dt>Document retrieval / handling</dt><dd>&#8377;500&ndash;&#8377;5,000 to release your original property papers.</dd></div>
+          <div><dt>Insurance bundling</dt><dd>Not compulsory. If a lender insists on a policy to release the rate, count
+            its premium as part of the cost of the loan.</dd></div>
+        </dl>
+      </div>
+      <div class="reveal">
+        <img src="assets/img/svc-balance-transfer.jpg" width="800" height="533" alt="Reviewing home loan documents" loading="lazy">
+        <div class="callout callout-good" style="margin-top:24px;">
+          <h3>The rule of thumb</h3>
+          <p>Transfer if the rate gap is <strong>0.4% or more</strong>, more than <strong>7 years</strong> of tenure
+            remain, and the calculator above shows you breaking even within <strong>18 months</strong>. Below that, it is
+            usually cheaper to ask your existing lender to reset your spread instead &mdash; which they will often do for a
+            small conversion fee.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROCESS ================= -->
+<section class="section-pad shaded">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">The switch, step by step</p>
+      <h2>How we move your loan</h2>
+    </div>
+    <ol class="timeline timeline-compact">
+      <li class="timeline-step reveal"><span class="timeline-num">1</span><h3>Get your numbers</h3><p>Send us your latest statement, the sanction letter and your current rate. We confirm whether a switch is genuinely worth it &mdash; and tell you if it is not.</p></li>
+      <li class="timeline-step reveal"><span class="timeline-num">2</span><h3>Negotiate with your existing lender first</h3><p>Often the cheapest outcome is a spread reset with your current bank. We try that before we move anything.</p></li>
+      <li class="timeline-step reveal"><span class="timeline-num">3</span><h3>Shortlist and apply</h3><p>We take the two best competing offers, get them in writing, and log the file with the winner.</p></li>
+      <li class="timeline-step reveal"><span class="timeline-num">4</span><h3>Foreclosure letter &amp; list of documents</h3><p>Your existing lender issues a foreclosure statement and the list of original documents it holds.</p></li>
+      <li class="timeline-step reveal"><span class="timeline-num">5</span><h3>Disbursement &amp; document handover</h3><p>The new lender pays off the old loan, collects your original property papers and registers the fresh mortgage.</p></li>
+      <li class="timeline-step reveal"><span class="timeline-num">6</span><h3>Verify and close out</h3><p>We check that the old loan shows as closed on your credit report and that every original document has been handed over.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="section-pad">
+  <div class="container container-narrow">
+    <div class="section-head reveal">
+      <p class="eyebrow">FAQs</p>
+      <h2>Balance transfer questions</h2>
+    </div>
+    <div class="accordion" data-accordion>
+      <div class="acc-item">
+        <h3><button type="button" class="acc-btn" aria-expanded="false">Will my existing lender charge a penalty?<span class="acc-icon" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel"><p>On <strong>floating-rate home loans taken by individual borrowers</strong>, lenders are
+          not permitted to levy a foreclosure or prepayment penalty. Fixed-rate loans can attract 2%&ndash;4% of the
+          outstanding. Small administrative and document-retrieval charges may still apply, so ask for the foreclosure
+          statement in writing.</p></div>
+      </div>
+      <div class="acc-item">
+        <h3><button type="button" class="acc-btn" aria-expanded="false">How long does the process take?<span class="acc-icon" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel"><p>Usually 15&ndash;30 days. The main variable is how quickly your existing lender releases the
+          original property documents after receiving the closure cheque.</p></div>
+      </div>
+      <div class="acc-item">
+        <h3><button type="button" class="acc-btn" aria-expanded="false">Can I take a top-up at the same time?<span class="acc-icon" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel"><p>Yes, and it is one of the main reasons people transfer. A top-up is priced close to the
+          home loan rate, which makes it far cheaper than a personal loan for renovation, education or business needs. The
+          combined amount must still sit within the lender&rsquo;s loan-to-value limit for the property.</p></div>
+      </div>
+      <div class="acc-item">
+        <h3><button type="button" class="acc-btn" aria-expanded="false">Does a transfer hurt my credit score?<span class="acc-icon" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel"><p>There is a small, temporary dip from the new credit enquiry and the closing of an old
+          account. It normally recovers within a few months of the new loan reporting on time. Applying to five lenders at
+          once, on the other hand, does real damage &mdash; which is why we shortlist before we apply.</p></div>
+      </div>
+      <div class="acc-item">
+        <h3><button type="button" class="acc-btn" aria-expanded="false">My loan is only 2 years old. Is it too early?<span class="acc-icon" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel"><p>Early is actually the best time. In the first years almost all of your EMI is interest,
+          so a rate cut removes the maximum amount of it. Most lenders do want to see 12 months of clean repayment history
+          on the existing loan before they will take it over.</p></div>
+      </div>
+      <div class="acc-item">
+        <h3><button type="button" class="acc-btn" aria-expanded="false">Should I lower the EMI or shorten the tenure?<span class="acc-icon" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel"><p>If your cash flow is comfortable, keep the EMI where it is and let the tenure shrink &mdash;
+          tick the box in the calculator above to see the effect. You will typically finish one to two years earlier and
+          save considerably more interest than by taking the lower EMI.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <div class="split">
+      <div class="reveal">
+        <p class="eyebrow">Free, no-obligation review</p>
+        <h2 class="title-md">Send us your loan statement. We will tell you if switching is worth it.</h2>
+        <p class="lead" style="margin-bottom:20px;">If the numbers do not work, we will say so &mdash; and tell you what to
+          ask your existing lender for instead.</p>
+        <a class="btn btn-gold" href="https://wa.me/919000781967?text=Hi%20JSR%2C%20I%20want%20a%20balance%20transfer%20review%20of%20my%20home%20loan." target="_blank" rel="noopener">Send on WhatsApp</a>
+        <a class="btn btn-outline-navy" href="contact.html">Request a callback</a>
+      </div>
+      <div class="reveal">
+        <img src="assets/img/services-cta.png" width="680" height="478" alt="Home loan savings illustration" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>

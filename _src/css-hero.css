@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Hero (headline + EMI calculator, above the fold)
+   ========================================================================== */
+.hero{position:relative;overflow:hidden;padding:60px 20px 70px;}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;}
+.hero-bg-1{background-image:url("../img/hero-1.jpg");}
+.hero-bg-2{background-image:url("../img/hero-2.jpg");opacity:0;animation:heroCross 26s ease-in-out infinite;}
+@keyframes heroCross{0%,40%{opacity:0}52%,90%{opacity:1}100%{opacity:0}}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(100deg,rgba(11,19,60,.90) 0%,rgba(11,19,60,.78) 46%,rgba(11,19,60,.55) 100%);
+}
+/* Two rows so the calculator can span them on desktop while phones get the
+   order headline -> calculator -> supporting copy (see css-responsive.css). */
+.hero-inner{
+  position:relative;display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(0,400px);
+  grid-template-areas:"content calc" "support calc";
+  gap:0 44px;align-items:center;
+}
+.hero-content{grid-area:content;max-width:640px;align-self:end;}
+.hero-support{grid-area:support;max-width:640px;align-self:start;}
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:8px;margin:0 0 16px;
+  padding:6px 14px;border-radius:100px;background:rgba(248,183,67,.16);
+  border:1px solid rgba(248,183,67,.38);
+  font-family:var(--font-head);font-size:13px;font-weight:500;color:var(--gold);
+}
+.hero-kicker .icon{width:13px;height:13px;}
+.hero-title{
+  font-family:var(--font-head);font-size:48px;font-weight:800;line-height:1.1;
+  color:#fff;margin:0 0 16px;
+}
+.hero-title sup{font-size:.45em;top:-.9em;}
+.rate-figure{color:var(--gold);white-space:nowrap;}
+.hero-desc{
+  font-family:var(--font-body);font-size:16px;line-height:1.6;
+  color:rgba(255,255,255,.86);margin:0 0 20px;max-width:560px;
+}
+.hero-usp{display:flex;flex-wrap:wrap;gap:8px 22px;margin:0 0 26px;}
+.hero-usp li{
+  display:flex;align-items:center;gap:7px;
+  font-family:var(--font-head);font-size:14px;font-weight:400;color:#fff;
+}
+.hero-usp .icon{width:14px;height:14px;color:var(--gold);}
+.hero-btns{display:flex;flex-wrap:wrap;gap:12px;}
+.hero-foot{
+  margin:18px 0 0;font-family:var(--font-body);font-size:12px;line-height:1.5;
+  color:rgba(255,255,255,.62);max-width:520px;
+}
+.hero-foot sup{color:var(--gold);}
+.hero-calc{grid-area:calc;position:relative;align-self:center;}
