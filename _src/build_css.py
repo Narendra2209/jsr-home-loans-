@@ -61,6 +61,17 @@ def main():
         + "\n"
         + read(SRC / "css-components.css").strip()
         + "\n\n"
+        # After components so the glass fills win the same-specificity ties,
+        # before responsive so the breakpoints still get the last word.
+        + read(SRC / "css-motion.css").strip()
+        + "\n\n"
+        # Flip after motion: it neutralises the card fills motion.css sets.
+        + read(SRC / "css-flip.css").strip()
+        + "\n\n"
+        # Effects last of the desktop rules: the header glass and button states
+        # deliberately override the base rules they sit on top of.
+        + read(SRC / "css-effects.css").strip()
+        + "\n\n"
         + read(SRC / "css-responsive.css").strip()
         + "\n"
         + END

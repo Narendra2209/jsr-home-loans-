@@ -1,0 +1,132 @@
+/* ==========================================================================
+   Header glass + motion effects
+   ---------------------------------------------------------------------------
+   Everything here is additive and degrades to nothing. The header keeps a
+   solid fallback, the stagger only applies once .js is set, and every moving
+   part is switched off under prefers-reduced-motion at the foot of the file.
+   ========================================================================== */
+
+/* ---------- Header: heavier glass, and a state for when it is stuck -------
+   Lower alpha + more blur than a normal surface, so the page visibly moves
+   underneath it rather than sliding behind a white bar. The inset hairline is
+   what sells it as glass: a lit top edge catching the light. */
+.site-header{
+  background:rgba(255,255,255,.58);
+  -webkit-backdrop-filter:saturate(190%) blur(22px);
+  backdrop-filter:saturate(190%) blur(22px);
+  border-bottom:1px solid rgba(20,18,16,.06);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.85);
+  transition:background .35s ease,box-shadow .35s ease,
+             border-color .35s ease,backdrop-filter .35s ease;
+}
+/* main.js adds .is-stuck once the page has scrolled past the header. */
+.site-header.is-stuck{
+  background:rgba(255,255,255,.76);
+  -webkit-backdrop-filter:saturate(200%) blur(26px);
+  backdrop-filter:saturate(200%) blur(26px);
+  border-bottom-color:rgba(20,18,16,.10);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 10px 30px rgba(20,18,16,.10);
+}
+/* Without backdrop-filter the bar must be opaque or the page scrolls straight
+   through the navigation. */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .site-header,.site-header.is-stuck{background:#fff;}
+}
+
+/* ---------- Scroll progress ----------------------------------------------
+   A hairline at the very top. Functional as much as decorative on pages that
+   run to a 5,000px amortisation table. */
+.scroll-progress{
+  position:fixed;top:0;left:0;right:0;height:3px;z-index:100;
+  transform:scaleX(var(--sp,0));transform-origin:0 50%;
+  background:linear-gradient(90deg,var(--brand-600),var(--brand) 60%,var(--brand-soft));
+  pointer-events:none;
+  will-change:transform;
+}
+
+/* ---------- Navigation: underline sweeps in from the cursor's side --------
+   ::before, because ::after is already the persistent active-page marker. */
+.nav-menu > li > a{position:relative;}
+.nav-menu > li > a::before{
+  content:"";position:absolute;left:13px;right:13px;bottom:3px;height:2px;
+  border-radius:2px;background:var(--brand);
+  transform:scaleX(0);transform-origin:right center;
+  transition:transform .32s cubic-bezier(.22,1,.36,1);
+}
+.nav-menu > li > a:hover::before{transform:scaleX(1);transform-origin:left center;}
+.nav-menu > li > a.is-active::before{display:none;}
+
+/* ---------- Buttons: a light sweep on hover ------------------------------- */
+.btn-primary,.btn-hero-primary{position:relative;overflow:hidden;}
+.btn-primary::after,.btn-hero-primary::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,
+    transparent 34%,rgba(255,255,255,.55) 50%,transparent 66%);
+  transform:translateX(-120%);
+  transition:transform .7s cubic-bezier(.22,1,.36,1);
+}
+.btn-primary:hover::after,.btn-hero-primary:hover::after{transform:translateX(120%);}
+/* The lift is on the button itself so the sweep does not drag it around. */
+.btn-primary,.btn-hero-primary,.btn-outline,.btn-whatsapp{
+  transition:background .2s ease,color .2s ease,border-color .2s ease,
+             box-shadow .25s ease,transform .25s cubic-bezier(.22,1,.36,1);
+}
+.btn-primary:hover,.btn-hero-primary:hover{transform:translateY(-2px);}
+.btn-primary:active,.btn-hero-primary:active{transform:translateY(0);}
+
+/* ---------- Staggered reveal for card grids -------------------------------
+   The observer in main.js flips .is-in on every card in a row at nearly the
+   same instant, which lands as one block. A short per-item delay turns that
+   into a sweep. Scoped under .js so a no-JS page never delays anything it is
+   not going to animate. */
+.js :is(.product-grid,.feature-grid,.timeline,.timeline-compact,.doc-grid,
+        .testimonial-grid,.blog-grid,.svc-grid,.team-grid,.video-grid,
+        .lender-grid,.mv-grid,.sitemap-grid,.split-cards) > .reveal{
+  transition-delay:var(--d,0ms);
+}
+.js :is(.product-grid,.feature-grid,.timeline,.timeline-compact,.doc-grid,
+        .testimonial-grid,.blog-grid,.svc-grid,.team-grid,.video-grid,
+        .lender-grid,.mv-grid,.sitemap-grid,.split-cards) > .reveal:nth-child(2){--d:70ms;}
+.js :is(.product-grid,.feature-grid,.timeline,.timeline-compact,.doc-grid,
+        .testimonial-grid,.blog-grid,.svc-grid,.team-grid,.video-grid,
+        .lender-grid,.mv-grid,.sitemap-grid,.split-cards) > .reveal:nth-child(3){--d:140ms;}
+.js :is(.product-grid,.feature-grid,.timeline,.timeline-compact,.doc-grid,
+        .testimonial-grid,.blog-grid,.svc-grid,.team-grid,.video-grid,
+        .lender-grid,.mv-grid,.sitemap-grid,.split-cards) > .reveal:nth-child(4){--d:210ms;}
+.js :is(.product-grid,.feature-grid,.timeline,.timeline-compact,.doc-grid,
+        .testimonial-grid,.blog-grid,.svc-grid,.team-grid,.video-grid,
+        .lender-grid,.mv-grid,.sitemap-grid,.split-cards) > .reveal:nth-child(5){--d:280ms;}
+.js :is(.product-grid,.feature-grid,.timeline,.timeline-compact,.doc-grid,
+        .testimonial-grid,.blog-grid,.svc-grid,.team-grid,.video-grid,
+        .lender-grid,.mv-grid,.sitemap-grid,.split-cards) > .reveal:nth-child(n+6){--d:350ms;}
+
+/* ---------- Section eyebrow: the rule draws itself in ---------------------- */
+.js .reveal .eyebrow::before,.js .eyebrow::before{
+  transform:scaleX(0);transform-origin:left center;
+  transition:transform .5s cubic-bezier(.22,1,.36,1) .1s;
+}
+.js .reveal.is-in .eyebrow::before,.js .section-head .eyebrow::before{transform:scaleX(1);}
+
+/* ---------- Calculator: the headline figure settles when it changes -------- */
+@keyframes figureSettle{
+  from{opacity:.35;transform:translateY(4px);}
+  to{opacity:1;transform:none;}
+}
+.calc-hero-value,.calc-out-value{animation:figureSettle .28s ease-out;}
+
+/* ---------- Reduced motion ------------------------------------------------ */
+@media (prefers-reduced-motion:reduce){
+  .scroll-progress{display:none;}
+  .nav-menu > li > a::before{transition:none;}
+  .btn-primary::after,.btn-hero-primary::after{display:none;}
+  .btn-primary:hover,.btn-hero-primary:hover{transform:none;}
+  .js :is(.product-grid,.feature-grid,.timeline,.doc-grid,.testimonial-grid,
+          .blog-grid,.svc-grid,.team-grid,.video-grid,.lender-grid) > .reveal{
+    transition-delay:0ms!important;
+  }
+  .js .eyebrow::before{transform:scaleX(1)!important;transition:none;}
+  .calc-hero-value,.calc-out-value{animation:none;}
+  .site-header{transition:none;}
+}

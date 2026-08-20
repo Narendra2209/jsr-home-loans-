@@ -2,7 +2,7 @@
 
 Everything on the site works today, but some content is deliberately left as a
 placeholder because it is a fact about your business that only you can supply.
-Placeholders are highlighted **in yellow on the page** (`class="tbd"`) so you
+Placeholders are highlighted **in violet on the page** (`class="tbd"`) so you
 can spot them by eye, and each one has an HTML comment above it explaining what
 to do.
 
@@ -38,26 +38,19 @@ Edit the source fragment in `_src/pages/`, then run `python build.py`.
 | 17 | Contact page | The map is centred on 17.3522, 78.5493. Fine-tune the pin to the exact office entrance. |
 | 18 | `assets/img/` | Every image came from the original site's media library and several are third-party stock. Replace anything you do not hold a licence for. |
 
-## 2b. One accessibility issue left for you to decide
+## 2b. Resolved — contrast is handled
 
-**White text on the gold brand colour fails WCAG AA contrast.** `#F8B743` with
-white text measures **1.77:1** (hover `#e5a52f` is 2.15:1); AA needs 4.5:1 for
-normal text and 3:1 even for large text. This affects every gold CTA — "Check
-Eligibility", "Check my eligibility", "Call Us Today", the mobile Eligibility
-button and the skip link.
+The old brand gold (`#F8B743`) carried white text at **1.77:1**, far below the
+4.5:1 WCAG AA needs. That palette no longer exists. The template now runs on a
+single blue accent chosen for contrast:
 
-I did not change it, because it is your existing brand styling and the fix is
-visible on every page. Two options:
+- `--brand` `#1B54D9` carries white text at **6.3:1** (AA for normal text).
+- `--brand-ink` `#123B95` for accent text and links on white: **8.9:1**.
+- `--brand-soft` `#8FBBFF` for accents on the dark bands: **9.1:1** on `--dark` (`#101438`).
+- Focus rings are `--ink` on light surfaces and white on dark ones, both with a
+  halo so they read against either.
 
-- **Keep the gold, darken the text** — set `color: var(--navy)` on `.btn-gold`
-  and friends. Navy on gold is **9.3:1**, comfortably AA, and dark-on-amber is a
-  common, good-looking combination. One-line change in `_src/css-components.css`.
-- **Keep white text, darken the gold** — you would need roughly `#9A6B00` or
-  darker to reach 4.5:1, which changes the brand colour noticeably.
-
-The focus ring had the same problem and *has* been fixed (it is now navy on
-light backgrounds, white on dark), because a focus indicator is functional
-rather than brand-defining.
+Nothing is left for you to decide here.
 
 ## 3. Optional — makes the leads better
 

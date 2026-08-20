@@ -1,0 +1,182 @@
+/* ==========================================================================
+   Glass + motion layer
+   ---------------------------------------------------------------------------
+   Two things live here:
+
+   1. GLASS. Surfaces become translucent and sit over a soft aurora painted on
+      the body. Glass only reads as glass if something coloured is behind it,
+      which is why the page background stops being flat white.
+
+      backdrop-filter is expensive, so only a handful of large, genuinely
+      layered surfaces get a real blur (header, hero calculator, result panels,
+      dropdowns, mobile bar). The many small cards fake it with a translucent
+      fill plus a light top edge — visually equivalent at card size, and it
+      keeps a page of 30 cards from dropping frames.
+
+   2. MOTION. Cursor-reactive sheen, tilt and magnetic buttons. The geometry is
+      driven from assets/js/motion.js through custom properties; every rule
+      here is inert until that script sets them, so no-JS renders plain.
+
+   Everything is gated behind `pointer: fine` and `prefers-reduced-motion` at
+   the bottom of this file.
+   ========================================================================== */
+
+:root{
+  --glass:rgba(255,255,255,.66);
+  --glass-strong:rgba(255,255,255,.80);
+  --glass-edge:rgba(255,255,255,.90);
+  --glass-line:rgba(20,18,16,.07);
+  --glass-blur:20px;
+  --glass-dark:rgba(20,18,16,.92);
+  --glass-dark-edge:rgba(255,255,255,.10);
+  /* Cursor position, in px relative to the element. Set by motion.js. */
+  --mx:50%;
+  --my:50%;
+}
+
+/* ---------- Aurora backdrop -------------------------------------------
+   Fixed so it does not scroll with content: the glass then refracts a
+   stable field rather than a smear. Kept under 15% opacity throughout so
+   body copy keeps its contrast. */
+body{
+  background:#FCFBF9;
+}
+body::before{
+  content:"";position:fixed;inset:-10% -10% -10% -10%;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(46rem 36rem at 10% 2%,  rgba(241,164,33,.09) 0%, transparent 58%),
+    radial-gradient(40rem 32rem at 92% 12%, rgba(245,185,90,.13) 0%, transparent 60%),
+    radial-gradient(44rem 36rem at 80% 88%, rgba(241,164,33,.07) 0%, transparent 58%);
+}
+
+/* Sections stop painting solid white so the aurora shows through. The dark
+   bands and the hero keep their own backgrounds. */
+.section-pad,.about-section,.why,.about-intro,.svc-head,.progress-section,
+.contact-main,.svc-grid{background:transparent;}
+.shaded{background:rgba(250,248,245,.72);}
+.cta-band,.callback-band,.svc-cta{background:rgba(243,239,233,.72);}
+.page-banner{background:rgba(250,248,245,.62);}
+
+/* ---------- Glass surfaces --------------------------------------------- */
+.calc-card,.product-card,.feature-card,.timeline-step,.doc-card,.testimonial,
+.team-card,.mv-card,.blog-card,.quick-card,.contact-card,.svc-card,
+.lender-grid li,.compare-controls,.rating-summary,.lead-form,.accordion,
+.data-table,.embed-placeholder,.callout{
+  background:var(--glass);
+  border-color:var(--glass-line);
+  box-shadow:
+    0 1px 0 var(--glass-edge) inset,
+    0 1px 2px rgba(20,18,16,.04),
+    0 10px 30px rgba(20,18,16,.07);
+}
+/* Real frosting on the cards, desktop only. A page can hold 30 of these, and
+   a backdrop blur per card is the one thing that reliably drops frames on a
+   mid-range phone — where the softer fill above already reads as glass. */
+@media (min-width:1025px){
+  .calc-card,.product-card,.feature-card,.timeline-step,.doc-card,.testimonial,
+  .team-card,.mv-card,.blog-card,.quick-card,.contact-card,.svc-card,
+  .lender-grid li,.compare-controls,.rating-summary,.lead-form,.accordion,
+  .embed-placeholder,.callout{
+    background:rgba(255,255,255,.58);
+    -webkit-backdrop-filter:saturate(150%) blur(14px);
+    backdrop-filter:saturate(150%) blur(14px);
+  }
+}
+.callout{background:rgba(255,248,237,.74);border-color:rgba(241,164,33,.16);}
+.callout-info{background:rgba(250,248,245,.74);}
+.callout-good{background:rgba(234,248,241,.74);}
+.callout-warn{background:rgba(254,244,244,.76);}
+.data-table tbody tr:nth-child(even){background:rgba(255,255,255,.28);}
+.data-table thead th{background:rgba(245,241,236,.86);}
+
+/* The few surfaces that earn a real blur. */
+.site-header{background:rgba(255,255,255,.72);}
+.hero-calc .calc-card,.sub-menu{
+  background:var(--glass-strong);
+  -webkit-backdrop-filter:saturate(180%) blur(var(--glass-blur));
+  backdrop-filter:saturate(180%) blur(var(--glass-blur));
+  border:1px solid var(--glass-edge);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.95) inset,
+    0 20px 60px rgba(20,18,16,.16);
+}
+.calc-results,.fact-card,.article-cta{
+  background:var(--glass-dark);
+  -webkit-backdrop-filter:saturate(160%) blur(var(--glass-blur));
+  backdrop-filter:saturate(160%) blur(var(--glass-blur));
+  border:1px solid var(--glass-dark-edge);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.09) inset,
+    0 20px 60px rgba(10,9,8,.30);
+}
+/* Solid bands stay solid: a full-bleed blur buys nothing and costs a lot. */
+.trust-strip,.counters,.site-footer,.footer-bottom,.topbar{-webkit-backdrop-filter:none;backdrop-filter:none;}
+
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .site-header{background:#fff;}
+  .hero-calc .calc-card,.sub-menu{background:#fff;}
+  .calc-results,.fact-card,.article-cta{background:var(--dark);}
+}
+
+/* ---------- Cursor sheen ----------------------------------------------
+   motion.js appends <span class="sheen"> rather than using ::before/::after,
+   because several of these cards already spend both pseudo-elements (the
+   timeline connector, the numbered-list counters, the product-link arrow). */
+.sheen{
+  position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
+  opacity:0;transition:opacity .35s ease;
+  background:radial-gradient(20rem circle at var(--mx) var(--my),
+    rgba(241,164,33,.10) 0%, transparent 62%);
+}
+.has-motion{position:relative;}
+.has-motion:hover .sheen,.has-motion:focus-within .sheen{opacity:1;}
+/* Keep real content above the wash. */
+.has-motion > *:not(.sheen){position:relative;z-index:1;}
+
+/* A border that lights up on the side the cursor is on.
+   The two-layer mask punches the middle out so only the ring paints. The
+   composite keyword has to be its own declaration — putting `exclude` inside
+   the `mask` shorthand silently fails to parse in Chrome, which is what made
+   this rule invisible on the first pass. */
+.has-motion::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  z-index:2;opacity:0;transition:opacity .35s ease;
+  padding:1px;
+  background:radial-gradient(13rem circle at var(--mx) var(--my),
+    rgba(241,164,33,.45) 0%, rgba(245,185,90,.22) 32%, transparent 62%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask-composite:exclude;
+}
+.has-motion:hover::after,.has-motion:focus-within::after{opacity:1;}
+/* .timeline-step already uses ::after for its dotted connector. */
+.timeline-step.has-motion::after{
+  background:repeating-linear-gradient(90deg,var(--brand-200) 0 6px,transparent 6px 12px);
+  -webkit-mask:none;mask:none;padding:0;opacity:1;
+  inset:auto -26px auto auto;top:48px;width:26px;height:2px;border-radius:0;
+}
+
+.has-tilt{
+  transform-style:preserve-3d;
+  transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s ease;
+}
+.has-tilt.is-tilting{
+  transition:box-shadow .2s ease;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.9) inset,
+    0 18px 44px rgba(20,18,16,.13);
+}
+
+/* ---------- Fallbacks --------------------------------------------------
+   Motion is opt-in: only pointing devices that can hover, and only when the
+   visitor has not asked for less movement. Touch and keyboard users get the
+   glass without anything that moves under them. */
+@media (hover:none),(pointer:coarse){
+  .sheen,.has-motion::after{display:none;}
+  .has-tilt{transform:none!important;}
+}
+@media (prefers-reduced-motion:reduce){
+  .sheen{transition:none;}
+  .has-tilt{transform:none!important;transition:none;}
+}

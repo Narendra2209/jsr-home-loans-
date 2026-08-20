@@ -85,6 +85,20 @@ def script_tags(names):
     )
 
 
+def preload_tags(paths):
+    """Warm the LCP image.
+
+    The hero art is painted from CSS, so the browser cannot discover it until
+    the stylesheet has parsed. A preload hint pulls that request forward to the
+    same round trip as the CSS.
+    """
+    return "".join(
+        '<link rel="preload" as="image" href="%s" fetchpriority="high">\n' % path
+        for path in paths
+        if path
+    )
+
+
 def build():
     head = read(PARTIALS / "head.html")
     header = read(PARTIALS / "header.html")
@@ -107,6 +121,7 @@ def build():
             "page": slug,
             "head_extra": head_extra,
             "body_class": meta.get("body_class", ""),
+            "preload": preload_tags(meta.get("preload", "").split()),
         }
         page = (
             fill(head, values)

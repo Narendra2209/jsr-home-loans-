@@ -50,11 +50,14 @@ _src/
   pages/*.html            one body fragment per page, with front matter
   css-hero.css            hero block (spliced into style.css between markers)
   css-components.css      everything added since the original build
+  css-motion.css          glass surfaces + cursor-motion styles
+  css-flip.css            direction-aware flip cards
   css-responsive.css      breakpoints for the new components
-  build_css.py            splices the three files above into assets/css/style.css
+  build_css.py            splices the five files above into assets/css/style.css
 assets/
   css/style.css           the only stylesheet (generated in part — see above)
   js/main.js              nav, accordion, tabs, reveals, counters, video embeds
+  js/motion.js            flip cards, cursor sheen, card tilt, magnetic buttons, parallax
   js/tools.js             calculators, comparison table, lead forms
   img/                    images
 ```
@@ -70,6 +73,7 @@ description: Shown in search results and social previews.
 nav: tools emi          # which nav items to mark active (space separated)
 slug: emi-calculator    # output filename, minus .html
 scripts: tools          # extra JS bundles from assets/js/
+preload: assets/img/hero-1.jpg   # LCP image to warm (space separated)
 -->
 ```
 
@@ -124,16 +128,162 @@ visitor still presses send. To route them to a form service instead, replace
 
 ## Design tokens
 
+Orange, black and white. Warm near-black carries structure, warm off-whites
+carry the page, and orange is the single accent.
+
+**The one rule that shapes everything:** a vivid orange cannot do two jobs. At
+the logo's hue, `#F1A421` carries near-black text at **8.96:1** but white text
+at only **2.08:1** — an orange button can never have a white label. To reach
+4.5:1 against white the hue has to darken to about `#A36B0A`, which is a brown,
+not an orange. So there are **two** oranges and they are not interchangeable:
+
 | Token | Value | Used for |
 | --- | --- | --- |
-| `--navy` | `#0B133C` | top bar, counters, footer, calculator result panels |
-| `--gold` | `#F8B743` | accent, buttons, eyebrows, sliders, donut chart |
-| `--ink` | `#222222` | headings |
-| `--muted` | `#666666` | body copy |
-| `--light` | `#E1E7F3` | CTA bands |
+| `--brand` | `#F1A421` | fills only — buttons, sliders, discs. Label on it is `--ink` (8.96:1). Matches the logo sun exactly. |
+| `--brand-600` | `#D98F14` | fill hover (label still `--ink`, 7.02:1) |
+| `--brand-ink` | `#AE500A` | **all** orange text, links and meaning-carrying icons on light — 5.31:1 on white |
+| `--brand-ink-2` | `#8F3F08` | link hover |
+| `--brand-soft` | `#F5B95A` | accent on black surfaces — 10.65:1 on `--dark` |
+| `--brand-50/100/200` | `#FFF8ED` / `#FDEEDA` / `#F7D49A` | washes, chips, tint borders |
+| `--star` | `#C07D0C` | rating stars — 3.40:1, because WCAG 1.4.11 wants 3:1 for a graphic that carries meaning and the fill orange only manages 2.08:1 |
+| `--ink` / `--ink-2` | `#141210` / `#2A2521` | headings, and every label sitting on `--brand` |
+| `--body` / `--muted` / `--faint` | `#4A443E` / `#5C554E` / `#6B635B` | 9.60 / 7.33 / 5.90 on white |
+| `--surface` / `-2` / `-3` | `#FFFFFF` / `#FAF8F5` / `#F3EFE9` | page, warm alternating band, CTA band |
+| `--dark` / `-2` / `--dark-line` | `#141210` / `#221E1A` / `#37312B` | trust strip, counters, footer, result panels, flip backs |
+| `--ok` / `--danger` | `#0E7A4F` / `#C4362F` | kept distinct from brand so meaning survives |
 
-Poppins for headings and UI, Montserrat for body copy, loaded from Google Fonts
-with system fallbacks. Container 1140px; breakpoints at 1180, 1024, 767 and 420px.
+Shadow tints are warm (`rgba(20,18,16,…)`); a navy shadow under an orange card
+reads dirty.
+
+**Not recoloured, deliberately:** WhatsApp green (`#25D366` — a brand mark),
+the Facebook/Instagram/YouTube hover colours, and the success/danger semantics.
+
+The old `--navy`, `--blue`, `--border`, `--light` names survive as aliases, but
+note `--blue` now resolves to the **orange fill**, so anything pairing it with
+white text is a bug.
+
+Plus Jakarta Sans for headings and UI, Inter for body copy. Breakpoints at 1180,
+1024, 900, 767 and 420px.
+
+Section rhythm is `--section` top and bottom; two adjacent plain-white bands
+halve the join. Inner-page banners are typographic, not photographic.
+
+## Glass & motion
+
+The header is the most glass-forward surface: 58% white at 22px blur (76% and
+26px once `.is-stuck` is set past 8px of scroll), with an inset white hairline
+along its top edge — that lit edge is what actually sells it as glass rather
+than as a translucent bar. There is a solid `@supports` fallback, because
+without `backdrop-filter` the page would scroll straight through the nav.
+
+Animations added in `_src/css-effects.css`, all reduced-motion aware:
+a scroll-progress hairline (functional on a page with a 5,000px amortisation
+table), the sticky-header elevate, a nav underline that sweeps in from the
+cursor's side, a light sweep across primary buttons on hover, a staggered
+reveal so card grids arrive as a sweep rather than one block, the section
+eyebrow rule drawing itself, and a short settle on calculator figures when they
+recompute.
+
+
+Surfaces are translucent over a soft aurora painted on `body::before`. Glass
+only reads as glass when something coloured sits behind it, which is why the
+page background is a tinted field rather than flat white.
+
+`backdrop-filter` is expensive, so only a few large, genuinely layered surfaces
+blur unconditionally — the header, hero calculator, result panels, dropdowns and
+the mobile bar. The many small cards get a real blur **only above 1024px**; below
+that they fall back to a translucent fill with a light top edge, which reads the
+same at card size and keeps a page of 30 cards from dropping frames on a phone.
+
+`assets/js/motion.js` adds the flip cards, a faint cursor sheen and a 3° tilt.
+The motion is deliberately restrained — it acknowledges the pointer rather than
+performing. A custom cursor, magnetic buttons and mouse parallax were all built
+here and then removed: next to a rate table they read as toys, and this is a
+lender's site. It writes only custom properties and transforms, batched
+through a single `requestAnimationFrame` loop, and it returns immediately unless
+the visitor is on `(hover: hover) and (pointer: fine)` with no reduced-motion
+preference — so touch and keyboard users get the glass with nothing moving under
+them. Cards holding a slider, a form control or a sortable header get the sheen
+but never the tilt, because rotating a surface under a control being dragged
+makes the control miss.
+
+The sheen is a `<span class="sheen">` injected by JS rather than a pseudo-element,
+because several of these cards already spend both `::before` and `::after` (the
+timeline connector, numbered-list counters, the product-link arrow).
+
+The card border-glow masks its own middle out with a two-layer mask. The
+composite keyword **must be its own `mask-composite` / `-webkit-mask-composite`
+declaration** — folding `exclude` into the `mask` shorthand parses in Firefox but
+silently fails in Chrome, which makes the whole rule invisible.
+
+The aurora is single-hue on purpose. An earlier pass ran five gradients across
+blue, indigo, cyan and violet; over a page of rate tables that reads as a crypto
+landing page. Three blue washes under 13% do the same job for the glass without
+the page announcing itself.
+
+Every rule in `css-motion.css` is inert until the script sets its custom
+properties, so if `motion.js` never loads the page keeps the glass and nothing
+else changes.
+
+### Flip cards
+
+Product, service, blog, feature, document and process cards flip on hover.
+`motion.js` rewraps each one as `.is-flip > .flip-inner > (.flip-front +
+.flip-back)`; the back face is generated from the front, so there is no back
+markup to maintain across 19 pages. The rotation axis and sign come from the
+edge the pointer actually crossed — in from the left spins on Y, in from the top
+spins on X — and the back face is pre-rotated to match, or it would render
+mirrored.
+
+Three rules keep the effect from costing anything:
+
+- The back **restates** the front, so it is `aria-hidden` and its CTA is
+  `tabindex="-1"`. Every card is announced once, from the front.
+- A back CTA is only generated where the front **already** links somewhere, so a
+  flip is never the only route to an action. Service cards qualify only when
+  their copy marks a link with a trailing arrow — picking up any link in the
+  prose would put "loan against property" on a button. Labels over 28 characters
+  fall back to "Read more".
+- Flipping cards are excluded from the tilt, since both write `transform`.
+
+`.blog-card-featured` is excluded: it is a wide two-column card and flipping it
+reads as a glitch. On touch and under reduced motion the back face is removed
+entirely and the front renders flat.
+
+
+### A trap worth remembering
+
+The dark result panels are **translucent glass**, not solid `--dark`. Checking a
+white-alpha text tint against `#141210` measures a colour that never ships: at
+`--glass-dark` alpha .72 the panel actually composites to `#555351`, where a
+50% white tint is 3.26:1, not the 5.4:1 the inline comments used to claim. Three
+AA failures hid behind that mistake on `.calc-results`, `.fact-card` and
+`.article-cta`.
+
+**Always measure the composited result, not the token.** `--glass-dark` is now
+.92 (panel `#272523`), where the faintest tint in use clears 4.93:1.
+
+The same applies to the accent glow on the counters band: `rgba(241,164,33,.40)`
+over `--dark` peaked at `#6C4C17`, dragging the `--brand-soft` title to 4.43:1.
+It is .28 now.
+
+And SC 1.4.11 covers a **control's own boundary**, not just its label. The fill
+orange is 2.08:1 against the white page, so every filled control — primary
+buttons, the skip link, the floating call button, the mobile-bar CTA — carries a
+1px `--brand-edge` (#C07D0C, 3.40:1) rim. Card hover borders use the same token,
+because a hover border indicates state and state indication is in scope too.
+
+## Logo
+
+`logo-header.png` and `logo-footer.png` are both **white-on-transparent** marks:
+the house, the "JSR" lettering and the hands are all white, and only the sun is
+gold. They were drawn for the original navy top bar. On any light surface the
+white two-thirds of the mark disappears and you are left with a floating sun.
+
+The light header therefore sets the logo on its own navy chip (`.brand img` in
+`style.css` — a dark rounded square with `object-fit: contain`). If you ever get
+a dark-on-light version of the logo, drop the `background`, `padding` and
+`border-radius` from that rule and it will sit directly on the header.
 
 ## Accessibility, resilience & SEO
 
@@ -167,3 +317,19 @@ facilitator / DSA and not a lender. Do not remove it.
 
 Images came from the original site's media library and several are third-party
 stock. Replace anything you do not hold a licence for.
+
+Everything in `assets/img/` has been resized to roughly twice the width it is
+actually painted at and recompressed — 1404 KB down to 655 KB. The untouched
+originals are in **`assets/img/_original/`**; that folder is not referenced by
+any page, so it costs nothing to ship, but delete it if you would rather keep
+the repo small. Three files (`favicon.png`, `hero-2.jpg`, `svc-personal.png`)
+came out larger when re-encoded and were left as they were.
+
+Every `<img>` carries its intrinsic `width`/`height` (so nothing shifts while
+loading), `decoding="async"`, and `loading="lazy"` except the header logo, which
+is above the fold on every page. The home page preloads `hero-1.jpg` via the
+`preload:` front-matter key, because the hero art is painted from CSS and the
+browser cannot otherwise discover it until the stylesheet has parsed.
+
+`page-banner.jpg` and `contact-banner.webp` are no longer referenced by any page
+— the inner-page banner is drawn in CSS now. They are safe to delete.

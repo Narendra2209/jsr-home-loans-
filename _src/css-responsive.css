@@ -1,28 +1,26 @@
-
 /* ==========================================================================
    Responsive - new components
    ========================================================================== */
 @media (max-width:1180px){
-  .hero-title{font-size:40px;}
-  .hero-inner{grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:32px;}
-  .nav-menu a{font-size:13.5px;padding:6px 7px;}
-  .btn-nav-cta{margin-left:auto;padding:8px 14px;font-size:13px;}
-  .topbar-brand{font-size:20px;}
-  .topbar-meta{gap:14px;}
-  .topbar-meta li{font-size:13px;}
+  .hero{padding:60px var(--gutter) 70px;}
+  .hero-inner{grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:0 36px;}
+  .btn-nav-cta{padding:10px 15px;font-size:13.5px;}
 }
 
 @media (max-width:1024px){
-  .section-pad{padding:54px 20px;}
-  .hero{padding:46px 20px 54px;}
+  .hero{padding:48px var(--gutter) 56px;}
   /* Stack, and lift the calculator above the supporting copy so it stays
      near the top of the first screen instead of being pushed off it. */
-  .hero-inner{grid-template-columns:1fr;grid-template-areas:"content" "calc" "support";gap:26px;}
+  .hero-inner{grid-template-columns:1fr;grid-template-areas:"content" "calc" "support";gap:28px;}
   .hero-content,.hero-support{max-width:none;}
-  .hero-title{font-size:36px;}
-  .hero-calc{max-width:520px;}
+  .hero-calc{max-width:540px;}
+  .hero-bg{
+    -webkit-mask-image:linear-gradient(180deg,transparent 30%,#000 100%);
+    mask-image:linear-gradient(180deg,transparent 30%,#000 100%);
+  }
+  .hero-overlay{background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.82) 40%,rgba(255,255,255,.3) 100%);}
 
-  .trust-strip .container{grid-template-columns:repeat(2,1fr);gap:20px;}
+  .trust-strip .container{grid-template-columns:repeat(2,1fr);gap:24px;}
   .lender-grid{grid-template-columns:repeat(4,1fr);}
   .product-grid,.feature-grid,.doc-grid,.doc-grid-3,.team-grid,
   .testimonial-grid,.testimonial-grid-4,.video-grid,.blog-grid{grid-template-columns:repeat(2,1fr);}
@@ -30,155 +28,160 @@
   .timeline-step::after{display:none;}
   .blog-card-featured{grid-column:span 2;flex-direction:column;}
   .blog-card-featured .blog-thumb{flex:none;}
-  .blog-card-featured h3{font-size:21px;}
+  .blog-card-featured .blog-thumb img{aspect-ratio:16/9;}
+  .blog-card-featured h3{font-size:22px;}
   .sitemap-grid{grid-template-columns:repeat(2,1fr);}
 
   .calc-layout{grid-template-columns:1fr;}
   .compare-controls{grid-template-columns:1fr 1fr;}
   .compare-filter{grid-column:span 2;}
-  .callback-grid,.contact-grid,.criteria-grid,.split-cards{grid-template-columns:1fr;gap:28px;}
+  .callback-grid,.contact-grid,.criteria-grid,.split-cards{grid-template-columns:1fr;gap:30px;}
   .quick-contact .container{grid-template-columns:repeat(2,1fr);}
-  .rating-summary{grid-template-columns:1fr;gap:24px;text-align:center;}
-  .rating-score{padding-right:0;border-right:0;padding-bottom:24px;border-bottom:1px solid var(--border);}
-  .company-table > div{grid-template-columns:1fr;gap:4px;}
-  .footer-grid{grid-template-columns:1fr 1fr;gap:34px;}
-  .page-banner-slim{padding:80px 20px;}
-  .page-banner-slim h1{font-size:30px;}
+  .rating-summary{grid-template-columns:1fr;gap:26px;text-align:center;padding:30px 26px;}
+  .rating-score{padding-right:0;border-right:0;padding-bottom:26px;border-bottom:1px solid var(--line);}
+  .company-table > div{grid-template-columns:1fr;gap:5px;}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:36px;}
 }
 
 @media (max-width:767px){
-  .section-pad{padding:44px 16px;}
-  .hero{padding:20px 16px 34px;}
-  .hero-inner{gap:20px;}
-  .hero-title{font-size:27px;line-height:1.14;margin-bottom:0;}
-  .hero-desc{font-size:14.5px;margin-bottom:16px;}
-  .hero-kicker{font-size:12px;margin-bottom:12px;padding:5px 12px;}
-  .hero-usp{flex-direction:column;gap:7px;margin-bottom:20px;}
+  .hero{padding:32px var(--gutter) 40px;}
+  .hero-inner{gap:22px;}
+  .hero-title{margin-bottom:0;}
+  .hero-desc{font-size:15.5px;margin-bottom:20px;}
+  .hero-kicker{font-size:12px;margin-bottom:16px;padding:6px 13px 6px 10px;}
+  .hero-usp{gap:8px;margin-bottom:22px;}
+  .hero-usp li{font-size:13px;padding:7px 12px;}
+  .hero-btns{width:100%;}
   .hero-btns .btn{flex:1;justify-content:center;}
   .hero-calc{max-width:none;}
-  .hero-calc .calc-card{padding:18px 16px 20px;}
-  .hero-calc .calc-card-title{margin-bottom:12px;}
-  .hero-calc .calc-row{margin-bottom:14px;}
+  .hero-calc .calc-card{padding:20px 18px 22px;}
+  .hero-calc .calc-card-title{margin-bottom:14px;}
+  .hero-calc .calc-row{margin-bottom:17px;}
 
-  /* Keep the logo and wordmark on one line: stacking them cost ~110px of
-     vertical space before the hero even started. */
-  .topbar{padding:4px 16px;}
-  .topbar .container{flex-wrap:nowrap;justify-content:center;gap:9px;}
-  .topbar-logo img{max-width:46px;}
-  .topbar-brand{font-size:17px;white-space:nowrap;}
-  .topbar-social{display:none;}
-  .navbar .container{flex-wrap:wrap;}
-  .nav-toggle{order:1;margin-left:0;margin-right:auto;}
-  .btn-nav-cta{order:2;margin-left:0;}
-  .nav-menu{order:3;gap:0;}
-  /* Without JS the hamburger is inert, so show the menu as a plain stacked
-     list and drop the controls that would do nothing. */
+  /* --- navigation -------------------------------------------------------
+     The drawer geometry lives in style.css; this adds the sub-menu behaviour
+     and the no-JS fallback. Without JS the hamburger is inert, so the menu
+     renders as a plain stacked list and the controls that would do nothing
+     are dropped. */
   html:not(.js) .nav-toggle,html:not(.js) .sub-toggle{display:none;}
-  html:not(.js) .nav-menu{display:flex;position:static;box-shadow:none;border-top:0;}
-  html:not(.js) .sub-menu{display:block;position:static;opacity:1;visibility:visible;
-    box-shadow:none;border:0;transform:none;}
-  .has-sub{flex-wrap:wrap;}
+  html:not(.js) .nav-menu{
+    display:flex;position:static;box-shadow:none;border-top:0;max-height:none;
+  }
+  html:not(.js) .sub-menu{
+    display:block;position:static;opacity:1;visibility:visible;
+    box-shadow:none;border:0;transform:none;
+  }
+  .has-sub{flex-wrap:wrap;width:100%;}
   .has-sub > a{flex:1;}
-  .sub-toggle{padding:10px 16px;color:var(--muted);}
+  .sub-toggle{padding:12px 14px;margin-left:0;color:var(--muted);}
   .sub-menu{
     position:static;opacity:1;visibility:visible;transform:none;display:none;
-    width:100%;border:0;border-radius:0;box-shadow:none;padding:0 0 8px;
-    background:#FAFBFE;
+    width:100%;min-width:0;border:0;border-radius:var(--r-xs);box-shadow:none;
+    padding:4px 0 8px 12px;background:var(--surface-2);margin-bottom:4px;
   }
   .has-sub.is-open .sub-menu{display:block;}
-  .sub-menu a{text-align:center;padding:9px 12px;}
+  .sub-menu a{text-align:left;padding:11px 12px;}
   .sub-menu a:hover{background:transparent;}
 
-  .trust-strip .container{grid-template-columns:1fr;gap:16px;}
+  .trust-strip .container{grid-template-columns:1fr;gap:18px;}
   .lender-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
-  .lender-grid li{min-height:60px;font-size:12px;}
+  .lender-grid li{min-height:64px;font-size:12.5px;}
   .product-grid,.feature-grid,.doc-grid,.doc-grid-3,.team-grid,
   .testimonial-grid,.testimonial-grid-4,.video-grid,.blog-grid,
   .timeline,.timeline-compact,.sitemap-grid{grid-template-columns:1fr;}
   .blog-card-featured{grid-column:span 1;}
   .quick-contact .container{grid-template-columns:1fr;}
-  .quick-contact{margin-top:-30px;}
+  .quick-contact{margin-top:-32px;}
   .form-row{grid-template-columns:1fr;gap:0;}
-  .compare-controls{grid-template-columns:1fr;gap:18px;padding:18px;}
+  .compare-controls{grid-template-columns:1fr;gap:20px;padding:20px;}
   .compare-filter{grid-column:span 1;}
   .segmented{width:100%;}
-  .segmented button{flex:1;padding:8px 6px;font-size:12.5px;}
+  .segmented button{flex:1;padding:9px 6px;font-size:12.5px;}
 
-  .calc-card{padding:20px 18px;}
-  .calc-hero-value{font-size:34px;}
-  .calc-chart{flex-direction:column;gap:16px;}
-  .calc-chart svg{width:118px;height:118px;}
+  .calc-card{padding:22px 20px;}
+  .calc-chart{flex-direction:column;gap:18px;}
+  .calc-chart svg{width:124px;height:124px;}
   .calc-legend{width:100%;}
   .calc-actions .btn{flex:1;justify-content:center;}
-  .calc-value input{width:78px;}
+  .calc-value input{width:84px;}
+  .lead-form{padding:24px 20px;}
+  .acc-btn{padding:18px 20px;font-size:15.5px;}
+  .acc-panel p{padding:0 20px 20px;}
 
-  /* stacked data tables */
+  /* --- stacked data tables ---------------------------------------------
+     A rate table that scrolls sideways is a rate table nobody reads on a
+     phone, so each row becomes a card with its header as the row label. */
   .data-table{border:0;background:transparent;}
-  .data-table caption{padding-bottom:10px;}
+  .data-table caption{padding-bottom:12px;}
   .data-table thead{display:none;}
   .data-table tbody tr{
-    display:block;background:#fff!important;border:1px solid var(--border);
-    border-radius:10px;margin-bottom:12px;padding:6px 14px;
+    display:block;background:#fff!important;border:1px solid var(--line);
+    border-radius:var(--r);margin-bottom:14px;padding:8px 16px;
+    box-shadow:var(--shadow-xs);
   }
   .data-table tbody td{
-    display:flex;justify-content:space-between;gap:16px;padding:8px 0;
-    border-bottom:1px solid #F0F1F6;text-align:right;
+    display:flex;justify-content:space-between;gap:16px;padding:10px 0;
+    border-bottom:1px solid var(--line-2);text-align:right;
   }
   .data-table tbody tr td:last-child{border-bottom:0;}
   .data-table tbody td::before{
     content:attr(data-label);text-align:left;flex:none;max-width:46%;
-    font-family:var(--font-head);font-size:12.5px;font-weight:600;color:var(--ink);
+    font-family:var(--font-head);font-size:12.5px;font-weight:700;color:var(--ink);
   }
   .data-table tbody td:not([data-label])::before{content:none;}
-  .criteria-table tbody tr{padding:14px;}
+  .criteria-table tbody tr{padding:16px;}
   .criteria-table th[scope=row]{
-    display:block;width:auto;background:transparent;padding:0 0 6px;border-bottom:0;
+    display:block;width:auto;background:transparent;padding:0 0 8px;border-bottom:0;
   }
   .criteria-table tbody td{display:block;text-align:left;border-bottom:0;padding:0;}
   .amort-table tbody td{white-space:normal;}
 
-  .footer-grid{grid-template-columns:1fr;text-align:center;}
-  .footer-brand{text-align:center;}
-  .footer-brand img{margin:0 auto;}
-  .footer-social{justify-content:center;}
-  .footer-divider{flex-direction:column;text-align:center;}
-  .footer-legal{justify-content:center;gap:14px;}
-  .footer-disclaimer{text-align:left;}
+  .footer-grid{grid-template-columns:1fr;text-align:left;}
+  .footer-brand{text-align:left;}
+  .footer-brand img{margin:0 0 14px;}
+  .footer-social{justify-content:flex-start;}
+  .footer-divider{flex-direction:column;align-items:flex-start;text-align:left;}
+  .footer-legal{justify-content:flex-start;gap:18px;}
+  .footer-disclaimer{margin-top:38px;}
 
-  .prose h2{font-size:22px;}
-  .prose p,.bullets li,.numbered-list li{font-size:15px;}
-  .article-lead{font-size:16px!important;}
-  .page-banner-slim{padding:60px 16px;}
-  .page-banner-slim h1{font-size:24px;}
+  .prose h2{font-size:23px;margin-top:34px;}
+  .prose p,.bullets li,.numbered-list li{font-size:16px;}
+  .article-lead{font-size:17px!important;}
+  .article-cta{padding:26px 22px;}
+  .page-banner-slim{padding:36px var(--gutter) 40px;}
 
-  /* sticky bottom action bar, floating buttons out of the way */
-  /* The fixed action bar would otherwise sit on top of whatever the browser
-     just scrolled into focus at the bottom edge (WCAG 2.2 SC 2.4.11). */
-  html{scroll-padding-bottom:70px;}
-  .float-btns{bottom:76px;right:14px;}
+  /* --- sticky bottom action bar ----------------------------------------
+     The fixed bar would otherwise sit on top of whatever the browser just
+     scrolled into focus at the bottom edge (WCAG 2.2 SC 2.4.11). */
+  html{scroll-padding-bottom:76px;}
+  .float-btns{bottom:82px;right:14px;}
   .float-call{display:none;}
   .mobile-bar{
     display:grid;grid-template-columns:repeat(3,1fr);
     position:fixed;left:0;right:0;bottom:0;z-index:70;
-    background:#fff;border-top:1px solid var(--border);
-    box-shadow:0 -6px 20px rgba(11,19,60,.1);
+    background:rgba(255,255,255,.94);
+    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+    border-top:1px solid var(--line);
+    box-shadow:0 -6px 24px rgba(20,18,16,.10);
     padding-bottom:env(safe-area-inset-bottom);
   }
   .mobile-bar a{
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-    padding:10px 6px;font-family:var(--font-head);font-size:11.5px;font-weight:500;
-    color:var(--navy);border-right:1px solid var(--border);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+    padding:11px 6px;font-family:var(--font-head);font-size:11.5px;font-weight:600;
+    color:var(--ink);border-right:1px solid var(--line);
   }
   .mobile-bar a:last-child{border-right:0;}
-  .mobile-bar .icon{width:17px;height:17px;}
-  .mobile-bar a:nth-child(2) .icon{color:#25D366;}
-  .mobile-bar-cta{background:var(--gold);color:#fff!important;}
-  .mobile-bar-cta .icon{color:#fff;}
-  body{padding-bottom:58px;}
+  .mobile-bar .icon{width:18px;height:18px;}
+  .mobile-bar a:nth-child(2) .icon{color:#1FB855;}
+  .mobile-bar-cta{background:var(--brand);color:var(--ink)!important;
+    box-shadow:inset 0 0 0 1px var(--brand-edge);}
+  .mobile-bar-cta .icon{color:var(--ink);}
+  body{padding-bottom:62px;}
 }
 
 @media (max-width:420px){
-  .hero-title{font-size:25px;}
-  .calc-hero-value{font-size:30px;}
-  .rating-score strong{font-size:44px;}
+  .hero-usp{flex-direction:column;align-items:flex-start;}
+  .hero-usp li{width:100%;}
+  .rating-score strong{font-size:46px;}
+  .brand img{max-width:36px;}
 }

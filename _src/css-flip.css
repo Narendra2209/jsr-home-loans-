@@ -1,0 +1,136 @@
+/* ==========================================================================
+   Direction-aware flip cards
+   ---------------------------------------------------------------------------
+   motion.js rewraps each target card as
+
+       .card.is-flip  (bare perspective container)
+         └ .flip-inner       (the thing that rotates)
+             ├ .flip-front   (the original card content, restyled here)
+             └ .flip-back    (generated: heading, label, optional CTA)
+
+   The rotation axis and its sign come from the edge the pointer crossed, so
+   entering from the left spins the card on Y and entering from the top spins
+   it on X. JS only writes --rx / --ry / --brx / --bry.
+
+   Accessibility notes, because a flip card gets this wrong by default:
+
+   - The back face restates the front, so it is aria-hidden and its CTA is
+     tabindex="-1". Screen readers and keyboards read each card once, from the
+     front, and never chase a face that is rotated away.
+   - Because of that, a back CTA is only generated for cards that ALREADY have
+     a link on the front. Cards without one (services, features, process steps)
+     get a decorative back with no button, so the flip never becomes the only
+     route to an action.
+   - The whole thing is off on touch and under reduced motion; those visitors
+     get the plain front face.
+   ========================================================================== */
+
+/* The outer card stops being a surface and becomes a viewport. Its own
+   padding, fill and border move onto .flip-front below. */
+.is-flip{
+  position:relative;
+  perspective:1400px;
+  background:none!important;
+  border:0!important;
+  box-shadow:none!important;
+  padding:0!important;
+  overflow:visible!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+.flip-inner{
+  position:relative;
+  height:100%;
+  transform-style:preserve-3d;
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  transition:transform .62s cubic-bezier(.4,.0,.2,1);
+}
+.flip-front,.flip-back{
+  -webkit-backface-visibility:hidden;backface-visibility:hidden;
+  border:1px solid var(--glass-line);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+}
+.flip-front{
+  position:relative;height:100%;
+  display:flex;flex-direction:column;
+  background:var(--glass);
+  box-shadow:
+    0 1px 0 var(--glass-edge) inset,
+    0 1px 2px rgba(20,18,16,.04),
+    0 10px 30px rgba(20,18,16,.07);
+}
+@media (min-width:1025px){
+  .flip-front{
+    background:rgba(255,255,255,.58);
+    -webkit-backdrop-filter:saturate(150%) blur(14px);
+    backdrop-filter:saturate(150%) blur(14px);
+  }
+}
+/* Pre-rotated to sit behind the front; JS swaps the axis to match the spin. */
+.flip-back{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:30px 28px;text-align:left;
+  transform:rotateX(var(--brx,0deg)) rotateY(var(--bry,180deg));
+  background:
+    radial-gradient(130% 110% at 0% 0%,rgba(241,164,33,.30) 0%,transparent 66%),
+    linear-gradient(160deg,var(--dark-2) 0%,var(--dark) 74%);
+  border-color:rgba(255,255,255,.12);
+  box-shadow:0 16px 40px rgba(10,9,8,.24);
+  color:#fff;
+}
+.flip-back-eyebrow{
+  font-family:var(--font-head);font-size:11.5px;font-weight:800;
+  letter-spacing:.11em;text-transform:uppercase;
+  color:var(--brand-soft);margin:0 0 12px;
+}
+.flip-back h3,.flip-back .flip-back-title{
+  font-family:var(--font-head);font-size:21px;font-weight:700;line-height:1.22;
+  color:#fff;margin:0 0 10px;letter-spacing:-.02em;
+}
+.flip-back p{
+  font-family:var(--font-body);font-size:14px;line-height:1.6;
+  color:rgba(255,255,255,.72);margin:0;
+}
+.flip-cta{
+  display:inline-flex;align-items:center;gap:8px;align-self:flex-start;
+  margin-top:20px;padding:11px 20px;border-radius:var(--r-sm);
+  background:#fff;color:var(--dark);
+  font-family:var(--font-head);font-size:14px;font-weight:700;
+  box-shadow:0 6px 18px rgba(10,9,8,.28);
+}
+.flip-cta::after{content:"\2192";}
+
+/* ---------- per-card geometry -----------------------------------------
+   Each card type had its padding on the card itself; that now belongs to the
+   front face. Everything else about the card's internals is unchanged. */
+.product-card .flip-front,
+.feature-card .flip-front{padding:30px 28px;}
+.timeline-step .flip-front{padding:30px 26px;}
+.doc-card .flip-front{padding:28px 26px;border-top:3px solid var(--brand);}
+.blog-card .flip-front,
+.svc-card .flip-front{padding:0;}
+
+/* Selectors that were direct-child now have a wrapper in between. */
+.svc-card .flip-front > img{width:100%;aspect-ratio:3/2;object-fit:cover;}
+.blog-card .flip-front > .blog-body{flex:1;}
+
+/* The process connector belongs to the card, not to the rotating face. */
+.timeline-step.is-flip::after{z-index:3;}
+
+/* ---------- hover / focus state --------------------------------------- */
+/* JS sets the axis on enter; this is only the safety net for a card that is
+   focused rather than hovered, where there is no pointer to take a side from. */
+.is-flip:focus-within .flip-inner{transform:rotateY(180deg);}
+
+@media (hover:none),(pointer:coarse){
+  /* No hover means no way back: render the front face flat and drop the back. */
+  .flip-inner{transform:none!important;transition:none;}
+  .flip-back{display:none;}
+  .is-flip{perspective:none;}
+}
+@media (prefers-reduced-motion:reduce){
+  .flip-inner{transform:none!important;transition:none;}
+  .flip-back{display:none;}
+}

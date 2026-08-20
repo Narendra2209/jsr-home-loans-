@@ -124,6 +124,41 @@
     });
   }
 
+
+  /* ---------- Sticky header state + scroll progress ----------
+     Both are read-only observers of scroll position. They live here rather
+     than in motion.js because they must run on touch as well, and neither
+     moves anything under the visitor's finger. */
+  (function () {
+    var header = $('.site-header');
+    var bar = null;
+    if (!reduceMotion.matches) {
+      bar = document.createElement('div');
+      bar.className = 'scroll-progress';
+      bar.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(bar);
+    }
+    if (!header && !bar) return;
+
+    var ticking = false;
+    function read() {
+      ticking = false;
+      var y = window.scrollY || document.documentElement.scrollTop || 0;
+      if (header) header.classList.toggle('is-stuck', y > 8);
+      if (bar) {
+        var doc = document.documentElement;
+        var max = (doc.scrollHeight - doc.clientHeight) || 1;
+        bar.style.setProperty('--sp', Math.min(1, Math.max(0, y / max)).toFixed(4));
+      }
+    }
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(read);
+    }, { passive: true });
+    read();
+  })();
+
   /* ---------- Accordions (FAQ) ---------- */
   $$('[data-accordion]').forEach(function (acc) {
     $$('.acc-btn', acc).forEach(function (btn) {
