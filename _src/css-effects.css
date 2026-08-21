@@ -130,3 +130,81 @@
   .calc-hero-value,.calc-out-value{animation:none;}
   .site-header{transition:none;}
 }
+
+
+/* ==========================================================================
+   Page banner - photographic
+   --------------------------------------------------------------------------
+   Every inner page opened on the same flat off-white band. It now carries a
+   photograph behind a scrim.
+
+   The scrim is doing more than decoration. Two things forced it:
+
+   1. Contrast. The heading has to stay readable over whatever pixel happens
+      to sit behind it, and a photograph gives no guarantees. A fixed dark
+      scrim bounds the worst case: at 72% over pure white the band still
+      resolves to about #4C4744, which carries white text at ~6.9:1 - above
+      the 4.5:1 AA needs - and every real photo here is darker than white.
+
+   2. Resolution. Only two images in the library are banner-grade
+      (contact-banner at 1600px, page-banner at 1200px); the rest are 800px
+      or less and have to stretch 2.4x to fill a 1920px band. Softness is
+      invisible under a heavy dark scrim and obvious under a light one. The
+      treatment that fixes the contrast problem fixes this one too.
+
+   Images are wired up by body[data-page], which build.py already emits, so
+   none of the 18 page fragments had to change. A page with no rule of its
+   own falls back to the default below - including any page added later.
+   ========================================================================== */
+.page-banner{
+  background-color:var(--dark);
+  background-image:url("../img/page-banner.jpg");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  border-bottom:1px solid var(--dark-line);
+}
+
+/* Scrim. The radial keeps the band inside the warm palette instead of
+   reading as a grey photo; the linear does the contrast work, and is
+   strongest top and bottom so the heading sits in the lighter middle. */
+.page-banner::before{
+  background:
+    radial-gradient(58% 130% at 50% 0%,rgba(241,164,33,.22) 0%,transparent 62%),
+    linear-gradient(180deg,rgba(16,14,12,.88) 0%,rgba(16,14,12,.72) 46%,
+                    rgba(16,14,12,.90) 100%);
+}
+
+/* The grid overlay was dark hairlines for a light band. Invert it. */
+.page-banner::after{
+  opacity:.6;
+  background-image:
+    linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);
+}
+
+.page-banner h1{color:#fff;}
+.page-banner .crumb{color:rgba(255,255,255,.74);}
+/* --brand-soft is 10.65:1 on a flat --dark band, but the band is not flat any
+   more. Measured against the lightest pixel it actually covers - rgb(91,86,57)
+   on the blog banner at 390px - it fell to 4.22:1, just under AA for 13.5px
+   text. This lighter gold measures 4.99:1 against that same pixel. The check
+   is in _src/audit.mjs, so swapping an image re-runs it. */
+.page-banner .crumb a{color:#FFCC77;}
+.page-banner .crumb a:hover{color:#fff;}
+.page-banner .crumb span{color:rgba(255,255,255,.42);opacity:1;}
+
+/* --- per-page imagery ---------------------------------------------------
+   Only sources 800px wide or more are used. svc-balance-transfer.jpg is the
+   thematic match for the balance-transfer page but is 363px wide - a 5.3x
+   stretch - so that page keeps the 1200px default instead. */
+body[data-page="about"] .page-banner{background-image:url("../img/about-page.jpg");}
+body[data-page="services"] .page-banner{background-image:url("../img/why-choose-us.jpg");}
+body[data-page="home-loan"] .page-banner{background-image:url("../img/svc-home-buying.jpg");}
+body[data-page="loan-against-property"] .page-banner{background-image:url("../img/svc-mortgage.jpg");}
+body[data-page="bank-comparison"] .page-banner{background-image:url("../img/svc-business.jpg");}
+body[data-page="emi-calculator"] .page-banner{background-image:url("../img/about-home.webp");}
+body[data-page="eligibility"] .page-banner{background-image:url("../img/hero-2.jpg");}
+body[data-page="contact"] .page-banner{background-image:url("../img/contact-banner.webp");}
+body[data-page="testimonials"] .page-banner{background-image:url("../img/hero-1.jpg");}
+body[data-page="blog"] .page-banner{background-image:url("../img/svc-renovation.jpg");}

@@ -95,6 +95,36 @@ It drives whatever Chrome or Edge is already installed, emulates touch at and
 below 768px (the touch-target rules are scoped to `pointer:coarse`, so an audit
 without it measures the wrong thing), and exits non-zero on a defect.
 
+### Page banners
+
+Every inner page opens on a photograph behind a dark scrim. The image is
+chosen in CSS, keyed off the `data-page` attribute `build.py` already puts on
+`<body>`, so no page fragment carries its own banner markup:
+
+```css
+body[data-page="about"] .page-banner{background-image:url("../img/about-page.jpg");}
+```
+
+The mapping lives at the bottom of `_src/css-effects.css`. A page with no rule
+of its own gets `page-banner.jpg`, so a new page is never bannerless.
+
+Two constraints shaped the scrim, and both are worth knowing before you weaken
+it:
+
+- **Contrast.** The heading sits over whatever pixel the photo happens to put
+  behind it. The scrim bounds the worst case. `_src/audit.mjs` measures this
+  for real - it screenshots each banner twice, once with the text hidden, and
+  compares every text colour against the lightest pixel it actually covers.
+- **Resolution.** Only `contact-banner.webp` (1600px) and `page-banner.jpg`
+  (1200px) are banner-grade. The rest are 800px or less and stretch about 2.4x
+  on a wide monitor. Softness disappears under a dark scrim and is obvious
+  under a light one.
+
+**If you swap a banner image**, use a source at least 800px wide, update the
+`preload:` line in the matching `_src/pages/*.html` front matter, and re-run
+the audit. `make_dist.py` fails the build if the preload and the CSS disagree,
+so the two cannot drift apart silently.
+
 ### Page front matter
 
 Each fragment starts with an optional block that drives the build:

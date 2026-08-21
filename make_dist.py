@@ -69,6 +69,7 @@ def main():
     (DIST / "assets" / "css" / "style.css").write_text(css, encoding="utf-8", newline="\n")
 
     check(pages)
+    check_banner_preloads(pages)
     total = sum(1 for p in DIST.rglob("*") if p.is_file())
     size = sum(p.stat().st_size for p in DIST.rglob("*") if p.is_file())
     print("dist/ built: %d pages, %d files, %.1f MB" % (len(pages), total, size / 1e6))
@@ -77,6 +78,46 @@ def main():
 REF_RE = re.compile(r'(?:href|src)\s*=\s*"([^"]+)"')
 URL_RE = re.compile(r'url\(\s*["\']?([^"\')]+)["\']?\s*\)')
 SKIP = ("http", "//", "#", "mailto:", "tel:", "data:", "javascript:")
+
+# The banner image for each page is chosen in CSS, but the <link rel=preload>
+# that warms it is set in the page front matter. Two places, one fact - so
+# check they still agree. A stale preload is worse than none: it downloads an
+# image the page never paints while the real one still blocks the render.
+BANNER_DEFAULT_RE = re.compile(
+    r"^\.page-banner\{.*?background-image:url\(\"\.\./img/([^\"]+)\"\)", re.S | re.M)
+BANNER_PAGE_RE = re.compile(
+    r'body\[data-page="([^"]+)"\]\s*\.page-banner\{background-image:url\("\.\./img/([^"]+)"\)')
+PRELOAD_RE = re.compile(r'<link rel="preload" as="image" href="assets/img/([^"]+)"')
+
+
+def check_banner_preloads(pages):
+    """Every banner image the CSS paints must be the one the page preloads."""
+    css = (ROOT / "_src" / "css-effects.css").read_text(encoding="utf-8")
+    default = BANNER_DEFAULT_RE.search(css)
+    if not default:
+        sys.exit("could not find the default .page-banner background in css-effects.css")
+    mapping = dict(BANNER_PAGE_RE.findall(css))
+
+    problems = []
+    for page in pages:
+        slug = page.stem
+        if slug == "index":
+            continue                      # hero, not a banner
+        html = (DIST / page.name).read_text(encoding="utf-8")
+        if 'class="page-banner' not in html:
+            continue
+        expected = mapping.get(slug, default.group(1))
+        found = PRELOAD_RE.search(html)
+        if not found:
+            problems.append("%s preloads nothing; CSS paints %s" % (slug, expected))
+        elif found.group(1) != expected:
+            problems.append("%s preloads %s but CSS paints %s"
+                            % (slug, found.group(1), expected))
+    if problems:
+        for p in problems:
+            print("  BANNER  %s" % p)
+        sys.exit("%d banner preload mismatch(es)" % len(problems))
+    print("banner preloads match the CSS")
 
 
 def check(pages):

@@ -157,7 +157,7 @@ p,li,.hero-desc,.article-lead{text-wrap:pretty;}
   outline-offset:2px;
   border-radius:var(--r-xs);
 }
-.counters :focus-visible,.site-footer :focus-visible,
+.counters :focus-visible,.site-footer :focus-visible,.page-banner :focus-visible,
 .trust-strip :focus-visible,.callback-band :focus-visible{outline-color:#fff;}
 
 
@@ -296,6 +296,11 @@ p,li,.hero-desc,.article-lead{text-wrap:pretty;}
   :root{--line:#B8B0A6;--line-2:#D8D2CA;--muted:#3B3630;--faint:#4A443E;}
   .lender-grid li{background:#fff;}
   .btn-outline,.card,.product-card,.feature-card{border-width:1.5px;}
+  /* A photograph behind a heading is exactly what this preference is asking
+     us not to do. Drop it for a flat band; the scrim colour is already the
+     one the text was contrast-checked against. */
+  .page-banner{background-image:none;}
+  .page-banner::after{display:none;}
 }
 
 /* Blur is expensive, and for some vestibular conditions unpleasant. */
