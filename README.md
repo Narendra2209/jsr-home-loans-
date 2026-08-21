@@ -33,7 +33,7 @@ are overwritten on every build.
 
 ```
 /* >>> jsr-hero ... <<< */        …from _src/css-hero.css
-/* >>> jsr-generated ... <<< */   …from _src/css-components.css + css-responsive.css
+/* >>> jsr-generated ... <<< */   …from _src/css-components.css … css-polish.css
 ```
 
 The generated block is appended at the **end** of the file, after the original
@@ -53,7 +53,8 @@ _src/
   css-motion.css          glass surfaces + cursor-motion styles
   css-flip.css            direction-aware flip cards
   css-responsive.css      breakpoints for the new components
-  build_css.py            splices the five files above into assets/css/style.css
+  css-polish.css          breakpoint ladder, fluid rhythm, touch targets, depth
+  build_css.py            splices the six files above into assets/css/style.css
 assets/
   css/style.css           the only stylesheet (generated in part — see above)
   js/main.js              nav, accordion, tabs, reveals, counters, video embeds
@@ -61,6 +62,38 @@ assets/
   js/tools.js             calculators, comparison table, lead forms
   img/                    images
 ```
+
+### Breakpoints
+
+`_src/css-polish.css` is spliced in last and holds the ladder. Four widths
+carry structure, and new rules belong on one of them:
+
+| Query | Name | What changes |
+|---|---|---|
+| `<=1023.98px` | nav | header runs out of room, hamburger drawer takes over |
+| `<=1024px` | tablet | multi-column grids drop to two |
+| `<=767px` | phone | one column, sticky bottom action bar |
+| `<=359.98px` | small | tightened gutter and hero |
+
+Plus three that are not about width at all: `(pointer:coarse)` for touch
+targets, `(max-height:540px) and (orientation:landscape)` for a phone turned
+sideways, and `(min-width:1600px)` for large monitors.
+
+Section and gutter spacing is `clamp()`, not stepped per breakpoint, so it
+interpolates between those widths instead of jumping.
+
+Run the audit before shipping a layout change - it drives headless Chrome over
+every page at seven widths and fails on horizontal overflow or a touch target
+under 24px:
+
+```bash
+npm install puppeteer-core   # dev-only, one time; the site itself stays dep-free
+node _src/audit.mjs          # add a page list to narrow it: node _src/audit.mjs index,contact
+```
+
+It drives whatever Chrome or Edge is already installed, emulates touch at and
+below 768px (the touch-target rules are scoped to `pointer:coarse`, so an audit
+without it measures the wrong thing), and exits non-zero on a defect.
 
 ### Page front matter
 

@@ -73,6 +73,11 @@ def main():
         + read(SRC / "css-effects.css").strip()
         + "\n\n"
         + read(SRC / "css-responsive.css").strip()
+        + "\n\n"
+        # Polish last of all: the breakpoint ladder, fluid rhythm and
+        # touch targets are deliberate overrides of everything above
+        # them, and rely on source order to win same-specificity ties.
+        + read(SRC / "css-polish.css").strip()
         + "\n"
         + END
         + "\n\n"

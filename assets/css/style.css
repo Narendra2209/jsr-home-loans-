@@ -642,20 +642,29 @@ hr{border:0;border-top:1px solid var(--line);margin:32px 0;}
 }
 
 @media (max-width:900px){
-  .topbar-hours{display:none;}
+  /* Must name the element too. .topbar-meta li sets display:flex at (0,1,1),
+     which outranks a bare .topbar-hours at (0,1,0) no matter how far down the
+     sheet it sits - so the short form silently did nothing and the hours line
+     wrapped the utility bar onto two rows at every tablet width. */
+  .topbar-meta li.topbar-hours{display:none;}
 }
 
-@media (max-width:767px){
-  :root{--section:52px;--gutter:18px;}
-  html{scroll-padding-top:76px;}
+/* --- navigation: drawer from tablet down --------------------------------
+   Six top-level items, two dropdowns, a phone number and a CTA need about
+   1030px of header to sit on one line. The drawer used to start at 767px,
+   one pixel below where the layout actually gives way, so at 768px - iPad
+   portrait, and the single most common tablet width - the CTA hung 48px
+   past the viewport and every page scrolled sideways.
 
-  .topbar{display:none;}
+   The nav therefore gets its own breakpoint, above the content one. Header
+   capacity and column-stacking are different questions and were never going
+   to change at the same width. */
+@media (max-width:1023.98px){
+  html{scroll-padding-top:76px;}
   .site-header .container{min-height:64px;gap:12px;}
   .nav{margin-left:auto;}
   .nav-toggle{display:block;}
   .btn-nav-cta{display:none;}
-  .brand-text strong{font-size:18px;}
-  .brand-text span{font-size:10px;}
 
   /* Drawer, anchored to the sticky header rather than to the page. */
   .nav-menu{
@@ -663,7 +672,11 @@ hr{border:0;border-top:1px solid var(--line);margin:32px 0;}
     flex-direction:column;align-items:stretch;gap:0;
     background:#fff;border-top:1px solid var(--line);
     box-shadow:var(--shadow-lg);
-    max-height:calc(100vh - 64px);overflow-y:auto;padding:8px;
+    /* dvh keeps the drawer off the URL bar on mobile Safari and Chrome,
+       which shrink the viewport as you scroll. vh first, for old browsers. */
+    max-height:calc(100vh - 64px);
+    max-height:calc(100dvh - 64px);
+    overflow-y:auto;overscroll-behavior:contain;padding:8px;
   }
   .nav-menu.is-open{display:flex;}
   .nav-menu > li{width:100%;}
@@ -672,6 +685,14 @@ hr{border:0;border-top:1px solid var(--line);margin:32px 0;}
   }
   .nav-menu > li > a.is-active{background:var(--brand-50);}
   .nav-menu > li > a.is-active::after{display:none;}
+}
+
+@media (max-width:767px){
+  :root{--section:52px;--gutter:18px;}
+
+  .topbar{display:none;}
+  .brand-text strong{font-size:18px;}
+  .brand-text span{font-size:10px;}
 
   .split,.mv-grid,.contact-grid{grid-template-columns:1fr;gap:28px;}
   .counters{padding:44px var(--gutter);}
@@ -2207,21 +2228,12 @@ body::before{
   .footer-grid{grid-template-columns:1fr 1fr;gap:36px;}
 }
 
-@media (max-width:767px){
-  .hero{padding:32px var(--gutter) 40px;}
-  .hero-inner{gap:22px;}
-  .hero-title{margin-bottom:0;}
-  .hero-desc{font-size:15.5px;margin-bottom:20px;}
-  .hero-kicker{font-size:12px;margin-bottom:16px;padding:6px 13px 6px 10px;}
-  .hero-usp{gap:8px;margin-bottom:22px;}
-  .hero-usp li{font-size:13px;padding:7px 12px;}
-  .hero-btns{width:100%;}
-  .hero-btns .btn{flex:1;justify-content:center;}
-  .hero-calc{max-width:none;}
-  .hero-calc .calc-card{padding:20px 18px 22px;}
-  .hero-calc .calc-card-title{margin-bottom:14px;}
-  .hero-calc .calc-row{margin-bottom:17px;}
-
+/* --- navigation: drawer from tablet down --------------------------------
+   Matches the drawer breakpoint in style.css. This half adds the sub-menu
+   behaviour and the no-JS fallback: without JS the hamburger is inert, so
+   the menu renders as a plain stacked list and the controls that would do
+   nothing are dropped. */
+@media (max-width:1023.98px){
   /* --- navigation -------------------------------------------------------
      The drawer geometry lives in style.css; this adds the sub-menu behaviour
      and the no-JS fallback. Without JS the hamburger is inert, so the menu
@@ -2246,6 +2258,22 @@ body::before{
   .has-sub.is-open .sub-menu{display:block;}
   .sub-menu a{text-align:left;padding:11px 12px;}
   .sub-menu a:hover{background:transparent;}
+}
+
+@media (max-width:767px){
+  .hero{padding:32px var(--gutter) 40px;}
+  .hero-inner{gap:22px;}
+  .hero-title{margin-bottom:0;}
+  .hero-desc{font-size:15.5px;margin-bottom:20px;}
+  .hero-kicker{font-size:12px;margin-bottom:16px;padding:6px 13px 6px 10px;}
+  .hero-usp{gap:8px;margin-bottom:22px;}
+  .hero-usp li{font-size:13px;padding:7px 12px;}
+  .hero-btns{width:100%;}
+  .hero-btns .btn{flex:1;justify-content:center;}
+  .hero-calc{max-width:none;}
+  .hero-calc .calc-card{padding:20px 18px 22px;}
+  .hero-calc .calc-card-title{margin-bottom:14px;}
+  .hero-calc .calc-row{margin-bottom:17px;}
 
   .trust-strip .container{grid-template-columns:1fr;gap:18px;}
   .lender-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
@@ -2348,5 +2376,320 @@ body::before{
   .hero-usp li{width:100%;}
   .rating-score strong{font-size:46px;}
   .brand img{max-width:36px;}
+}
+
+/* ==========================================================================
+   Refinement layer
+   --------------------------------------------------------------------------
+   Loaded last, so where it ties on specificity it wins. Everything here is a
+   refinement of rules that already work - nothing in this file is load-bearing
+   for layout. Delete it and the site still stands up; it just reads cheaper.
+
+   BREAKPOINT LADDER
+   The sheet had grown twelve ad-hoc widths (1180, 1024, 900, 880, 860, 840,
+   767, 760, 640, 580, 540, 420) because each component picked the number where
+   it personally started to look wrong. That is how you end up with a 48px
+   overflow at 768px that nobody notices: no single width is ever tested.
+
+   These four carry structure. New rules belong on one of them unless a
+   component genuinely breaks somewhere else - and if it does, say so in a
+   comment next to the number.
+
+     <=1023.98   nav      header runs out of room -> hamburger drawer
+     <=1024      tablet   multi-column grids drop to two
+     <=767       phone    everything drops to one column, sticky action bar
+     <=359.98    small    Galaxy-class phones, tightened
+
+   Ranges use .98 rather than whole pixels so a 1024px viewport is matched by
+   exactly one side of the boundary. Browsers report fractional widths at
+   non-integer zoom, and a max-width:1024 / min-width:1025 pair leaves a dead
+   strip between them.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   1. Fluid rhythm
+   The section and gutter tokens were stepped down through four media queries
+   (92 -> 76 -> 64 -> 52). Between any two of those widths the spacing was
+   simply wrong, by up to 16px. clamp() interpolates instead, which also makes
+   those four overrides dead weight - they are still in the sheet above, and
+   still lose to these, because this file is last.
+   -------------------------------------------------------------------------- */
+:root{
+  --section:clamp(52px,6.4vw,92px);
+  --gutter:clamp(18px,2.4vw,26px);
+
+  /* Depth, restated as one scale. The old shadows were a single soft blur,
+     which reads as a smudge rather than a lift. Each level now pairs a tight
+     contact shadow with a wide ambient one - the two-light setup a physical
+     object actually has. Tints stay warm; a neutral shadow under a warm card
+     turns the paper grey. */
+  --shadow-xs:0 1px 2px rgba(20,18,16,.06);
+  --shadow-sm:0 1px 2px rgba(20,18,16,.06),0 3px 8px rgba(20,18,16,.05);
+  --shadow:0 1px 2px rgba(20,18,16,.05),0 4px 10px rgba(20,18,16,.05),
+           0 12px 28px rgba(20,18,16,.06);
+  --shadow-lg:0 1px 3px rgba(20,18,16,.06),0 8px 20px rgba(20,18,16,.07),
+              0 24px 56px rgba(20,18,16,.10);
+  --shadow-xl:0 2px 6px rgba(20,18,16,.07),0 14px 34px rgba(20,18,16,.10),
+              0 40px 90px rgba(20,18,16,.14);
+  /* Brand-tinted lift, for controls that are already orange. A grey shadow
+     under an orange button reads as dirt. */
+  --shadow-brand:0 1px 2px rgba(20,18,16,.10),0 6px 16px rgba(191,124,12,.24),
+                 0 16px 34px rgba(191,124,12,.16);
+}
+
+
+/* --------------------------------------------------------------------------
+   2. Typographic finish
+   The cheapest distance between "a website" and "a considered website".
+   -------------------------------------------------------------------------- */
+
+/* A ragged right edge on a heading is the clearest tell of an untended site.
+   balance evens the last line across the whole heading; pretty only prevents
+   orphans, which is all body copy needs and is far cheaper to compute. */
+h1,h2,h3,.hero-title,.section-head h2,.section-head p,.page-banner h1{
+  text-wrap:balance;
+}
+p,li,.hero-desc,.article-lead{text-wrap:pretty;}
+
+/* Money must not shimmy. The EMI figure re-renders on every slider step, and
+   with proportional digits each redraw changes width, so the number visibly
+   jitters as you drag it. Tabular figures lock the advance width. */
+.calc-hero-value,.calc-out-main,.calc-out-value,.calc-out-side,
+.counter-value,.counter-number,.rate-figure,.calc-value input,
+.calc-scale,.data-table td,.amort-table td{
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum" 1;
+}
+
+/* Optical alignment: display type at 800 weight needs its tracking pulled in
+   or it reads loose. Small caps labels need the opposite. */
+.section-head h2{letter-spacing:-.022em;}
+.eyebrow,.section-head .eyebrow{letter-spacing:.14em;}
+
+/* Long-form measure. Past roughly 75 characters the eye loses the line
+   return. The prose column is currently governed only by its grid track. */
+.prose p,.prose li,.article-lead{max-width:68ch;}
+
+/* Anchor targets clear the sticky header. scroll-padding-top on <html> covers
+   in-page links; this covers programmatic focus, which ignores it. */
+:target{scroll-margin-top:96px;}
+
+
+/* --------------------------------------------------------------------------
+   3. Depth and surface
+   -------------------------------------------------------------------------- */
+.card,.product-card,.feature-card,.blog-card,.doc-card,.team-card,
+.testimonial,.calc-card,.lender-grid li,.timeline-step{
+  border-color:var(--line);
+  box-shadow:var(--shadow-sm);
+}
+
+/* The partner-lender grid was twelve identical flat rectangles - the emptiest
+   block on the home page. A faint vertical wash and a real hover give it the
+   weight of a logo wall without inventing logos we have no licence for. */
+.lender-grid li{
+  background:linear-gradient(180deg,#fff 0%,var(--surface-2) 100%);
+  transition:transform .22s cubic-bezier(.2,.7,.3,1),box-shadow .22s ease,
+             border-color .22s ease;
+}
+
+/* Hover belongs to devices that have one. A :hover rule on a touchscreen
+   sticks after the tap and leaves the card lit until you tap elsewhere. */
+@media (hover:hover) and (pointer:fine){
+  .lender-grid li:hover{
+    transform:translateY(-2px);
+    border-color:var(--brand-200);
+    box-shadow:var(--shadow);
+  }
+  .product-card:hover,.feature-card:hover,.blog-card:hover,.doc-card:hover{
+    box-shadow:var(--shadow-lg);
+  }
+  .btn-primary:hover{box-shadow:var(--shadow-brand);}
+}
+
+.btn-primary{box-shadow:0 1px 2px rgba(20,18,16,.08),0 4px 12px rgba(191,124,12,.20);}
+
+/* .btn is white-space:nowrap, which is right for a button in a row of buttons
+   and wrong for one dropped inline in an article: it inherits the paragraph
+   width rather than a grid track, so a long label runs straight past the
+   gutter. On the balance-transfer guide that was a 21px sideways scroll at
+   360px. line-height comes up from 1 because a wrapped label at 1 collides. */
+.prose .btn{
+  max-width:100%;white-space:normal;text-align:center;line-height:1.3;
+}
+
+/* An ease-out curve rather than the browser default, which is ease-in-out and
+   makes every transition feel like it is wading. */
+.btn,.card,.product-card,.feature-card,.blog-card{
+  transition-timing-function:cubic-bezier(.2,.7,.3,1);
+}
+
+
+/* --------------------------------------------------------------------------
+   4. Focus
+   The existing rings are already correct on contrast. These add the offset
+   that keeps the ring off the glyphs, and give focus-visible its own
+   treatment so mouse users never see it.
+   -------------------------------------------------------------------------- */
+:focus-visible{
+  outline:3px solid var(--ink);
+  outline-offset:2px;
+  border-radius:var(--r-xs);
+}
+.counters :focus-visible,.site-footer :focus-visible,
+.trust-strip :focus-visible,.callback-band :focus-visible{outline-color:#fff;}
+
+
+/* --------------------------------------------------------------------------
+   5. Touch targets
+   WCAG 2.2 SC 2.5.8 asks for 24x24; the platform guidelines ask for 44x44.
+   The audit found 21 controls under 44px on the home page alone, the worst
+   being the calculator sliders at 6px tall. Scoped to coarse pointers, so
+   the desktop rendering is untouched.
+   -------------------------------------------------------------------------- */
+@media (pointer:coarse){
+  .btn,.mobile-bar a,.acc-btn,.segmented button,.calc-presets button,
+  .tab-list button{
+    min-height:44px;
+  }
+
+  /* The utility bar is 40px tall by design and only exists from 768px up.
+     Forcing its two links to 44px would inflate the whole bar for a phone
+     number that already has a 44px target on the same screen - the floating
+     call button. 24px is the SC 2.5.8 minimum and the right call here. */
+  .topbar-meta a{display:inline-flex;align-items:center;min-height:24px;}
+  .nav-toggle{width:44px;height:44px;}
+  .footer-social a,.topbar-social a{width:44px;height:44px;}
+  .sub-toggle{min-width:44px;min-height:44px;}
+  .calc-value,.calc-value input{min-height:44px;}
+
+  /* Links inside a run of body copy cannot be padded to 44px without
+     wrecking the line box, and SC 2.5.8 exempts them for that reason.
+     Standalone links in a list are not exempt.
+
+     inline-flex with a min-height rather than padding: padding only lands on
+     44px if you already know the line-height the link inherits, and these
+     four lists inherit four different ones. */
+  .footer-links a,.footer-legal a,.footer-contact a,.sitemap-grid a{
+    display:inline-flex;align-items:center;min-height:44px;
+  }
+
+  /* Breadcrumbs sit on one line inside the banner and would tear it apart at
+     44px. 24x24 is the figure SC 2.5.8 actually normatively requires; the
+     44px elsewhere is the stricter platform guideline. */
+  .crumb a{display:inline-flex;align-items:center;min-height:24px;}
+
+  /* Checkboxes ship at 13px - under the 24px minimum on both axes. Scale the
+     control, and let the label carry the rest of the target.
+
+     flex:none matters. Both checkbox labels are flex rows, so without it the
+     box keeps its new 24px height but is shrunk on the cross axis by the text
+     beside it - .calc-check measured 14x24, which still fails 2.5.8. */
+  input[type=checkbox],input[type=radio]{width:24px;height:24px;flex:none;}
+  .form-consent{min-height:44px;}
+
+  /* --- sliders ---------------------------------------------------------
+     The painted track is 6px and the input element was 6px with it, so the
+     grab area was 6px tall - unusable with a thumb. The input grows to 44px
+     while the track stays 6px, painted as a non-repeating background centred
+     in the taller box. The thumb is nudged down by half the difference,
+     because Chrome aligns it to the top of the track rather than the middle. */
+  .calc-row input[type=range],.compare-control input[type=range]{
+    height:44px;
+    background-repeat:no-repeat;
+    background-size:100% 6px;
+    background-position:0 50%;
+  }
+  .calc-row input[type=range]::-webkit-slider-runnable-track,
+  .compare-control input[type=range]::-webkit-slider-runnable-track{
+    height:44px;background:transparent;border:0;
+  }
+  .calc-row input[type=range]::-webkit-slider-thumb,
+  .compare-control input[type=range]::-webkit-slider-thumb{margin-top:11px;}
+  .calc-row input[type=range]::-moz-range-track,
+  .compare-control input[type=range]::-moz-range-track{height:44px;}
+  /* Claw back the space the taller input just took from the scale labels. */
+  .calc-scale{margin-top:-10px;}
+}
+
+
+/* --------------------------------------------------------------------------
+   6. Large screens
+   The container stopped at 1200px, so a 1920px monitor showed 360px of empty
+   margin either side and the page read like a narrow layout that had been
+   stretched. Widen in one step, and buy back vertical rhythm to match.
+   -------------------------------------------------------------------------- */
+@media (min-width:1600px){
+  :root{--container:1320px;--section:104px;}
+  .hero-inner{gap:0 56px;}
+}
+
+
+/* --------------------------------------------------------------------------
+   7. Small phones
+   360px and under is a large slice of Indian mobile traffic. The gutter and
+   the hero were both tuned at 390.
+   -------------------------------------------------------------------------- */
+@media (max-width:359.98px){
+  :root{--gutter:14px;}
+  .hero-title{font-size:29px;letter-spacing:-.026em;}
+  .hero-btns{flex-direction:column;}
+  .hero-btns .btn{width:100%;}
+  .calc-value input{width:74px;}
+  .mobile-bar a{font-size:10.5px;gap:3px;}
+  .brand-text span{font-size:9px;letter-spacing:.06em;}
+  /* Two 12.5px bank names per row stop fitting; one column beats clipping. */
+  .lender-grid{grid-template-columns:1fr;}
+}
+
+
+/* --------------------------------------------------------------------------
+   8. Landscape phones
+   A 390x844 phone turned sideways is 844x390 - a viewport 390px tall. The
+   hero alone is taller than that, so the page opens on a headline with no
+   visible content under it. None of this is a width problem, which is why a
+   width-only breakpoint ladder never caught it.
+   -------------------------------------------------------------------------- */
+@media (max-height:540px) and (orientation:landscape) and (pointer:coarse){
+  :root{--section:40px;}
+  .hero{padding-block:24px 28px;}
+  .hero-title{font-size:clamp(26px,4.4vw,34px);margin-bottom:12px;}
+  .hero-desc,.hero-usp{display:none;}
+  .page-banner{padding-block:28px 30px;}
+  /* The drawer must not become the whole screen. */
+  .nav-menu{max-height:calc(100dvh - 64px);}
+  /* The sticky bar costs 62px of a 390px viewport. */
+  .mobile-bar{display:none;}
+  body{padding-bottom:0;}
+  .float-btns{bottom:14px;}
+}
+
+
+/* --------------------------------------------------------------------------
+   9. User preferences
+   -------------------------------------------------------------------------- */
+
+/* Windows high-contrast, and "increase contrast" on iOS/macOS. Decorative
+   washes drop out; borders get their own colour rather than a tint. */
+@media (prefers-contrast:more){
+  :root{--line:#B8B0A6;--line-2:#D8D2CA;--muted:#3B3630;--faint:#4A443E;}
+  .lender-grid li{background:#fff;}
+  .btn-outline,.card,.product-card,.feature-card{border-width:1.5px;}
+}
+
+/* Blur is expensive, and for some vestibular conditions unpleasant. */
+@media (prefers-reduced-transparency:reduce){
+  .mobile-bar,.site-header{
+    -webkit-backdrop-filter:none;backdrop-filter:none;background:#fff;
+  }
+}
+
+/* The existing reduced-motion block kills transforms. Extend it to the ones
+   added above, and to smooth scrolling, which is a motion effect too. */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .lender-grid li{transition:none;}
+  .lender-grid li:hover{transform:none;}
 }
 /* <<< end jsr-generated >>> */

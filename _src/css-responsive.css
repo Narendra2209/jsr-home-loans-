@@ -43,21 +43,12 @@
   .footer-grid{grid-template-columns:1fr 1fr;gap:36px;}
 }
 
-@media (max-width:767px){
-  .hero{padding:32px var(--gutter) 40px;}
-  .hero-inner{gap:22px;}
-  .hero-title{margin-bottom:0;}
-  .hero-desc{font-size:15.5px;margin-bottom:20px;}
-  .hero-kicker{font-size:12px;margin-bottom:16px;padding:6px 13px 6px 10px;}
-  .hero-usp{gap:8px;margin-bottom:22px;}
-  .hero-usp li{font-size:13px;padding:7px 12px;}
-  .hero-btns{width:100%;}
-  .hero-btns .btn{flex:1;justify-content:center;}
-  .hero-calc{max-width:none;}
-  .hero-calc .calc-card{padding:20px 18px 22px;}
-  .hero-calc .calc-card-title{margin-bottom:14px;}
-  .hero-calc .calc-row{margin-bottom:17px;}
-
+/* --- navigation: drawer from tablet down --------------------------------
+   Matches the drawer breakpoint in style.css. This half adds the sub-menu
+   behaviour and the no-JS fallback: without JS the hamburger is inert, so
+   the menu renders as a plain stacked list and the controls that would do
+   nothing are dropped. */
+@media (max-width:1023.98px){
   /* --- navigation -------------------------------------------------------
      The drawer geometry lives in style.css; this adds the sub-menu behaviour
      and the no-JS fallback. Without JS the hamburger is inert, so the menu
@@ -82,6 +73,22 @@
   .has-sub.is-open .sub-menu{display:block;}
   .sub-menu a{text-align:left;padding:11px 12px;}
   .sub-menu a:hover{background:transparent;}
+}
+
+@media (max-width:767px){
+  .hero{padding:32px var(--gutter) 40px;}
+  .hero-inner{gap:22px;}
+  .hero-title{margin-bottom:0;}
+  .hero-desc{font-size:15.5px;margin-bottom:20px;}
+  .hero-kicker{font-size:12px;margin-bottom:16px;padding:6px 13px 6px 10px;}
+  .hero-usp{gap:8px;margin-bottom:22px;}
+  .hero-usp li{font-size:13px;padding:7px 12px;}
+  .hero-btns{width:100%;}
+  .hero-btns .btn{flex:1;justify-content:center;}
+  .hero-calc{max-width:none;}
+  .hero-calc .calc-card{padding:20px 18px 22px;}
+  .hero-calc .calc-card-title{margin-bottom:14px;}
+  .hero-calc .calc-row{margin-bottom:17px;}
 
   .trust-strip .container{grid-template-columns:1fr;gap:18px;}
   .lender-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
