@@ -3,6 +3,8 @@ import { MessageCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { mailtoUrl, sendEnquiry, whatsappUrl, type Enquiry } from "@/lib/enquiry";
+import { openMail } from "@/lib/mailto";
+import { office } from "@/content/company";
 
 type Props = {
   /** What the page already knows — appended to the enquiry so nobody retypes it. */
@@ -64,13 +66,23 @@ const LeadCapture: React.FC<Props> = ({
     }
 
     // Nothing was delivered. Hand off rather than pretend.
-    window.location.href = mailtoUrl(enquiry());
+    const opened = await openMail(mailtoUrl(enquiry()));
+
+    if (opened) {
+      toast({
+        title: "Opening your email app",
+        description:
+          result.outcome === "failed"
+            ? "We could not submit that just now. Send it as an email, or use WhatsApp."
+            : "Send the email that opens, or use the WhatsApp button — both reach us directly.",
+      });
+      return;
+    }
+
+    // No mail app took the hand-off. Saying one opened would lose the enquiry.
     toast({
-      title: "Opening your email app",
-      description:
-        result.outcome === "failed"
-          ? "We could not submit that just now. Send it as an email, or use WhatsApp."
-          : "Send the email that opens, or use the WhatsApp button — both reach us directly.",
+      title: "No email app opened",
+      description: `This device has no mail app set up for email links. Use the 'Send on WhatsApp' button — it carries the same details — or write to ${office.email}.`,
     });
   };
 

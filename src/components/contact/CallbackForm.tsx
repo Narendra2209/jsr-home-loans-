@@ -3,6 +3,8 @@ import { MessageCircle, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { mailtoUrl, sendEnquiry, whatsappUrl, type Enquiry } from "@/lib/enquiry";
+import { openMail } from "@/lib/mailto";
+import { office } from "@/content/company";
 
 const timeSlots = [
   "Morning (9:30am – 12pm)",
@@ -91,13 +93,23 @@ const CallbackForm: React.FC<{ defaultService?: string }> = ({ defaultService = 
     }
 
     // Nothing was delivered — hand off rather than claim a callback that is not booked.
-    window.location.href = mailtoUrl(enquiry());
+    const opened = await openMail(mailtoUrl(enquiry()));
+
+    if (opened) {
+      toast({
+        title: "Opening your email app",
+        description:
+          result.outcome === "failed"
+            ? "We could not submit that just now. Send the email that opens, or use WhatsApp."
+            : "Send the email that opens, or use WhatsApp — both reach us directly.",
+      });
+      return;
+    }
+
+    // No mail app took the hand-off. Saying one opened would lose the enquiry.
     toast({
-      title: "Opening your email app",
-      description:
-        result.outcome === "failed"
-          ? "We could not submit that just now. Send the email that opens, or use WhatsApp."
-          : "Send the email that opens, or use WhatsApp — both reach us directly.",
+      title: "No email app opened",
+      description: `This device has no mail app set up for email links. Use the 'Send on WhatsApp' button — it carries the same details — or write to ${office.email}.`,
     });
   };
 

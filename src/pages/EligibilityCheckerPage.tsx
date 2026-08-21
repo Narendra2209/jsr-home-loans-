@@ -17,9 +17,9 @@ import {
 } from "lucide-react";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import SliderField from "@/components/SliderField";
 import LeadCapture from "@/components/LeadCapture";
-import { emiFor, inr, principalFor, rupees } from "@/lib/loan";
+import { asAmount, asRoundedRupees, emiFor, inr, principalFor, rupees } from "@/lib/loan";
 import { indicativeRate } from "@/content/company";
 import heroImg from "@/assets/eligibility-hero.jpg";
 import {
@@ -49,58 +49,6 @@ const assuranceIcons: Record<CheckerAssuranceIcon, React.ComponentType<{ classNa
   instant: Clock,
 };
 
-
-type FieldProps = {
-  id: string;
-  label: string;
-  value: string;
-  min: number;
-  max: number;
-  step: number;
-  sliderValue: number;
-  onChange: (value: number) => void;
-  hint?: string;
-};
-
-const Field: React.FC<FieldProps> = ({
-  id,
-  label,
-  value,
-  min,
-  max,
-  step,
-  sliderValue,
-  onChange,
-  hint,
-}) => (
-  <div>
-    <div className="flex items-baseline justify-between gap-3">
-      <span id={id} className="text-sm text-muted-foreground">{label}</span>
-      <span className="font-heading text-sm font-semibold tabular-nums">{value}</span>
-    </div>
-    <Slider
-      className="mt-3"
-      value={[sliderValue]}
-      min={min}
-      max={max}
-      step={step}
-      onValueChange={([next]) => onChange(next)}
-      aria-labelledby={id}
-      aria-valuetext={value}
-    />
-    {hint && <p className="mt-2 text-xs text-muted-foreground">{hint}</p>}
-  </div>
-);
-
-/** Same floor-to-lakh as asAmount, but written out in full: "₹25,00,000". */
-const asRoundedRupees = (rupeesValue: number) =>
-  rupees(Math.floor(rupeesValue / 100000) * 100000);
-
-const asAmount = (rupeesValue: number) => {
-  const lakhs = rupeesValue / 100000;
-  if (lakhs >= 100) return `₹${(lakhs / 100).toFixed(2)} Cr`;
-  return `₹${Math.floor(lakhs)} lakh`;
-};
 
 const EligibilityCheckerPage: React.FC = () => {
   const [employment, setEmployment] = useState<EmploymentType>("salaried");
@@ -292,7 +240,7 @@ const EligibilityCheckerPage: React.FC = () => {
             </fieldset>
 
             <div className="mt-7 space-y-6">
-              <Field
+              <SliderField
                 id="elig-income"
                 label="Monthly take-home income"
                 value={`₹${inr.format(income)}`}
@@ -303,7 +251,7 @@ const EligibilityCheckerPage: React.FC = () => {
                 onChange={setIncome}
                 hint="After tax and deductions — what actually reaches your account."
               />
-              <Field
+              <SliderField
                 id="elig-age"
                 label="Your age"
                 value={`${age} years`}
@@ -314,7 +262,7 @@ const EligibilityCheckerPage: React.FC = () => {
                 onChange={setAge}
                 hint={`Tenure is capped at age ${retirementAge[employment]}, which limits how long you can borrow for.`}
               />
-              <Field
+              <SliderField
                 id="elig-emi"
                 label="Existing EMIs"
                 value={`₹${inr.format(existingEmi)}`}

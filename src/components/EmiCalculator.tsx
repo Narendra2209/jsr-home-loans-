@@ -1,39 +1,9 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import SliderField from "@/components/SliderField";
 import { indicativeRate } from "@/content/company";
 import { emiFor, inr, shortAmount } from "@/lib/loan";
-
-type FieldProps = {
-  id: string;
-  label: string;
-  value: string;
-  min: number;
-  max: number;
-  step: number;
-  sliderValue: number;
-  onChange: (value: number) => void;
-};
-
-const Field: React.FC<FieldProps> = ({ id, label, value, min, max, step, sliderValue, onChange }) => (
-  <div>
-    <div className="flex items-baseline justify-between gap-3">
-      <span id={id} className="text-sm text-muted-foreground">{label}</span>
-      <span className="font-heading text-sm font-semibold tabular-nums">{value}</span>
-    </div>
-    <Slider
-      className="mt-3"
-      value={[sliderValue]}
-      min={min}
-      max={max}
-      step={step}
-      onValueChange={([next]) => onChange(next)}
-      aria-labelledby={id}
-      aria-valuetext={value}
-    />
-  </div>
-);
 
 const EmiCalculator: React.FC = () => {
   const [amount, setAmount] = useState(3000000);
@@ -52,14 +22,14 @@ const EmiCalculator: React.FC = () => {
   }, [amount, rate, years]);
 
   return (
-    <div className="rounded-xl border bg-card p-6 text-card-foreground shadow-elegant">
+    <div className="rounded-2xl border bg-card p-6 text-card-foreground shadow-[0_28px_70px_-32px_hsl(var(--brand)/0.7)] md:p-7">
       <div className="flex items-center justify-between gap-3">
         <h2 className="font-heading text-lg font-semibold">EMI Calculator</h2>
         <span className="text-xs text-muted-foreground">Instant estimate</span>
       </div>
 
       <div className="mt-5 space-y-5">
-        <Field
+        <SliderField
           id="emi-amount"
           label="Loan amount"
           value={shortAmount(amount)}
@@ -69,7 +39,7 @@ const EmiCalculator: React.FC = () => {
           sliderValue={amount}
           onChange={setAmount}
         />
-        <Field
+        <SliderField
           id="emi-rate"
           label="Interest rate"
           value={`${rate.toFixed(2)}% p.a.`}
@@ -79,7 +49,7 @@ const EmiCalculator: React.FC = () => {
           sliderValue={rate}
           onChange={setRate}
         />
-        <Field
+        <SliderField
           id="emi-tenure"
           label="Tenure"
           value={`${years} ${years === 1 ? "year" : "years"}`}

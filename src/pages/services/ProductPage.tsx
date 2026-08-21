@@ -210,30 +210,6 @@ const ProductPage: React.FC = () => {
           </div>
         </section>
       )}
-
-      {/* CTA */}
-      <section className="bg-brand py-16 text-brand-foreground">
-        <div className="container">
-          <p className="text-sm font-semibold uppercase tracking-widest text-brand-accent">
-            Next step
-          </p>
-          <h2 className="mt-2 max-w-[24ch] font-heading text-3xl font-semibold">
-            Tell us the situation. We will tell you honestly whether it works.
-          </h2>
-          <p className="mt-3 max-w-prose text-brand-foreground/85">
-            If a different loan would serve you better, we will say so — including when that means we
-            place a smaller file.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild variant="hero" size="lg">
-              <Link to={enquiryHref}>Apply for {product.name}</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link to="/eligibility-checker">Check My Eligibility</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
     </>
   );
 };

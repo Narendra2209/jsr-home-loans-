@@ -2,9 +2,11 @@ import React from "react";
 import { useSearchParams } from "react-router-dom";
 import { Mail, MessageCircle, Phone, ShieldCheck, Users, Zap } from "lucide-react";
 import SEO from "@/components/SEO";
+import { useToast } from "@/hooks/use-toast";
 import CallbackForm from "@/components/contact/CallbackForm";
 import OfficeMap from "@/components/contact/OfficeMap";
 import { whatsappUrl } from "@/lib/enquiry";
+import { copyText, openEmail } from "@/lib/mailto";
 import { office } from "@/content/company";
 import heroImg from "@/assets/contact-hero.jpg";
 
@@ -17,6 +19,28 @@ const trustPoints = [
 const Contact: React.FC = () => {
   const [params] = useSearchParams();
   const defaultService = params.get("service") ?? "";
+  const { toast } = useToast();
+
+  /**
+   * A bare mailto: link does nothing on a device with no mail app registered,
+   * and says nothing about it either. Hand over the address instead of leaving
+   * the visitor clicking a card that appears broken.
+   */
+  const onEmailClick = async (event: React.MouseEvent<HTMLAnchorElement>) => {
+    // Leave modified clicks alone — "copy link address" should still work.
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+    event.preventDefault();
+
+    if (await openEmail(office.email)) return;
+
+    // Both the mail app and the Gmail window were refused — hand over the address.
+    const copied = await copyText(office.email);
+    toast({
+      title: copied ? `${office.email} copied` : `Write to us at ${office.email}`,
+      description:
+        "Your browser blocked the compose window. Paste the address into your email — or message us on WhatsApp, which always works.",
+    });
+  };
 
   const openingMessage = whatsappUrl({
     name: "",
@@ -46,7 +70,7 @@ const Contact: React.FC = () => {
       value: office.phone,
       note: office.hours,
       href: `tel:${office.phone}`,
-      className: "bg-brand text-brand-foreground",
+      className: "border border-brand-foreground/20 bg-brand text-brand-foreground",
       valueClass: "text-brand-accent",
       external: false,
     },
@@ -66,6 +90,7 @@ const Contact: React.FC = () => {
       value: office.email,
       note: "For documents and detailed questions",
       href: `mailto:${office.email}`,
+      onClick: onEmailClick,
       className: "border bg-card",
       valueClass: "text-foreground",
       external: false,
@@ -127,8 +152,9 @@ const Contact: React.FC = () => {
         </div>
       </section>
 
-      {/* Immediate actions */}
-      <section className="container -mt-8 pb-4">
+      {/* Immediate actions. These straddle the hero's bottom edge, so the section
+          has to be positioned — the hero is `relative` and would paint over it. */}
+      <section className="container relative z-10 -mt-8 pb-4">
         <ul className="grid gap-4 md:grid-cols-3">
           {actions.map((action) => (
             <li key={action.label}>
@@ -137,6 +163,7 @@ const Contact: React.FC = () => {
                 {...(action.external
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}
+                {...(action.onClick ? { onClick: action.onClick } : {})}
                 className={`flex h-full flex-col rounded-xl p-6 shadow-elegant transition hover:brightness-110 ${action.className}`}
               >
                 <action.icon className="h-6 w-6" aria-hidden="true" />

@@ -1,46 +1,10 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import SliderField from "@/components/SliderField";
 import { eligibilityIncomeRatio } from "@/content/home";
 import { indicativeRate } from "@/content/company";
-import { inr, principalFor } from "@/lib/loan";
-
-const asAmount = (rupees: number) => {
-  const lakhs = rupees / 100000;
-  if (lakhs >= 100) return `₹${(lakhs / 100).toFixed(2)} Cr`;
-  return `₹${Math.floor(lakhs)} lakh`;
-};
-
-type FieldProps = {
-  id: string;
-  label: string;
-  value: string;
-  min: number;
-  max: number;
-  step: number;
-  sliderValue: number;
-  onChange: (value: number) => void;
-};
-
-const Field: React.FC<FieldProps> = ({ id, label, value, min, max, step, sliderValue, onChange }) => (
-  <div>
-    <div className="flex items-baseline justify-between gap-3">
-      <span id={id} className="text-sm text-muted-foreground">{label}</span>
-      <span className="font-heading text-sm font-semibold tabular-nums">{value}</span>
-    </div>
-    <Slider
-      className="mt-3"
-      value={[sliderValue]}
-      min={min}
-      max={max}
-      step={step}
-      onValueChange={([next]) => onChange(next)}
-      aria-labelledby={id}
-      aria-valuetext={value}
-    />
-  </div>
-);
+import { asAmount, inr, principalFor } from "@/lib/loan";
 
 const EligibilityCheck: React.FC = () => {
   const [income, setIncome] = useState(80000);
@@ -69,7 +33,7 @@ const EligibilityCheck: React.FC = () => {
 
         <div className="rounded-xl border bg-card p-6 text-card-foreground shadow-elegant">
           <div className="space-y-5">
-            <Field
+            <SliderField
               id="elig-income"
               label="Monthly take-home income"
               value={`₹${inr.format(income)}`}
@@ -79,7 +43,7 @@ const EligibilityCheck: React.FC = () => {
               sliderValue={income}
               onChange={setIncome}
             />
-            <Field
+            <SliderField
               id="elig-emi"
               label="Existing EMIs"
               value={`₹${inr.format(existingEmi)}`}
@@ -89,7 +53,7 @@ const EligibilityCheck: React.FC = () => {
               sliderValue={existingEmi}
               onChange={setExistingEmi}
             />
-            <Field
+            <SliderField
               id="elig-tenure"
               label="Tenure you want"
               value={`${years} years`}

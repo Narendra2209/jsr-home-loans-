@@ -220,30 +220,6 @@ const MortgageLoans: React.FC = () => (
         </div>
       </div>
     </section>
-
-    {/* CTA */}
-    <section className="bg-brand py-16 text-brand-foreground">
-      <div className="container">
-        <p className="text-sm font-semibold uppercase tracking-widest text-brand-accent">
-          Next step
-        </p>
-        <h2 className="mt-2 max-w-[22ch] font-heading text-3xl font-semibold">
-          Tell us about the property. We will tell you what it will raise.
-        </h2>
-        <p className="mt-3 max-w-prose text-brand-foreground/85">
-          Type of property, roughly what it is worth, and what you need the money for. If the
-          paperwork will not support a loan, we will say so before you spend on valuation.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Button asChild variant="hero" size="lg">
-            <Link to="/contact?service=Loan%20Against%20Property">Apply for a Property Loan</Link>
-          </Button>
-          <Button asChild variant="outline" size="lg">
-            <a href="tel:9000781967">Call 9000781967</a>
-          </Button>
-        </div>
-      </div>
-    </section>
   </>
 );
 

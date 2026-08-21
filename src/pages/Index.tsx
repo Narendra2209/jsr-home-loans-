@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ArrowRight, Award, Headset, IndianRupee, Mail, Phone, ShieldCheck, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
 import EmiCalculator from "@/components/EmiCalculator";
@@ -10,11 +11,52 @@ import EligibilityCheck from "@/components/home/EligibilityCheck";
 import Testimonials from "@/components/home/Testimonials";
 import Faqs from "@/components/home/Faqs";
 import { faqs } from "@/content/home";
+import { metrics, office } from "@/content/company";
+import { openEmail } from "@/lib/mailto";
 import homeImg from "@/assets/home-loan.jpg";
 import mortgageImg from "@/assets/mortgage-loan.jpg";
 import personalImg from "@/assets/personal-loan.jpg";
+// The hero backdrop. Replacing this one file is the whole job — no code change needed.
+import heroPhoto from "@/assets/home-hero.jpg";
+
+/** The four reassurances that sit under the hero buttons. */
+const heroPoints = [
+  {
+    icon: ShieldCheck,
+    title: "Lowest Interest Rates",
+    note: "Competitive & affordable",
+    tint: "border-amber-400/45 bg-amber-400/10 text-amber-400",
+  },
+  {
+    icon: Zap,
+    title: "Quick Approvals",
+    note: "Minimal docs, faster process",
+    tint: "border-blue-400/45 bg-blue-400/10 text-blue-400",
+  },
+  {
+    icon: IndianRupee,
+    title: "Flexible Tenure",
+    note: "Options that suit you",
+    tint: "border-emerald-400/45 bg-emerald-400/10 text-emerald-400",
+  },
+  {
+    icon: Headset,
+    title: "Expert Support",
+    note: "Guidance at every step",
+    tint: "border-violet-400/45 bg-violet-400/10 text-violet-400",
+  },
+];
 
 const Index: React.FC = () => {
+  const families = metrics.find((metric) => metric.label.includes("Families"))?.value;
+
+  /** Mail app if there is one, Gmail compose if there is not — never a dead click. */
+  const onEmailClick = async (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+    event.preventDefault();
+    await openEmail(office.email);
+  };
+
   const organizationLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -52,39 +94,144 @@ const Index: React.FC = () => {
       />
 
       {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="relative bg-gradient-brand">
-          <div className="container relative grid gap-8 py-16 md:grid-cols-2 md:grid-rows-[auto_auto] md:py-24">
-            <div className="md:col-start-1 md:row-start-1 md:self-end">
-              <h1 className="font-heading text-4xl font-bold tracking-tight text-brand-foreground md:text-5xl">
-                Enjoy the <span className="text-brand-accent">Best Home Loan Rates</span> & Make Your Dream Home Yours
+      <section className="relative isolate overflow-hidden bg-brand text-brand-foreground">
+        {/* Photograph fills the right of the band; navy carries the left for the copy */}
+        <img
+          src={heroPhoto}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-y-0 right-0 -z-20 h-full w-full object-cover object-[46%_center] md:w-[62%]"
+        />
+        <div className="absolute inset-0 -z-10 bg-brand/90 md:hidden" />
+        <div className="absolute inset-0 -z-10 hidden bg-[linear-gradient(95deg,hsl(var(--brand))_0%,hsl(var(--brand))_33%,hsl(var(--brand)/0.88)_41%,hsl(var(--brand)/0.48)_51%,hsl(var(--brand)/0.22)_62%,hsl(var(--brand)/0.30)_100%)] md:block" />
+        <div className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-[linear-gradient(to_top,hsl(var(--brand)/0.8),transparent)]" />
+        {/* The dot rule down the left edge, as in the reference */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-0 top-28 -z-10 hidden h-[480px] w-9 bg-[radial-gradient(circle,hsl(var(--brand-foreground)/0.3)_1px,transparent_1px)] [background-size:9px_9px] md:block"
+        />
+
+        <div className="relative z-10 mx-auto w-full max-w-[1600px] px-6 py-14 md:px-10 md:py-16 lg:px-12 lg:py-[72px]">
+          <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+            <div className="md:w-[46%]">
+              <h1 className="font-heading text-4xl font-bold leading-[1.12] tracking-tight md:text-[2.9rem] lg:text-[3.25rem]">
+                Enjoy the <span className="text-brand-accent">Best Home Loan Rates</span> &amp; Make
+                Your Dream Home Yours
               </h1>
-              <p className="mt-4 max-w-prose text-lg text-brand-foreground/90">
-                Get Home, Mortgage, and Personal Loans with quick approvals, transparent guidance, and support from application to disbursement.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Button asChild variant="hero" size="lg">
-                  <Link to="/contact">Apply for Your Loan</Link>
+              <div className="mt-7 h-1 w-[90px] rounded-full bg-brand-accent" />
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Button
+                  asChild
+                  className="h-[52px] gap-3 rounded-xl bg-brand-accent px-6 text-[15px] font-semibold text-brand-accent-foreground hover:bg-brand-accent/90"
+                >
+                  <Link to="/contact">
+                    Apply for Your Loan
+                    <span className="grid h-7 w-7 place-items-center rounded-full bg-brand/20">
+                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                  </Link>
                 </Button>
-                <Button asChild variant="outline" size="lg">
-                  <a href="#eligibility">Check Eligibility</a>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-[52px] gap-3 rounded-xl border-brand-foreground/35 bg-transparent px-6 text-[15px] font-semibold text-brand-foreground hover:bg-brand-foreground/10 hover:text-brand-foreground"
+                >
+                  <a href="#eligibility">
+                    Check Eligibility
+                    <span className="grid h-7 w-7 place-items-center rounded-full bg-brand-foreground/15">
+                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                  </a>
                 </Button>
               </div>
+
+              <ul className="mt-9 grid grid-cols-2 overflow-hidden rounded-2xl border border-brand-foreground/10 bg-brand-foreground/[0.055] backdrop-blur-sm sm:grid-cols-4">
+                {heroPoints.map((point) => (
+                  <li
+                    key={point.title}
+                    className="border-brand-foreground/10 px-3 py-6 text-center even:border-l [&:nth-child(n+3)]:border-t sm:border-l sm:border-t-0 sm:first:border-l-0"
+                  >
+                    <span
+                      className={`mx-auto grid h-12 w-12 place-items-center rounded-full border ${point.tint}`}
+                    >
+                      <point.icon className="h-[22px] w-[22px]" aria-hidden="true" />
+                    </span>
+                    <span className="mt-4 block font-heading text-[15px] font-semibold leading-snug">
+                      {point.title}
+                    </span>
+                    <span className="mt-1.5 block text-[13px] leading-snug text-brand-foreground/60">
+                      {point.note}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            <div className="md:col-start-2 md:row-span-2 md:row-start-1 md:self-center">
+            <div className="md:w-[35%]">
               <EmiCalculator />
             </div>
+          </div>
 
-            <div className="md:col-start-1 md:row-start-2 md:self-start">
-              <div className="text-sm text-brand-foreground/80">
-                Call us today: <a href="tel:9000781967" className="underline">9000781967</a> • Email: <a href="mailto:jsrhomeloans@gmail.com" className="underline">jsrhomeloans@gmail.com</a>
+          <div className="mt-7 flex flex-col gap-5 md:flex-row md:justify-between">
+            <div className="grid rounded-2xl border border-brand-foreground/10 bg-brand-foreground/[0.055] backdrop-blur-sm sm:grid-cols-2 md:w-[38%]">
+              <a
+                href={`tel:${office.phone}`}
+                className="flex items-center gap-3.5 px-5 py-4 transition hover:bg-brand-foreground/[0.04]"
+              >
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-brand-accent/45 bg-brand-accent/10 text-brand-accent">
+                  <Phone className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[13px] text-brand-foreground/60">Call us today</span>
+                  <span className="block font-heading text-[15px] font-semibold">{office.phone}</span>
+                </span>
+              </a>
+              <a
+                href={`mailto:${office.email}`}
+                onClick={onEmailClick}
+                className="flex items-center gap-3.5 border-brand-foreground/10 px-5 py-4 transition hover:bg-brand-foreground/[0.04] sm:border-l"
+              >
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-brand-accent/45 bg-brand-accent/10 text-brand-accent">
+                  <Mail className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[13px] text-brand-foreground/60">Email us</span>
+                  <span className="block break-all font-heading text-[15px] font-semibold">
+                    {office.email}
+                  </span>
+                </span>
+              </a>
+            </div>
+
+            <div className="grid rounded-2xl border border-brand-foreground/10 bg-brand-foreground/[0.055] backdrop-blur-sm sm:grid-cols-2 md:w-[36%]">
+              <div className="flex items-center gap-3.5 px-5 py-4">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-brand-accent/45 bg-brand-accent/10 text-brand-accent">
+                  <ShieldCheck className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <span>
+                  <span className="block text-[13px] text-brand-foreground/60">Trusted by</span>
+                  <span className="block font-heading text-[15px] font-semibold">
+                    {families ? `${families} families` : "families across Hyderabad"}
+                  </span>
+                </span>
               </div>
-              <p className="mt-4 max-w-prose text-xs text-brand-foreground/60">
-                *Best rates subject to lender, loan amount and credit profile. T&amp;C apply.
-              </p>
+              <div className="flex items-center gap-3.5 border-brand-foreground/10 px-5 py-4 sm:border-l">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-brand-accent/45 bg-brand-accent/10 text-brand-accent">
+                  <Award className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <span>
+                  <span className="block text-[13px] text-brand-foreground/60">Best rates</span>
+                  <span className="block font-heading text-[15px] font-semibold">
+                    from 20+ partner banks
+                  </span>
+                </span>
+              </div>
             </div>
           </div>
+
+          <p className="mt-5 text-xs text-brand-foreground/55">
+            *Best rates subject to lender, loan amount and credit profile. T&amp;C apply.
+          </p>
         </div>
       </section>
 

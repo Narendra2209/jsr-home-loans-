@@ -1,40 +1,27 @@
 import React, { useMemo, useState } from "react";
+import {
+  ArrowRight,
+  CalendarDays,
+  FileCheck2,
+  Lock,
+  ShieldCheck,
+  TrendingUp,
+} from "lucide-react";
 import SEO from "@/components/SEO";
-import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
+import SliderField from "@/components/SliderField";
 import LeadCapture from "@/components/LeadCapture";
 import { emiFor, rupees, shortAmount } from "@/lib/loan";
 import { indicativeRate } from "@/content/company";
-import heroImg from "@/assets/hero-jsr.jpg";
+import heroImg from "@/assets/emi-calculator-hero.jpg";
 
-type FieldProps = {
-  id: string;
-  label: string;
-  value: string;
-  min: number;
-  max: number;
-  step: number;
-  sliderValue: number;
-  onChange: (value: number) => void;
-};
-
-const Field: React.FC<FieldProps> = ({ id, label, value, min, max, step, sliderValue, onChange }) => (
-  <div>
-    <div className="flex items-baseline justify-between gap-3">
-      <span id={id} className="text-sm text-muted-foreground">{label}</span>
-      <span className="font-heading text-sm font-semibold tabular-nums">{value}</span>
-    </div>
-    <Slider
-      className="mt-3"
-      value={[sliderValue]}
-      min={min}
-      max={max}
-      step={step}
-      onValueChange={([next]) => onChange(next)}
-      aria-labelledby={id}
-      aria-valuetext={value}
-    />
-  </div>
-);
+/** The four-up strip in the hero. Local to this page — nothing else uses it. */
+const heroHighlights = [
+  { icon: CalendarDays, title: "Accurate", desc: "EMI estimate" },
+  { icon: TrendingUp, title: "Total interest", desc: "breakdown" },
+  { icon: FileCheck2, title: "Year-by-year", desc: "repayment" },
+  { icon: Lock, title: "No sign-up", desc: "100% private" },
+];
 
 const EmiCalculatorPage: React.FC = () => {
   const [amount, setAmount] = useState(3000000);
@@ -81,37 +68,77 @@ const EmiCalculatorPage: React.FC = () => {
         canonicalPath="/emi-calculator"
       />
 
-      <section className="relative overflow-hidden py-16 text-brand-foreground md:py-24">
-        {/* Background Image with Overlay */}
+      <section className="relative isolate overflow-hidden bg-brand py-16 text-brand-foreground md:py-20">
+        {/* Photograph bleeds off the right; navy holds the left so the copy stays readable */}
         <div className="absolute inset-0 z-0">
           <img
             src={heroImg}
-            alt="EMI Calculator"
-            className="h-full w-full object-cover object-center"
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+            className="absolute inset-y-0 right-0 h-full w-full object-cover object-center md:w-[56%]"
           />
-          <div className="absolute inset-0 bg-brand/90 md:bg-brand/0 md:bg-gradient-to-r md:from-brand md:via-brand/90 md:to-transparent" />
+          {/* Solid navy on phones; on desktop it holds to 40% then thins so the photo reads */}
+          <div className="absolute inset-0 bg-brand/90 md:hidden" />
+          <div className="absolute inset-0 hidden bg-[linear-gradient(90deg,hsl(var(--brand))_0%,hsl(var(--brand))_40%,hsl(var(--brand)/0.8)_48%,hsl(var(--brand)/0.3)_60%,hsl(var(--brand)/0.15)_100%)] md:block" />
+        </div>
+
+        {/* Rides over the photograph, clear of the copy column */}
+        <div className="pointer-events-none absolute left-[58%] top-10 z-10 hidden items-center gap-3 rounded-xl border border-brand-foreground/20 bg-brand/50 px-4 py-3 backdrop-blur-sm lg:flex">
+          <ShieldCheck className="h-5 w-5 shrink-0 text-brand-foreground/70" aria-hidden="true" />
+          <p className="text-sm leading-snug text-brand-foreground/90">
+            Plan better.
+            <br />
+            Borrow smarter.
+          </p>
         </div>
 
         <div className="container relative z-10">
-          <p className="text-sm font-semibold uppercase tracking-widest text-brand-accent">
-            EMI Calculator
-          </p>
-          <h1 className="mt-3 max-w-[20ch] font-heading text-4xl font-bold tracking-tight md:text-5xl">
-            What will your loan actually cost?
-          </h1>
-          <p className="mt-4 max-w-prose text-lg text-brand-foreground/90">
-            Your monthly EMI, the total interest over the full term, and a year-by-year repayment
-            schedule. No sign-up, no phone number.
-          </p>
+          <div className="md:max-w-[52%]">
+            <p className="text-sm font-semibold uppercase tracking-widest text-brand-accent">
+              EMI Calculator
+            </p>
+            <h1 className="mt-3 max-w-[16ch] font-heading text-4xl font-bold tracking-tight md:text-5xl">
+              What will your loan actually <span className="text-brand-accent">cost?</span>
+            </h1>
+            <p className="mt-4 max-w-prose text-lg text-brand-foreground/90">
+              Your monthly EMI, the total interest over the full term, and a year-by-year repayment
+              schedule.
+            </p>
+
+            <ul className="mt-8 grid grid-cols-2 gap-y-6 sm:grid-cols-4 sm:gap-y-0">
+              {heroHighlights.map((item) => (
+                <li
+                  key={item.title}
+                  className="sm:border-l sm:border-brand-foreground/20 sm:pl-4 sm:first:border-l-0 sm:first:pl-0"
+                >
+                  <item.icon className="h-6 w-6 text-brand-accent" aria-hidden="true" />
+                  <p className="mt-3 text-sm font-semibold">{item.title}</p>
+                  <p className="mt-0.5 text-xs text-brand-foreground/70">{item.desc}</p>
+                </li>
+              ))}
+            </ul>
+
+            <Button
+              asChild
+              size="lg"
+              className="mt-8 bg-brand-accent text-brand-accent-foreground shadow-elegant hover:bg-brand-accent/90"
+            >
+              <a href="#calculator">
+                Calculate Now
+                <ArrowRight aria-hidden="true" />
+              </a>
+            </Button>
+          </div>
         </div>
       </section>
 
-      <section className="container py-14">
+      <section id="calculator" className="container scroll-mt-20 py-14">
         <div className="grid items-start gap-10 lg:grid-cols-2">
           {/* Inputs and split */}
           <div className="rounded-xl border bg-card p-6 shadow-elegant">
             <div className="space-y-6">
-              <Field
+              <SliderField
                 id="calc-amount"
                 label="Loan amount"
                 value={shortAmount(amount)}
@@ -121,7 +148,7 @@ const EmiCalculatorPage: React.FC = () => {
                 sliderValue={amount}
                 onChange={setAmount}
               />
-              <Field
+              <SliderField
                 id="calc-rate"
                 label="Interest rate"
                 value={`${rate.toFixed(2)}% p.a.`}
@@ -131,7 +158,7 @@ const EmiCalculatorPage: React.FC = () => {
                 sliderValue={rate}
                 onChange={setRate}
               />
-              <Field
+              <SliderField
                 id="calc-years"
                 label="Tenure"
                 value={`${years} ${years === 1 ? "year" : "years"}`}

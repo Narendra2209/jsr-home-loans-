@@ -28,3 +28,20 @@ export const shortAmount = (value: number) => {
 };
 
 export const rupees = (value: number) => `₹${inr.format(Math.round(value))}`;
+
+/**
+ * "₹25 lakh" below a crore, "₹1.25 Cr" above it.
+ *
+ * Floors to the whole lakh on purpose: this reads as the estimate it is, where
+ * "₹25,43,817" would read as a quote. Distinct from shortAmount above, which
+ * abbreviates to "₹25 L" and does not round — the eligibility pages want the
+ * long word, the EMI calculators want the short one.
+ */
+export const asAmount = (value: number) => {
+  const lakhs = value / 100000;
+  if (lakhs >= 100) return `₹${(lakhs / 100).toFixed(2)} Cr`;
+  return `₹${Math.floor(lakhs)} lakh`;
+};
+
+/** The same rounding as asAmount, written out in full: "₹25,00,000". */
+export const asRoundedRupees = (value: number) => rupees(Math.floor(value / 100000) * 100000);

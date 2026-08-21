@@ -1,40 +1,10 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import SliderField from "@/components/SliderField";
 import { emiFor, rupees, shortAmount } from "@/lib/loan";
 import { switchingCosts } from "@/content/balanceTransfer";
 import { indicativeRate } from "@/content/company";
-
-type FieldProps = {
-  id: string;
-  label: string;
-  value: string;
-  min: number;
-  max: number;
-  step: number;
-  sliderValue: number;
-  onChange: (value: number) => void;
-};
-
-const Field: React.FC<FieldProps> = ({ id, label, value, min, max, step, sliderValue, onChange }) => (
-  <div>
-    <div className="flex items-baseline justify-between gap-3">
-      <span id={id} className="text-sm text-muted-foreground">{label}</span>
-      <span className="font-heading text-sm font-semibold tabular-nums">{value}</span>
-    </div>
-    <Slider
-      className="mt-3"
-      value={[sliderValue]}
-      min={min}
-      max={max}
-      step={step}
-      onValueChange={([next]) => onChange(next)}
-      aria-labelledby={id}
-      aria-valuetext={value}
-    />
-  </div>
-);
 
 type Verdict = { tone: "good" | "warn" | "bad"; lead: string; rest: string };
 
@@ -99,7 +69,7 @@ const SavingsCalculator: React.FC = () => {
   return (
     <div className="rounded-xl border bg-card p-6 text-card-foreground shadow-elegant">
       <div className="space-y-5">
-        <Field
+        <SliderField
           id="bt-amount"
           label="Outstanding loan amount"
           value={shortAmount(outstanding)}
@@ -109,7 +79,7 @@ const SavingsCalculator: React.FC = () => {
           sliderValue={outstanding}
           onChange={setOutstanding}
         />
-        <Field
+        <SliderField
           id="bt-old"
           label="Your current rate"
           value={`${oldRate.toFixed(2)}% p.a.`}
@@ -119,7 +89,7 @@ const SavingsCalculator: React.FC = () => {
           sliderValue={oldRate}
           onChange={setOldRate}
         />
-        <Field
+        <SliderField
           id="bt-years"
           label="Years remaining"
           value={`${years} ${years === 1 ? "year" : "years"}`}
@@ -129,7 +99,7 @@ const SavingsCalculator: React.FC = () => {
           sliderValue={years}
           onChange={setYears}
         />
-        <Field
+        <SliderField
           id="bt-new"
           label="New rate we find you"
           value={`${newRate.toFixed(2)}% p.a.`}

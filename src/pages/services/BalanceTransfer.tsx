@@ -274,30 +274,6 @@ const BalanceTransfer: React.FC = () => {
           </ol>
         </div>
       </section>
-
-      {/* CTA */}
-      <section className="bg-brand py-16 text-brand-foreground">
-        <div className="container">
-          <p className="text-sm font-semibold uppercase tracking-widest text-brand-accent">
-            Next step
-          </p>
-          <h2 className="mt-2 max-w-[22ch] font-heading text-3xl font-semibold">
-            Send us your loan statement. We will tell you if it is worth moving.
-          </h2>
-          <p className="mt-3 max-w-prose text-brand-foreground/85">
-            Outstanding balance, current rate, years left. That is all we need to give you the real
-            number — and if it does not pay for itself, we will say so.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild variant="hero" size="lg">
-              <Link to="/contact?service=Balance%20Transfer">Check My Transfer</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg">
-              <a href="tel:9000781967">Call 9000781967</a>
-            </Button>
-          </div>
-        </div>
-      </section>
     </>
   );
 };

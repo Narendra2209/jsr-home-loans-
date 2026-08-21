@@ -119,30 +119,6 @@ const HomeLoans: React.FC = () => {
           </ol>
         </div>
       </section>
-
-      {/* CTA */}
-      <section className="bg-brand py-16 text-brand-foreground">
-        <div className="container">
-          <p className="text-sm font-semibold uppercase tracking-widest text-brand-accent">
-            Next step
-          </p>
-          <h2 className="mt-2 max-w-[22ch] font-heading text-3xl font-semibold">
-            Find out what you qualify for, before you commit to anything
-          </h2>
-          <p className="mt-3 max-w-prose text-brand-foreground/85">
-            Tell us the property and your income. We come back with the lenders who will say yes, and
-            what each one will charge you.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild variant="hero" size="lg">
-              <Link to="/contact?service=Home%20Loan">Apply for Home Loan</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg">
-              <a href="tel:9000781967">Call 9000781967</a>
-            </Button>
-          </div>
-        </div>
-      </section>
     </>
   );
 };
