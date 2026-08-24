@@ -11,13 +11,13 @@
 /** TODO: the one number still outstanding across the whole site. */
 export const indicativeRate = 7;
 
-export const establishedYear = "[2015]";
-export const yearsInBusiness = "[10]";
-export const familiesServed = "[1,200]";
+export const establishedYear = "2009";
+export const yearsInBusiness = "17";
+export const familiesServed = "11,000";
 
 export const metrics = [
   { value: "₹250 Cr+", label: "Loans disbursed" },
-  { value: "1,200+", label: "Families served" },
+  { value: "11,000+", label: "Families served" },
   { value: "20+", label: "Partner banks" },
   { value: "4.8/5", label: "Customer rating" },
 ];
@@ -86,7 +86,7 @@ export const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination
 export const registration = [
   { label: "Legal name", value: "[JSR Home Loan Services]" },
   { label: "Entity type", value: "[Proprietorship / Partnership / Pvt Ltd]" },
-  { label: "Established", value: "[2015]" },
+  { label: "Established", value: "2009" },
   { label: "Registration no.", value: "[Firm registration or CIN]" },
   { label: "GSTIN", value: "[36XXXXXXXXXXXZX]" },
 ];

@@ -54,8 +54,8 @@
         },
         {
           "path": "/services/personal-loans",
-          "label": "Personal Loans",
-          "description": "Quick approvals, minimal documentation",
+          "label": "Personal Loan",
+          "description": "Unsecured, no collateral, quick to sanction",
           "priority": "0.8"
         },
         {
@@ -86,6 +86,18 @@
           "path": "/services/commercial-property-loan",
           "label": "Commercial Property Loan",
           "description": "Shops, offices and showrooms",
+          "priority": "0.8"
+        },
+        {
+          "path": "/services/education-loan",
+          "label": "Education Loan",
+          "description": "Study in India or abroad, with a moratorium while you study",
+          "priority": "0.8"
+        },
+        {
+          "path": "/services/car-loan",
+          "label": "Car Loan",
+          "description": "New and used cars, with the car itself as security",
           "priority": "0.8"
         },
         {

@@ -10,7 +10,6 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import HomeLoans from "./pages/services/HomeLoans";
 import MortgageLoans from "./pages/services/MortgageLoans";
-import PersonalLoans from "./pages/services/PersonalLoans";
 import BalanceTransfer from "./pages/services/BalanceTransfer";
 import ProductPage from "./pages/services/ProductPage";
 import EmiCalculatorPage from "./pages/EmiCalculatorPage";
@@ -40,7 +39,6 @@ const App = () => (
             <Route path="/services" element={<Services />} />
             <Route path="/services/home-loans" element={<HomeLoans />} />
             <Route path="/services/mortgage-loans" element={<MortgageLoans />} />
-            <Route path="/services/personal-loans" element={<PersonalLoans />} />
             <Route path="/services/balance-transfer" element={<BalanceTransfer />} />
             {/* Loan against property and mortgage loan are one product — one page, two URLs. */}
             <Route path="/services/loan-against-property" element={<MortgageLoans />} />

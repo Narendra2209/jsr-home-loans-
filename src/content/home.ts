@@ -22,7 +22,7 @@ export type BadgeIcon = "star" | "shield" | "check" | "clock";
 
 export const trustBadges: { icon: BadgeIcon; label: string }[] = [
   { icon: "star", label: "4.8 on Google" }, // TODO: real rating
-  { icon: "shield", label: "Serving Hyderabad since 2015" }, // TODO: real year
+  { icon: "shield", label: "Serving Hyderabad since 2009" },
   { icon: "check", label: "No hidden charges" },
   { icon: "clock", label: "Sanction in 3–7 days" }, // TODO: confirm you want this in writing
 ];

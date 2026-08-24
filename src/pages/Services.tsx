@@ -8,7 +8,7 @@ import homeImg from "@/assets/home-loan.jpg";
 import mortgageImg from "@/assets/mortgage-loan.jpg";
 import personalImg from "@/assets/personal-loan.jpg";
 
-/** The four products with their own hand-built pages. */
+/** The products given a card of their own at the top of the page. */
 const featured = [
   {
     to: "/services/home-loans",
@@ -26,18 +26,25 @@ const featured = [
   },
   {
     to: "/services/personal-loans",
-    label: "Personal Loans",
-    blurb: "Quick approvals with minimal documentation.",
+    label: "Personal Loan",
+    blurb: "Unsecured money for a wedding, a medical bill or a course — quick, with no collateral.",
     image: personalImg,
     alt: "Personal loans in Hyderabad",
   },
 ];
 
+/**
+ * Products that already have a card above are dropped from the grid below, so
+ * nothing appears on this page twice.
+ */
+const featuredSlugs = new Set(featured.map((item) => item.to.replace("/services/", "")));
+const alsoArranged = products.filter((product) => !featuredSlugs.has(product.slug));
+
 const Services: React.FC = () => (
   <>
     <SEO
       title="Loan Services in Hyderabad | Home, Property, Business | JSR"
-      description="Every loan JSR Home Loan Services arranges in Hyderabad — home loans, construction, renovation, plot purchase, loan against property, commercial property, balance transfer, personal and business loans."
+      description="Every loan JSR Home Loan Services arranges in Hyderabad — home loans, construction, renovation, plot purchase, loan against property, commercial property, balance transfer, personal, education, car and business loans."
       canonicalPath="/services"
     />
 
@@ -47,7 +54,7 @@ const Services: React.FC = () => (
           Our services
         </p>
         <h1 className="mt-3 max-w-[20ch] font-heading text-4xl font-bold tracking-tight md:text-5xl">
-          Nine kinds of loan, one place to arrange them
+          Eleven kinds of loan, one place to arrange them
         </h1>
         <p className="mt-4 max-w-prose text-lg text-brand-foreground/85">
           Whatever you are borrowing for, the job is the same — find the lender who will say yes at
@@ -98,7 +105,7 @@ const Services: React.FC = () => (
       </Link>
     </section>
 
-    {/* The five data-driven products */}
+    {/* Everything else, straight from src/content/products.ts */}
     <section className="bg-muted/40 py-16">
       <div className="container">
         <h2 className="font-heading text-2xl font-semibold">Also arranged</h2>
@@ -107,7 +114,7 @@ const Services: React.FC = () => (
         </p>
 
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => (
+          {alsoArranged.map((product) => (
             <Link
               key={product.slug}
               to={`/services/${product.slug}`}

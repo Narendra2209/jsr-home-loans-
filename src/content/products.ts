@@ -456,6 +456,330 @@ export const products: LoanProduct[] = [
   },
 
   {
+    slug: "personal-loans",
+    name: "Personal Loan",
+    navLabel: "Personal Loan",
+    kicker: "Fast money, no collateral",
+    headline: "Money in days, and you pay for the speed.",
+    intro:
+      "A personal loan is unsecured. Nothing is pledged, the paperwork is short, and a complete file can be sanctioned in 24 to 72 hours. That speed is what you are paying for — the rate sits far above anything an asset stands behind. We will put a secured option next to it before you sign, so the cost of the convenience is a number you have seen rather than one you discover later.",
+    summary: "Unsecured borrowing for weddings, medical bills and other urgent costs, sanctioned in days.",
+    seoTitle: "Personal Loan in Hyderabad | No Collateral | JSR",
+    seoDescription:
+      "Personal loans in Hyderabad — no collateral, ₹50,000 to ₹40 lakh, often sanctioned in 24 to 72 hours, and honest advice on cheaper options. JSR Home Loan Services.",
+    quickSpecs: [
+      { value: "[7%–24%]", label: "Interest range p.a." },
+      { value: "₹40 lakh", label: "Typical maximum" },
+      { value: "6 years", label: "Maximum tenure" },
+    ],
+    features: [
+      {
+        title: "Nothing is pledged",
+        desc: "No property, no gold, no guarantor in most cases. If things go wrong the bank has no asset to take — which is exactly why it charges what it charges.",
+      },
+      {
+        title: "Sanctioned in days",
+        desc: "Approval turns on your salary credits and your credit report, both of which a bank can pull the same afternoon. A complete file often clears in 24 to 72 hours.",
+      },
+      {
+        title: "No end-use restriction",
+        desc: "A wedding, a hospital bill, a semester's fees, a flight, or clearing a credit card running at 40% a year. The bank asks what it is for and rarely asks for proof.",
+      },
+      {
+        title: "Your credit record sets the price",
+        desc: "A clean repayment history, a strong CIBIL score and a salary account the bank can see are what separate the bottom of the rate range from the top.",
+      },
+    ],
+    specs: [
+      {
+        label: "Loan amount",
+        value: "₹50,000 to ₹40 lakh",
+        note: "The upper end is reserved for salaried profiles at large employers",
+      },
+      {
+        label: "Interest rate",
+        value: "[7%–24%] p.a.",
+        note: "The widest spread in retail lending. Your credit record decides where you land, not negotiation",
+      },
+      {
+        label: "Tenure",
+        value: "1 to 6 years",
+        note: "Capped low, which is why the instalment feels heavy even on a small loan",
+      },
+      {
+        label: "Processing fee",
+        value: "[1%–3%] of the sanction, plus GST",
+        note: "Usually deducted before disbursal, so less reaches your account than you signed for",
+      },
+      {
+        label: "Sanction time",
+        value: "24 to 72 hours",
+        note: "For a complete file. Missing documents are what slow this down, not the bank",
+      },
+      {
+        label: "Foreclosure",
+        value: "Lock-in of 6 to 12 EMIs is common",
+        note: "RBI bars foreclosure charges on floating-rate loans to individuals, but personal loans are usually fixed rate, so [2%–5%] on the outstanding still applies",
+      },
+      {
+        label: "Tax treatment",
+        value: "No deduction, as a rule",
+        note: "The exception is money provably spent on a house or a business. Keep the trail and confirm with your accountant",
+      },
+    ],
+    suits: [
+      "You need funds quickly and have no property to pledge",
+      "The expense is real and dated — a wedding, a hospital bill, a fee deadline",
+      "Your salary is credited to a bank account and your repayment record is clean",
+      "You are consolidating costlier debt, such as a credit card outstanding at 36% to 42% a year",
+      "You can clear it inside the tenure without needing a top-up part-way through",
+    ],
+    documents: [
+      {
+        heading: "About you",
+        items: [
+          "PAN, Aadhaar and passport-size photographs",
+          "Address proof — utility bill, rent agreement or passport",
+          "Employment proof — ID card, appointment letter or offer letter",
+          "Statements for every loan and credit card you are already running",
+          "A cancelled cheque for the repayment mandate",
+        ],
+      },
+      {
+        heading: "About your income",
+        items: [
+          "Salaried: last 3 months' payslips and Form 16",
+          "Salaried: 6 months' statements for the salary account",
+          "Self-employed: 2 to 3 years' ITR with computation of income",
+          "Self-employed: 12 months' current account statements",
+          "A recent credit report, where you have already pulled one",
+        ],
+      },
+    ],
+    worthKnowing: {
+      title: "A short tenure is what makes this hurt, not the amount",
+      text: "Six years is the ceiling, so even a modest loan takes a real share of your income every month — and that share sits inside your FOIR for the whole term, which is the exact ratio a lender checks when you come back for a home loan next year. The other trap is consolidation. People clear the credit card with a personal loan, let the card fill up again, and end up servicing both. If you are consolidating, close the card. Do not just pay it off.",
+    },
+    showCalculator: false,
+  },
+
+  {
+    slug: "education-loan",
+    name: "Education Loan",
+    navLabel: "Education Loan",
+    kicker: "Paying for the course, here or abroad",
+    headline: "Study now, start repaying once the course ends.",
+    intro:
+      "An education loan funds a course of higher study in India or abroad — tuition, hostel and living costs, travel, a laptop, insurance. Repayment does not begin with the loan. A moratorium runs through the course and for six to twelve months after it, so the first EMI falls due once you are out, not while you are studying.",
+    summary: "Funds tuition, living costs and travel for higher study in India or abroad, with no EMI until the course is over.",
+    seoTitle: "Education Loan in Hyderabad | Study Abroad or India | JSR",
+    seoDescription:
+      "Education loans in Hyderabad for study in India or abroad — moratorium while you study, Section 80E relief, collateral-free up to ₹7.5 lakh. JSR Home Loan Services.",
+    quickSpecs: [
+      { value: "[7%–14%]", label: "Interest range p.a." },
+      { value: "₹7.5 lakh", label: "Collateral-free limit" },
+      { value: "15 years", label: "Tenure after moratorium" },
+    ],
+    features: [
+      {
+        title: "No EMI while you study",
+        desc: "The moratorium covers the course duration plus six to twelve months. Nothing is due until it ends.",
+      },
+      {
+        title: "Up to ₹7.5 lakh without security",
+        desc: "Above that the pledge has to cover the loan, and it does not replace the co-applicant — their income is assessed either way.",
+      },
+      {
+        title: "Section 80E has no upper cap",
+        desc: "Under the old regime the full interest paid is deductible, unlike the ₹2 lakh ceiling that applies to a home loan.",
+      },
+      {
+        title: "We build the abroad file",
+        desc: "I-20 or CAS letter, cost of attendance, forex margin, remittance paperwork. Assembling that set in the order the lender reads it is most of the work.",
+      },
+    ],
+    specs: [
+      {
+        label: "Loan amount",
+        value: "Based on the institution's cost of attendance",
+        note: "Tuition, hostel, exam fees, travel, laptop and insurance can all be counted; you fund a margin of [5%] in India and [15%] abroad",
+      },
+      {
+        label: "Collateral",
+        value: "Usually not required up to ₹7.5 lakh",
+        note: "Above that, most lenders ask for property, a fixed deposit or an LIC policy",
+      },
+      {
+        label: "Co-applicant",
+        value: "Mandatory",
+        note: "A parent, guardian or spouse — their income and FOIR are assessed, since the student has none",
+      },
+      {
+        label: "Moratorium",
+        value: "Course duration plus 6 to 12 months",
+        note: "No EMI is due during it, but interest still accrues",
+      },
+      {
+        label: "Tenure",
+        value: "Up to 15 years after the moratorium",
+        note: "Counted from the first EMI, not from disbursement",
+      },
+      {
+        label: "Processing fee",
+        value: "[Nil to 1%] of the sanction",
+        note: "Often waived for study in India; abroad files usually carry one, plus forex and remittance charges",
+      },
+      {
+        label: "Tax deduction",
+        value: "Section 80E — interest in full",
+        note: "Old regime only, and on interest alone; the principal is not deductible. It runs for 8 assessment years or until the interest is cleared, whichever comes first, and sits with whoever actually repays",
+      },
+    ],
+    suits: [
+      "You hold a confirmed admission or offer letter from a recognised institution",
+      "A parent, guardian or spouse can sign as co-applicant and show income",
+      "The course is a recognised degree or diploma — professional and technical courses clear fastest",
+      "For anything above ₹7.5 lakh, the family has property, a deposit or a policy to pledge",
+      "You are going abroad and need a sanction letter in hand for the visa interview",
+    ],
+    documents: [
+      {
+        heading: "About the course",
+        items: [
+          "Admission or offer letter from the institution",
+          "Fee structure, or the university's cost of attendance statement",
+          "Mark sheets from Class 10 onwards and the entrance or qualifying exam score",
+          "Studying abroad: I-20 for the US or CAS letter for the UK, with the visa file",
+          "Scholarship, assistantship or fee-waiver letter, where you have one",
+        ],
+      },
+      {
+        heading: "About you and the co-applicant",
+        items: [
+          "PAN, Aadhaar and photographs for the student and the co-applicant",
+          "Passport for the student, for any course outside India",
+          "Co-applicant salaried: 3 months' payslips, Form 16, 6 months' statements",
+          "Co-applicant self-employed: 2 to 3 years' ITR with computation",
+          "Title documents for the security, where the loan crosses ₹7.5 lakh",
+        ],
+      },
+    ],
+    worthKnowing: {
+      title: "No EMI during the course is not the same as no interest",
+      text: "Interest starts on the day of the first disbursement. Through the moratorium it accrues as simple interest, and if nobody services it the lender adds it to the principal when repayment begins. On ₹20 lakh drawn across a four-year course, at the middle of the range above, that comes to something like ₹6 lakh to ₹7 lakh — so the first EMI is calculated on a debt larger than the one you borrowed, and stays that way for the whole tenure. Pay the simple interest monthly while studying and none of it capitalises. Most lenders cut [0.5%–1%] off the rate for doing it, and almost nobody explains this at sanction.",
+    },
+    showCalculator: false,
+  },
+
+  {
+    slug: "car-loan",
+    name: "Car Loan",
+    navLabel: "Car Loan",
+    kicker: "New and used vehicles",
+    headline: "Finance the car, without taking the showroom's first offer.",
+    intro:
+      "A car loan pays for a new or used vehicle, and the car itself is the security. It is hypothecated to the lender, whose name is endorsed on the registration certificate until the last EMI clears. That security is why the rate sits well below a personal loan — and why the car is not fully yours to sell until the loan is closed.",
+    summary: "Funding for a new or used car, secured against the vehicle until the loan is closed.",
+    seoTitle: "Car Loan in Hyderabad | New and Used Cars | JSR",
+    seoDescription:
+      "Car loans in Hyderabad — new and used, up to 90% of on-road price, tenures to 7 years, and an honest look at showroom finance. JSR Home Loan Services.",
+    quickSpecs: [
+      { value: "[7%–15%]", label: "Interest range p.a." },
+      { value: "up to 90%", label: "Of on-road price" },
+      { value: "7 years", label: "Maximum tenure" },
+    ],
+    features: [
+      {
+        title: "The car is the security",
+        desc: "Nothing else is pledged. The vehicle is hypothecated to the lender, which is why the rate sits far below an unsecured personal loan.",
+      },
+      {
+        title: "New or used, both are funded",
+        desc: "New cars go up to 90% of on-road price over seven years. Used cars are funded against a valuation, usually 70%–80%, over five.",
+      },
+      {
+        title: "Sanction before you walk in",
+        desc: "An approved loan in hand makes you a cash buyer at the dealership. The discount conversation goes differently after that.",
+      },
+      {
+        title: "We price the showroom's offer for you",
+        desc: "Bring us what the dealer quoted. We will put a bank's number beside it and show you which one actually costs less over the full tenure.",
+      },
+    ],
+    specs: [
+      {
+        label: "Funding",
+        value: "Up to 90% of on-road price for a new car",
+        note: "Used cars are funded at 70%–80% of the lender's valuation, not the price you agreed with the seller. Some lenders quote 100% of ex-showroom, which is not the same thing",
+      },
+      {
+        label: "Tenure",
+        value: "Up to 7 years new, up to 5 years used",
+        note: "Used-car tenure is also capped by the car's age at closure",
+      },
+      {
+        label: "Interest rate",
+        value: "[7%–15%] p.a.",
+        note: "New cars sit near the bottom of the range, used cars near the top",
+      },
+      {
+        label: "Processing fee",
+        value: "[0.5%–1%] of the loan",
+        note: "Varies by lender; often negotiable",
+      },
+      {
+        label: "Security",
+        value: "Hypothecation of the vehicle",
+        note: "The lender's name stays on the RC until you close the loan and file Form 35",
+      },
+      {
+        label: "Foreclosure",
+        value: "[3%–6%] of the outstanding",
+        note: "Car loans are usually fixed rate, so the nil-charge rule for floating-rate borrowers does not cover them. Most lenders also bar closure in the first six to twelve EMIs",
+      },
+      {
+        label: "Tax treatment",
+        value: "No deduction for personal use",
+        note: "If the car is a business asset, interest and depreciation may be claimable. Confirm with your accountant",
+      },
+    ],
+    suits: [
+      "You have chosen the car and want the loan settled before you negotiate the price",
+      "You can put down 10% to 20% of the on-road cost from your own savings",
+      "Your existing EMIs still leave room in your FOIR for one more",
+      "You are buying a used car that will still be under about ten years old when the tenure ends",
+      "You want the registration in your own name from day one, not a lease or a subscription",
+    ],
+    documents: [
+      {
+        heading: "About the car",
+        items: [
+          "Proforma invoice or dealer quotation, for a new car",
+          "RC book, valid insurance and pollution certificate, for a used car",
+          "Valuation report from the lender's empanelled valuer, for a used car",
+          "Form 35 and NOC from the previous lender, if the used car is still hypothecated",
+          "Booking receipt or proof of the advance already paid",
+        ],
+      },
+      {
+        heading: "About you",
+        items: [
+          "PAN, Aadhaar and photographs",
+          "Valid driving licence",
+          "Salaried: 3 months' payslips, Form 16, 6 months' statements",
+          "Self-employed: 2 to 3 years' ITR with computation and 12 months' statements",
+          "Address proof and statements for any loans already running",
+        ],
+      },
+    ],
+    worthKnowing: {
+      title: "The showroom's low EMI is a longer loan, not a cheaper one",
+      text: "Dealer finance is priced for the convenience — a higher rate, often with insurance or an extended warranty folded into the amount financed. The EMI looks small because the tenure was stretched, not because the loan costs less. Meanwhile the car depreciates faster than the loan amortises, so for the first two or three years you owe more than it would fetch. Bring us the dealer's rate, tenure and total interest, and we will tell you plainly whether it beats the bank.",
+    },
+    showCalculator: true,
+  },
+
+  {
     slug: "business-loan",
     name: "Business Loan",
     heroImage: businessHero,

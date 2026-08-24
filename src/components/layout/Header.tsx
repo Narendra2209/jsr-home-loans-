@@ -13,7 +13,9 @@ const services = [
   { to: "/services/mortgage-loans", label: "Loan Against Property" },
   { to: "/services/commercial-property-loan", label: "Commercial Property" },
   { to: "/services/balance-transfer", label: "Balance Transfer" },
-  { to: "/services/personal-loans", label: "Personal Loans" },
+  { to: "/services/personal-loans", label: "Personal Loan" },
+  { to: "/services/education-loan", label: "Education Loan" },
+  { to: "/services/car-loan", label: "Car Loan" },
   { to: "/services/business-loan", label: "Business Loan" },
 ];
 
