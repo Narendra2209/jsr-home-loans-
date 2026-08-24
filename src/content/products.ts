@@ -60,7 +60,7 @@ export const products: LoanProduct[] = [
     seoDescription:
       "Construction loans in Hyderabad — stage-wise disbursement, up to 90% of the construction estimate, and support through every bank inspection. JSR Home Loan Services.",
     quickSpecs: [
-      { value: "[9%–10%]", label: "Interest range p.a." },
+      { value: "[7%–10%]", label: "Interest range p.a." },
       { value: "up to 90%", label: "Of construction cost" },
       { value: "30 years", label: "Maximum tenure" },
     ],
@@ -167,7 +167,7 @@ export const products: LoanProduct[] = [
     seoDescription:
       "Home renovation loans in Hyderabad — cheaper than a personal loan, secured against your own property, with tax relief on the interest. JSR Home Loan Services.",
     quickSpecs: [
-      { value: "[9.5%–11%]", label: "Interest range p.a." },
+      { value: "[7%–11%]", label: "Interest range p.a." },
       { value: "up to 90%", label: "Of the estimate" },
       { value: "15 years", label: "Maximum tenure" },
     ],
@@ -267,7 +267,7 @@ export const products: LoanProduct[] = [
     seoDescription:
       "Commercial property loans in Hyderabad for shops, offices and showrooms. Funding, tenure, documents and the title checks lenders actually make. JSR Home Loan Services.",
     quickSpecs: [
-      { value: "[9.5%–12%]", label: "Interest range p.a." },
+      { value: "[7%–12%]", label: "Interest range p.a." },
       { value: "55%–70%", label: "Of property value" },
       { value: "15 years", label: "Maximum tenure" },
     ],
@@ -366,7 +366,7 @@ export const products: LoanProduct[] = [
     seoDescription:
       "Open plot purchase loans in Hyderabad — which layouts qualify, how much funding you get, and why a plot loan carries no tax benefit until you build. JSR Home Loan Services.",
     quickSpecs: [
-      { value: "[9%–11%]", label: "Interest range p.a." },
+      { value: "[7%–11%]", label: "Interest range p.a." },
       { value: "up to 75%", label: "Of plot value" },
       { value: "15 years", label: "Maximum tenure" },
     ],
@@ -471,7 +471,7 @@ export const products: LoanProduct[] = [
     seoDescription:
       "Business loans in Hyderabad — unsecured funding for working capital and expansion, and an honest comparison against a loan against property. JSR Home Loan Services.",
     quickSpecs: [
-      { value: "[14%–24%]", label: "Interest range p.a." },
+      { value: "[7%–24%]", label: "Interest range p.a." },
       { value: "₹50 lakh", label: "Typical maximum" },
       { value: "5 years", label: "Maximum tenure" },
     ],
@@ -501,7 +501,7 @@ export const products: LoanProduct[] = [
       },
       {
         label: "Interest rate",
-        value: "[14%–24%] p.a.",
+        value: "[7%–24%] p.a.",
         note: "Substantially higher than any secured loan — that is the price of no collateral",
       },
       { label: "Tenure", value: "1 to 5 years", note: "Short, so the EMI is large relative to the amount" },

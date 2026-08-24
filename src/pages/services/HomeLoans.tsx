@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
+import CtaArrow from "@/components/CtaArrow";
 import EmiCalculator from "@/components/EmiCalculator";
 import LoanFeatures from "@/components/services/LoanFeatures";
 import EligibilityAndDocuments from "@/components/services/EligibilityAndDocuments";
@@ -40,11 +41,17 @@ const HomeLoans: React.FC = () => {
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button asChild variant="hero" size="lg">
-                <Link to="/contact?service=Home%20Loan">Apply for Home Loan</Link>
+              <Button asChild variant="cta" size="cta">
+                <Link to="/contact?service=Home%20Loan">
+                  Apply for Home Loan
+                  <CtaArrow />
+                </Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
-                <a href="#eligibility">Check Eligibility</a>
+              <Button asChild variant="ctaWhite" size="cta">
+                <a href="#eligibility">
+                  Check Eligibility
+                  <CtaArrow tone="onWhite" />
+                </a>
               </Button>
             </div>
 

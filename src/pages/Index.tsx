@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Award, Headset, IndianRupee, Mail, Phone, ShieldCheck, Zap } from "lucide-react";
+import { Award, Headset, IndianRupee, Mail, Phone, ShieldCheck, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import CtaArrow from "@/components/CtaArrow";
 import SEO from "@/components/SEO";
 import EmiCalculator from "@/components/EmiCalculator";
 import PartnerBanks from "@/components/home/PartnerBanks";
@@ -120,27 +121,16 @@ const Index: React.FC = () => {
               </h1>
               <div className="mt-7 h-1 w-[90px] rounded-full bg-brand-accent" />
               <div className="mt-8 flex flex-wrap gap-4">
-                <Button
-                  asChild
-                  className="h-[52px] gap-3 rounded-xl bg-brand-accent px-6 text-[15px] font-semibold text-brand-accent-foreground hover:bg-brand-accent/90"
-                >
+                <Button asChild variant="cta" size="cta">
                   <Link to="/contact">
                     Apply for Your Loan
-                    <span className="grid h-7 w-7 place-items-center rounded-full bg-brand/20">
-                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                    </span>
+                    <CtaArrow />
                   </Link>
                 </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="h-[52px] gap-3 rounded-xl border-brand-foreground/35 bg-transparent px-6 text-[15px] font-semibold text-brand-foreground hover:bg-brand-foreground/10 hover:text-brand-foreground"
-                >
+                <Button asChild variant="ctaWhite" size="cta">
                   <a href="#eligibility">
                     Check Eligibility
-                    <span className="grid h-7 w-7 place-items-center rounded-full bg-brand-foreground/15">
-                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                    </span>
+                    <CtaArrow tone="onWhite" />
                   </a>
                 </Button>
               </div>

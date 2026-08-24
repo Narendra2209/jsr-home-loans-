@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
+import CtaArrow from "@/components/CtaArrow";
 import SavingsCalculator from "@/components/services/SavingsCalculator";
 import {
   dontTransferWhen,
@@ -79,11 +80,17 @@ const BalanceTransfer: React.FC = () => {
               and the difference stays in your account every month for the rest of the term.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button asChild variant="hero" size="lg">
-                <a href="#savings">Calculate My Savings</a>
+              <Button asChild variant="cta" size="cta">
+                <a href="#savings">
+                  Calculate My Savings
+                  <CtaArrow />
+                </a>
               </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link to="/contact?service=Balance%20Transfer">Talk to Us</Link>
+              <Button asChild variant="ctaWhite" size="cta">
+                <Link to="/contact?service=Balance%20Transfer">
+                  Talk to Us
+                  <CtaArrow tone="onWhite" />
+                </Link>
               </Button>
             </div>
 

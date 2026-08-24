@@ -9,7 +9,7 @@
  */
 
 /** TODO: the one number still outstanding across the whole site. */
-export const indicativeRate = 8.35;
+export const indicativeRate = 7;
 
 export const establishedYear = "[2015]";
 export const yearsInBusiness = "[10]";

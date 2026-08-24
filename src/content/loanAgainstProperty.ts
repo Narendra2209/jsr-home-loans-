@@ -57,7 +57,7 @@ export const fundingByType = [
 export const specifications = [
   {
     label: "Interest rate",
-    value: "[9%–12%] p.a.",
+    value: "[7%–12%] p.a.",
     note: "Higher than a home loan; varies widely by profile and property",
   },
   {

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
+import CtaArrow from "@/components/CtaArrow";
 import hero from "@/assets/personal-loan.jpg";
 
 const PersonalLoans: React.FC = () => {
@@ -24,9 +25,18 @@ const PersonalLoans: React.FC = () => {
               <li>Competitive interest rates</li>
               <li>No collateral required</li>
             </ul>
-            <div className="mt-6">
-              <Button asChild variant="brand" size="lg">
-                <Link to="/contact?service=Personal%20Loan">Apply for Personal Loan</Link>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button asChild variant="cta" size="cta">
+                <Link to="/contact?service=Personal%20Loan">
+                  Apply for Personal Loan
+                  <CtaArrow />
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="cta">
+                <Link to="/eligibility-checker">
+                  Check Eligibility
+                  <CtaArrow tone="onWhite" />
+                </Link>
               </Button>
             </div>
           </div>

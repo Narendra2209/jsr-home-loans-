@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Check, X } from "lucide-react";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
+import CtaArrow from "@/components/CtaArrow";
 import heroImg from "@/assets/mortgage-loan-hero.jpg";
 import {
   acceptedProperty,
@@ -14,7 +15,7 @@ import {
 } from "@/content/loanAgainstProperty";
 
 const quickSpecs = [
-  { value: "[9%–12%]", label: "Interest range p.a." },
+  { value: "[7%–12%]", label: "Interest range p.a." },
   { value: "50%–70%", label: "Of property value" },
   { value: "15 years", label: "Maximum tenure" },
 ];
@@ -57,13 +58,17 @@ const MortgageLoans: React.FC = () => (
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild variant="hero" size="lg">
+            <Button asChild variant="cta" size="cta">
               <Link to="/contact?service=Loan%20Against%20Property">
                 Check What My Property Qualifies For
+                <CtaArrow />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
-              <a href="tel:9000781967">Call 9000781967</a>
+            <Button asChild variant="ctaWhite" size="cta">
+              <Link to="/eligibility-checker">
+                Check Eligibility
+                <CtaArrow tone="onWhite" />
+              </Link>
             </Button>
           </div>
 

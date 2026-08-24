@@ -3,6 +3,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { Check, Info } from "lucide-react";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
+import CtaArrow from "@/components/CtaArrow";
 import EmiCalculator from "@/components/EmiCalculator";
 import { findProduct } from "@/content/products";
 
@@ -58,11 +59,17 @@ const ProductPage: React.FC = () => {
             <p className="mt-4 max-w-prose text-lg text-brand-foreground/85">{product.intro}</p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button asChild variant="hero" size="lg">
-                <Link to={enquiryHref}>Apply for {product.name}</Link>
+              <Button asChild variant="cta" size="cta">
+                <Link to={enquiryHref}>
+                  Apply for {product.name}
+                  <CtaArrow />
+                </Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
-                <a href="tel:9000781967">Call 9000781967</a>
+              <Button asChild variant="ctaWhite" size="cta">
+                <Link to="/eligibility-checker">
+                  Check Eligibility
+                  <CtaArrow tone="onWhite" />
+                </Link>
               </Button>
             </div>
 

@@ -13,19 +13,25 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         brand: "bg-brand text-brand-foreground hover:opacity-95 shadow-elegant",
         hero: "bg-gradient-brand text-brand-foreground hover:opacity-95 shadow-glow",
+        /* The hero call-to-action pairing: solid amber for the primary action,
+           solid white for the one beside it. Both carry navy text, so they read
+           against a navy hero. Use with size="cta". */
+        cta: "bg-brand-accent font-semibold text-brand-accent-foreground hover:bg-brand-accent/90",
+        ctaWhite: "bg-background font-semibold text-brand hover:opacity-95",
       },
       size: {
         default: "h-10 px-4 py-2",
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
+        cta: "h-[52px] gap-3 rounded-xl px-6 text-[15px]",
       },
     },
     defaultVariants: {
