@@ -40,8 +40,9 @@
 
   /* ---------- Direction-aware flip cards ----------
      Rewraps a card into a front and a generated back face, then spins it on
-     the axis the pointer actually crossed. See _src/css-flip.css for why the
-     back face is aria-hidden and why only some cards get a CTA. */
+     the axis the pointer actually crossed. See the flip-card rules in
+     assets/css/style.css (line ~1917) for why the back face is aria-hidden
+     and why only some cards get a CTA. */
   var FLIP = '.product-card, .svc-card, .blog-card, .feature-card, .timeline-step, .doc-card';
   var flipped = [];
 

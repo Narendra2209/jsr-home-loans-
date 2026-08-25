@@ -1,5 +1,5 @@
-# Dev-only: the audit script needs puppeteer-core, installed ad hoc.
-# The site itself has no dependencies and dist/ is committed on purpose.
+# The site is plain HTML/CSS/JS with no dependencies and no build step.
+# Nothing here should ever appear; these are only editor/tooling strays.
 node_modules/
 package-lock.json
 package.json

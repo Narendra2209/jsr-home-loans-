@@ -1,5 +1,6 @@
 /* JSR Home Loan Services — calculators, comparison table and lead forms.
-   Loaded only on pages that need it (see `scripts:` in _src/pages/*.html).
+   Loaded only on the pages that need it: the calculators, eligibility, bank
+   comparison, product and contact pages.
 
    Everything runs client-side. Nothing is sent anywhere unless the visitor
    presses one of the WhatsApp / email buttons. */

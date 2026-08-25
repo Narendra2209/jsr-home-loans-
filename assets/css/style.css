@@ -7,9 +7,8 @@
    than from heavy fills, so the calculators and rate tables — the reason
    people come to the site — stay the loudest thing on the page.
 
-   Two regions of this file are machine-owned and replaced on every run of
-   _src/build_css.py: the hero block, and the generated block at the very end.
-   Everything else is hand-maintained; edit it here.
+   This is the single stylesheet the site loads. Every rule below is
+   hand-maintained, so edit it here.
    ========================================================================== */
 
 :root{
@@ -241,14 +240,21 @@ hr{border:0;border-top:1px solid var(--line);margin:32px 0;}
   background:var(--dark);border-radius:13px;
   box-shadow:0 2px 8px rgba(20,18,16,.20);
 }
-.brand-text{display:flex;flex-direction:column;line-height:1.05;}
+/* One-line lockup: "JSR HOME LOAN SERVICES" reads as a single name. Baseline
+   alignment keeps both halves on the same line; nowrap stops the tail
+   breaking under it. Both halves are sized off one --brand-size so they can
+   never drift apart at a breakpoint - set the variable, not the font-size. */
+.brand-text{
+  --brand-size:20px;
+  display:flex;align-items:baseline;gap:7px;line-height:1.05;white-space:nowrap;
+}
 .brand-text strong{
-  font-family:var(--font-head);font-size:20px;font-weight:800;
+  font-family:var(--font-head);font-size:var(--brand-size);font-weight:800;
   letter-spacing:-.02em;color:var(--ink);
 }
 .brand-text span{
-  font-family:var(--font-body);font-size:11px;font-weight:500;
-  letter-spacing:.055em;text-transform:uppercase;color:var(--muted);margin-top:2px;
+  font-family:var(--font-body);font-size:var(--brand-size);font-weight:500;
+  letter-spacing:.01em;text-transform:uppercase;color:var(--muted);
 }
 
 .nav{margin-left:auto;}
@@ -286,7 +292,7 @@ hr{border:0;border-top:1px solid var(--line);margin:32px 0;}
 .nav-toggle span:last-child{margin-bottom:0;}
 .nav-toggle:hover span{background:var(--brand);}
 
-/* >>> jsr-hero: generated from _src/css-hero.css <<< */
+/* --- Hero ------------------------------------------------------------- */
 /* ==========================================================================
    Hero (headline + EMI calculator, above the fold)
    ---------------------------------------------------------------------------
@@ -371,7 +377,7 @@ hr{border:0;border-top:1px solid var(--line);margin:32px 0;}
 .hero-foot sup{color:var(--brand-ink);}
 
 .hero-calc{grid-area:calc;position:relative;align-self:center;}
-/* <<< end jsr-hero >>> */
+/* --- end Hero --------------------------------------------------------- */
 
 /* ==========================================================================
    Split sections (about / why choose us)
@@ -627,6 +633,9 @@ hr{border:0;border-top:1px solid var(--line);margin:32px 0;}
   :root{--section:76px;}
   .site-header .container{gap:18px;}
   .nav-menu > li > a{padding:9px 10px;font-size:14px;}
+  /* The full name is ~90px wider than the old stacked mark; at 1024 the nav
+     is still expanded, so trim the lockup to keep it off "About". */
+  .brand-text{--brand-size:18px;}
   .header-phone{display:none;}
 }
 
@@ -691,8 +700,10 @@ hr{border:0;border-top:1px solid var(--line);margin:32px 0;}
   :root{--section:52px;--gutter:18px;}
 
   .topbar{display:none;}
-  .brand-text strong{font-size:18px;}
-  .brand-text span{font-size:10px;}
+  /* Below 768 the tail has to survive a 320px phone next to the hamburger.
+     min() lets it track the viewport instead of stepping at fixed widths,
+     so it always fits without ever wrapping under "JSR". */
+  .brand-text{--brand-size:min(18px,3.9vw);}
 
   .split,.mv-grid,.contact-grid{grid-template-columns:1fr;gap:28px;}
   .counters{padding:44px var(--gutter);}
@@ -705,7 +716,7 @@ hr{border:0;border-top:1px solid var(--line);margin:32px 0;}
   .hide-mobile{display:none;}
 }
 
-/* >>> jsr-generated: do not edit here, edit _src/css-*.css <<< */
+/* --- Components, motion, flip cards, effects, breakpoints -------------- */
 /* ==========================================================================
    Accessibility helpers
    ========================================================================== */
@@ -2240,8 +2251,8 @@ body::before{
 /* --brand-soft is 10.65:1 on a flat --dark band, but the band is not flat any
    more. Measured against the lightest pixel it actually covers - rgb(91,86,57)
    on the blog banner at 390px - it fell to 4.22:1, just under AA for 13.5px
-   text. This lighter gold measures 4.99:1 against that same pixel. The check
-   is in _src/audit.mjs, so swapping an image re-runs it. */
+   text. This lighter gold measures 4.99:1 against that same pixel - re-check
+   it by hand if a banner image is ever swapped. */
 .page-banner .crumb a{color:#FFCC77;}
 .page-banner .crumb a:hover{color:#fff;}
 .page-banner .crumb span{color:rgba(255,255,255,.42);opacity:1;}
@@ -2716,7 +2727,6 @@ p,li,.hero-desc,.article-lead{text-wrap:pretty;}
   .hero-btns .btn{width:100%;}
   .calc-value input{width:74px;}
   .mobile-bar a{font-size:10.5px;gap:3px;}
-  .brand-text span{font-size:9px;letter-spacing:.06em;}
   /* Two 12.5px bank names per row stop fitting; one column beats clipping. */
   .lender-grid{grid-template-columns:1fr;}
 }
@@ -2775,4 +2785,4 @@ p,li,.hero-desc,.article-lead{text-wrap:pretty;}
   .lender-grid li{transition:none;}
   .lender-grid li:hover{transform:none;}
 }
-/* <<< end jsr-generated >>> */
+/* --- end Components --------------------------------------------------- */

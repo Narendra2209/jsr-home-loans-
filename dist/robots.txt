@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /_src/
-
-Sitemap: https://jsrhomeloanservices.com/sitemap.xml
