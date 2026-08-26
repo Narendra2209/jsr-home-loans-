@@ -1,81 +1,135 @@
-# JSR Home Loan Services
+# JSR Home Loan Services — website
 
-The website for JSR Home Loan Services, Hyderabad — a loan DSA arranging home
-loans, loans against property, balance transfers and business finance.
-
-Built as a React single-page app (Vite + TypeScript + Tailwind + shadcn/ui).
-It replaces the earlier four-page static HTML site, which is kept for reference
-in [`legacy-static-site/`](legacy-static-site/) and is no longer served.
+A plain HTML, CSS and JavaScript website. **No framework, no build step, no npm.**
+Open any `.html` file in a browser and it works.
 
 ## Run it
 
-```bash
-npm install
-npm run dev      # http://localhost:8080
-npm run build    # regenerates sitemap.xml, then builds to dist/
-npm run lint
-```
-
-`npm run build` runs `scripts/generate-sitemap.mjs` first, so `public/sitemap.xml`
-and `public/robots.txt` are always in step with the page list. Never edit those
-two files by hand.
-
-## How it is put together
-
-**All editable copy lives in `src/content/`, not in the components.** Change a
-rate, a fee, a testimonial or a FAQ answer there and it updates everywhere it
-appears. The pages read from these files; they do not hold their own copy.
-
-| File | Holds |
-| --- | --- |
-| `content/company.ts` | Rates, metrics, phone, address, hours, WhatsApp number, form endpoint — the facts every page shares |
-| `content/pages.json` | The one list of public pages. Feeds the sitemap page, `sitemap.xml` and `robots.txt` |
-| `content/products.ts` | Construction, renovation, plot, commercial and business loans — five pages from one data file |
-| `content/home.ts`, `about.ts`, `homeLoan.ts`, `loanAgainstProperty.ts`, `balanceTransfer.ts`, `bankComparison.ts`, `eligibility.ts`, `testimonials.ts`, `legal.ts` | Copy for the page each is named after |
-| `content/articles/` | The guide articles, as typed blocks |
-
-Two shared libraries keep the site consistent with itself:
-
-- `lib/loan.ts` — every EMI, eligibility and saving figure on the site comes from
-  these functions, so no two calculators can disagree.
-- `lib/enquiry.ts` — form delivery. It reports honestly: a visitor is only told
-  their enquiry was sent when a send actually succeeded.
-
-## Before it goes live
-
-Roughly 28 `TODO` markers across `src/content/` are placeholders — real-looking
-numbers written to show the layout, not facts. Find them with:
+Double-click `index.html`, or serve the folder if you want the Google Map iframe
+and everything else to behave exactly as it will in production:
 
 ```bash
-grep -rn TODO src/content/
+python -m http.server 8080
+# then open http://localhost:8080
 ```
 
-The ones that matter most:
+## Deploy it
 
-1. **`company.ts`** — the indicative interest rate, the four headline metrics,
-   the founder's establishment year, and the Google profile URL and rating.
-2. **`company.ts` → `formEndpoint`** — until a Formspree or Web3Forms endpoint is
-   set here, the contact and callback forms tell visitors the form is not
-   configured and offer WhatsApp or email instead. They never claim a message was
-   sent when it was not.
-3. **`pages.json` → `siteUrl`** — set to the real domain. It is written into
-   `sitemap.xml` and `robots.txt`; the build warns while the placeholder is there.
-4. **`about.ts`** — the founder story, and real names, roles and photos for the
-   team, with each person's consent.
-5. **`testimonials.ts`** — real customers, with permission. The placeholders are
-   written as examples, not as claims.
-6. **`legal.ts`** — the fee arrangement clause is bracketed in both the privacy
-   policy and the terms. It needs your answer.
-7. **`public/og-image.jpg`** — a 1200×630 share image. Without it, links shared on
-   WhatsApp and Facebook have no preview picture.
+Upload the whole folder to any web host — shared hosting, Hostinger, GoDaddy,
+Netlify, GitHub Pages, S3, anything. There is nothing to build and nothing to
+install. `index.html` is the home page.
 
-There is deliberately no `Review` or `AggregateRating` structured data on the
-testimonials page. Google does not allow a business to mark up reviews of itself,
-and doing it risks a manual action.
+## Structure
 
-## Images
+```
+index.html              Home
+about.html              About us
+services.html           All services
+contact.html            Contact + callback form
+testimonials.html       Reviews
+emi-calculator.html     EMI calculator
+eligibility-checker.html  Eligibility checker
+bank-comparison.html    Rates and fees by lender
+blog.html               Guides index
+privacy-policy.html     Privacy policy
+terms.html              Terms & conditions
+sitemap.html            Human-readable sitemap
+404.html                Not-found page
 
-`legacy-static-site/assets/img/` carries the photos from the old site. Several
-are stock-library preview sizes (`hero-1.jpg` is exactly 612×408) and appear to
-be unlicensed comps, so none of them were carried over — only the logo and the
-service icons, which are yours, now in `public/brand/`.
+services/               11 loan product pages
+  home-loans.html            construction-loan.html
+  mortgage-loans.html        home-renovation-loan.html
+  balance-transfer.html      plot-purchase-loan.html
+  personal-loans.html        commercial-property-loan.html
+  education-loan.html        business-loan.html
+  car-loan.html
+
+blog/                   4 guides
+  home-loan-interest-rates-explained.html
+  improve-cibil-score-before-home-loan.html
+  home-loan-tax-benefits.html
+  home-loan-balance-transfer-guide.html
+
+assets/
+  css/style.css         All styling. Design tokens are at the top.
+  js/main.js            All behaviour. Editable CONFIG is at the top.
+  img/                  Hero photographs
+
+brand/                  Logos and favicon
+sitemap.xml             For search engines
+robots.txt
+```
+
+All links between pages are **relative**, so the site works from the filesystem,
+from a subfolder, or from a domain root without any server configuration.
+
+## Editing
+
+### Phone number, email, WhatsApp, rates
+
+These live in **two** places and must be changed in both:
+
+1. `assets/js/main.js` — the `CONFIG` block at the very top. This drives the
+   calculators and the enquiry forms.
+2. The HTML files — the header, footer and contact page show them as text.
+
+To change the phone number everywhere:
+
+```bash
+# macOS / Linux
+grep -rl "9000781967" . --include="*.html" --include="*.js"
+```
+
+On Windows, use your editor's "Find in Files" for `9000781967`.
+
+### Colours, spacing, fonts
+
+`assets/css/style.css`, section 1 (`:root`). Everything else is built from those
+tokens, so changing `--brand` or `--accent` restyles the whole site.
+
+### Header and footer
+
+These are repeated in every HTML file — that is the trade-off for having no
+build step. Edit one file, then copy the `<header>…</header>` and
+`<footer>…</footer>` blocks into the rest.
+
+## Making the contact form actually send
+
+Right now the forms **do not post anywhere**. When someone submits, they are
+handed off to WhatsApp or their email app with the details pre-filled. They are
+never told an enquiry was received when it was not.
+
+To make the form send directly:
+
+1. Create a free account at [Formspree](https://formspree.io) or
+   [Web3Forms](https://web3forms.com).
+2. Paste your endpoint URL into `formEndpoint` in `assets/js/main.js`.
+
+That is the only change needed. The form will post to it, show a success message
+on success, and fall back to WhatsApp if the request fails.
+
+## Before this goes live
+
+Text in `[square brackets]` is a placeholder that has not been filled in yet.
+Search the HTML for `[` to find all of them. The important ones:
+
+- **Interest rate** — every calculator defaults to 7%. Confirm the figure.
+- **Testimonials** (`testimonials.html`, and the strip on `index.html`) — every
+  review is written, not real. Replace them, and get permission for each
+  person's name, area and photo.
+- **Bank comparison** (`bank-comparison.html`) — every rate and fee is
+  market-typical, not quoted. Verify each one, then update "Last reviewed".
+- **About page** — founder story, team names, milestones and achievements are
+  all placeholders.
+- **Company details** — legal name, entity type, registration number, GSTIN.
+- **What do you charge?** — the FAQ answer on the home page is still empty.
+- **Domain** — `sitemap.xml` and `robots.txt` both say
+  `https://REPLACE-WITH-YOUR-DOMAIN`.
+- **Social links** — the footer row is hidden until real profiles exist.
+
+## Browser support
+
+Works in every current browser. The layout uses CSS Grid and Flexbox; the
+JavaScript is ES5-compatible and degrades safely — with JS disabled, every page
+still reads and every link still works. Only the calculators and the mobile menu
+need it.
